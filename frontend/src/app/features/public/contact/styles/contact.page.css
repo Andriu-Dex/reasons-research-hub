@@ -1,0 +1,21 @@
+.page {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 48px;
+  padding: 72px 0 96px;
+}
+
+.page p {
+  color: var(--color-muted);
+  line-height: 1.8;
+}
+
+form {
+  padding: 24px;
+}
+
+@media (max-width: 860px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+}

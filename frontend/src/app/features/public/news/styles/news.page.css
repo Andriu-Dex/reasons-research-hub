@@ -1,0 +1,22 @@
+.page {
+  padding: 72px 0 96px;
+}
+
+.news-list {
+  display: grid;
+  gap: 16px;
+}
+
+.news-card {
+  padding: 24px;
+}
+
+.news-card time {
+  color: var(--color-primary);
+  font-weight: 800;
+}
+
+.news-card p {
+  color: var(--color-muted);
+  line-height: 1.7;
+}

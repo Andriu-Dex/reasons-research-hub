@@ -1,0 +1,301 @@
+<h2 class="sr-only">Diagrama entidad-relación multi-tenant de REASONS Research Hub</h2>
+<style>
+#erd { width: 100%; overflow-x: auto; }
+#erd svg { min-width: 1100px; }
+.domain-label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 4px 2px; }
+.domain-block { border: 1px solid var(--color-border-tertiary); border-radius: 10px; padding: 8px 10px 10px; margin-bottom: 12px; background: var(--color-background-secondary); }
+</style>
+<div id="erd" style="padding: 8px 0;"></div>
+<script type="module">
+import mermaid from 'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs';
+const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+await document.fonts.ready;
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'base',
+  fontFamily: '"Anthropic Sans", sans-serif',
+  themeVariables: {
+    darkMode: dark,
+    fontSize: '12px',
+    fontFamily: '"Anthropic Sans", sans-serif',
+    lineColor: dark ? '#9c9a92' : '#73726c',
+    textColor: dark ? '#c2c0b6' : '#3d3d3a',
+    primaryColor: dark ? '#2a2a27' : '#f1efe8',
+    primaryBorderColor: dark ? '#444441' : '#b4b2a9',
+    attributeBackgroundColorEven: dark ? '#1e1e1c' : '#f8f7f2',
+    attributeBackgroundColorOdd: dark ? '#252523' : '#ffffff',
+  },
+});
+
+const diagram = `erDiagram
+  organizations {
+    uuid id PK
+    string name
+    string slug UK
+    string primary_domain UK
+    string status
+    timestamp created_at
+    timestamp updated_at
+  }
+  admins {
+    uuid id PK
+    uuid organization_id FK
+    string full_name
+    string email
+    string password_hash
+    string role
+    boolean is_active
+    timestamp created_at
+    timestamp updated_at
+  }
+  refresh_tokens {
+    uuid id PK
+    uuid admin_id FK
+    string token_hash UK
+    timestamp expires_at
+    timestamp created_at
+    timestamp revoked_at
+  }
+  media_files {
+    uuid id PK
+    uuid organization_id FK
+    string imgur_id UK
+    string url
+    string delete_hash
+    string original_filename
+    string mime_type
+    int file_size_bytes
+    timestamp uploaded_at
+  }
+  site_settings {
+    uuid id PK
+    uuid organization_id FK
+    string institution_name
+    string group_name
+    string acronym
+    text general_description
+    text mission
+    text vision
+    uuid logo_media_id FK
+    string academic_domain
+    string institutional_email
+    text address
+    string color_primary
+    string color_secondary
+    string color_background
+    string color_surface
+    string color_text
+    text footer_text
+    timestamp updated_at
+  }
+  site_social_links {
+    uuid id PK
+    uuid organization_id FK
+    uuid site_settings_id FK
+    string platform
+    string url
+    int display_order
+  }
+  home_settings {
+    uuid id PK
+    uuid organization_id FK
+    uuid banner_media_id FK
+    string banner_title
+    string banner_subtitle
+    string contact_button_text
+    timestamp updated_at
+  }
+  about_settings {
+    uuid id PK
+    uuid organization_id FK
+    text description
+    text general_objective
+    timestamp updated_at
+  }
+  about_objectives {
+    uuid id PK
+    uuid organization_id FK
+    uuid about_settings_id FK
+    text description
+    int display_order
+  }
+  contact_channels {
+    uuid id PK
+    uuid organization_id FK
+    string type
+    string value
+    string label
+    boolean is_enabled
+    int display_order
+  }
+  research_lines {
+    uuid id PK
+    uuid organization_id FK
+    string title
+    text description
+    string icon
+    string status
+    int display_order
+    timestamp created_at
+    timestamp updated_at
+  }
+  researchers {
+    uuid id PK
+    uuid organization_id FK
+    string full_name
+    string position
+    text biography
+    string institutional_email
+    string orcid
+    uuid photo_media_id FK
+    boolean is_featured
+    string status
+    int display_order
+    timestamp created_at
+    timestamp updated_at
+  }
+  researcher_social_links {
+    uuid id PK
+    uuid organization_id FK
+    uuid researcher_id FK
+    string platform
+    string url
+    int display_order
+  }
+  projects {
+    uuid id PK
+    uuid organization_id FK
+    string title
+    string slug
+    text description
+    text objectives
+    text results
+    uuid main_media_id FK
+    string project_status
+    boolean is_featured
+    string status
+    int display_order
+    timestamp created_at
+    timestamp updated_at
+  }
+  project_researchers {
+    uuid organization_id FK
+    uuid project_id FK
+    uuid researcher_id FK
+    string role
+  }
+  project_research_lines {
+    uuid organization_id FK
+    uuid project_id FK
+    uuid research_line_id FK
+  }
+  authors {
+    uuid id PK
+    uuid organization_id FK
+    uuid researcher_id FK
+    string full_name
+    string orcid
+    string external_profile_url
+    timestamp created_at
+    timestamp updated_at
+  }
+  publications {
+    uuid id PK
+    uuid organization_id FK
+    string title
+    string slug
+    text abstract
+    text citation
+    uuid cover_media_id FK
+    string doi
+    string external_link
+    uuid project_id FK
+    boolean is_featured
+    string status
+    int display_order
+    date published_at
+    timestamp created_at
+    timestamp updated_at
+  }
+  publication_authors {
+    uuid publication_id FK
+    uuid author_id FK
+    int author_order
+  }
+  news {
+    uuid id PK
+    uuid organization_id FK
+    string title
+    string slug
+    text summary
+    text content
+    uuid main_media_id FK
+    date published_at
+    uuid project_id FK
+    boolean is_featured
+    string status
+    int display_order
+    timestamp created_at
+    timestamp updated_at
+  }
+
+  organizations ||--o{ admins : "owns"
+  admins ||--o{ refresh_tokens : "has"
+  organizations ||--|| site_settings : "configures"
+  organizations ||--|| home_settings : "configures"
+  organizations ||--|| about_settings : "configures"
+  organizations ||--o{ media_files : "owns"
+  site_settings ||--o{ site_social_links : "has"
+  about_settings ||--o{ about_objectives : "has"
+  organizations ||--o{ contact_channels : "has"
+  organizations ||--o{ research_lines : "has"
+  organizations ||--o{ researchers : "has"
+  researchers ||--o{ researcher_social_links : "has"
+  organizations ||--o{ projects : "has"
+  projects ||--o{ project_researchers : "includes"
+  researchers ||--o{ project_researchers : "participates"
+  projects ||--o{ project_research_lines : "classified_by"
+  research_lines ||--o{ project_research_lines : "classifies"
+  organizations ||--o{ authors : "has"
+  researchers |o--o| authors : "can_reference"
+  organizations ||--o{ publications : "has"
+  projects |o--o{ publications : "supports"
+  publications ||--o{ publication_authors : "has"
+  authors ||--o{ publication_authors : "writes"
+  organizations ||--o{ news : "has"
+  projects |o--o{ news : "related_to"
+  media_files |o--o{ site_settings : "logo"
+  media_files |o--o{ home_settings : "banner"
+  media_files |o--o{ researchers : "photo"
+  media_files |o--o{ projects : "main_image"
+  media_files |o--o{ publications : "cover"
+  media_files |o--o{ news : "main_image"
+`;
+
+const { svg } = await mermaid.render('erd-svg', diagram);
+document.getElementById('erd').innerHTML = svg;
+
+document.querySelectorAll('#erd svg .node').forEach(node => {
+  const firstPath = node.querySelector('path[d]');
+  if (!firstPath) return;
+  const d = firstPath.getAttribute('d');
+  const nums = d.match(/-?[\d.]+/g)?.map(Number);
+  if (!nums || nums.length < 8) return;
+  const xs = [nums[0], nums[2], nums[4], nums[6]];
+  const ys = [nums[1], nums[3], nums[5], nums[7]];
+  const x = Math.min(...xs), y = Math.min(...ys);
+  const w = Math.max(...xs) - x, h = Math.max(...ys) - y;
+  const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  rect.setAttribute('x', x); rect.setAttribute('y', y);
+  rect.setAttribute('width', w); rect.setAttribute('height', h);
+  rect.setAttribute('rx', '8');
+  for (const a of ['fill', 'stroke', 'stroke-width', 'class', 'style']) {
+    if (firstPath.hasAttribute(a)) rect.setAttribute(a, firstPath.getAttribute(a));
+  }
+  firstPath.replaceWith(rect);
+});
+
+document.querySelectorAll('#erd svg .row-rect-odd path, #erd svg .row-rect-even path').forEach(p => {
+  p.setAttribute('stroke', 'none');
+});
+</script>

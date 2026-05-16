@@ -1,0 +1,32 @@
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" [routerLink]="['/', tenantSlug()]">
+      <strong>{{ settings()?.acronym || settings()?.groupName || 'REASONS' }}</strong>
+      <span>{{ settings()?.institutionName || 'Research Hub' }}</span>
+    </a>
+
+    <button class="menu-button" type="button" aria-label="Abrir menu" (click)="menuOpen.set(!menuOpen())">
+      <lucide-icon [img]="menuOpen() ? closeIcon : menuIcon" [size]="22" />
+    </button>
+
+    <nav [class.open]="menuOpen()">
+      <a [routerLink]="['/', tenantSlug()]">Inicio</a>
+      <a [routerLink]="['/', tenantSlug(), 'nosotros']">Nosotros</a>
+      <a [routerLink]="['/', tenantSlug(), 'investigacion']">Investigacion</a>
+      <a [routerLink]="['/', tenantSlug(), 'investigadores']">Investigadores</a>
+      <a [routerLink]="['/', tenantSlug(), 'noticias']">Noticias</a>
+      <a class="nav-action" [routerLink]="['/', tenantSlug(), 'contacto']">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <router-outlet />
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <span>{{ settings()?.footerText || 'REASONS Research Hub' }}</span>
+    <a [routerLink]="['/admin/login']">Panel administrativo</a>
+  </div>
+</footer>

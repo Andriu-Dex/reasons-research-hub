@@ -2,11 +2,11 @@
 
 # 1. Descripción general del sistema
 
-**REASONS Research Hub** es una plataforma web dinámica orientada a la gestión y visualización de información académica e investigativa. El sistema está diseñado para adaptarse a distintos grupos de investigación, laboratorios, centros académicos o instituciones educativas mediante un panel administrativo completamente configurable.
+**REASONS Research Hub** es una plataforma web dinámica multi-tenant orientada a la gestión y visualización de información académica e investigativa. El sistema está diseñado para que distintos grupos de investigación, laboratorios, centros académicos o instituciones educativas puedan administrar su propio sitio dentro de una misma instalación mediante un panel administrativo configurable.
 
 La plataforma permitirá administrar contenido relacionado con investigadores, proyectos, publicaciones científicas, noticias, líneas de investigación y medios de contacto, manteniendo una estructura flexible, reutilizable y escalable.
 
-Aunque el sistema será implementado inicialmente para el grupo de investigación **REASONS** de la Universidad Técnica de Ambato, toda la información institucional, identidad visual y contenido será completamente dinámico y configurable desde el panel administrativo.
+Aunque el sistema será implementado inicialmente para el grupo de investigación **REASONS** de la Universidad Técnica de Ambato, toda la información institucional, identidad visual y contenido será completamente dinámico y configurable por organización desde el panel administrativo.
 
 El proyecto se desarrollará utilizando Angular para el frontend, Node.js con Express para el backend y PostgreSQL como sistema gestor de base de datos, implementando una arquitectura basada en API REST.
 
@@ -33,13 +33,15 @@ El proyecto se desarrollará utilizando Angular para el frontend, Node.js con Ex
 
 # 3. Objetivo general del sistema
 
-Desarrollar una plataforma web dinámica para la administración y publicación de información académica e investigativa, permitiendo gestionar investigadores, líneas de investigación, proyectos, publicaciones científicas, noticias y medios de contacto mediante un panel administrativo seguro y completamente configurable.
+Desarrollar una plataforma web multi-tenant para la administración y publicación de información académica e investigativa, permitiendo que cada organización gestione sus investigadores, líneas de investigación, proyectos, publicaciones científicas, noticias y medios de contacto mediante un panel administrativo seguro y configurable.
 
 ---
 
 # 4. Alcance del sistema
 
-El sistema permitirá que diferentes grupos de investigación, laboratorios, centros académicos o instituciones educativas puedan administrar y publicar su información institucional mediante un portal web dinámico.
+El sistema permitirá que diferentes grupos de investigación, laboratorios, centros académicos o instituciones educativas puedan administrar y publicar su información institucional mediante portales web dinámicos dentro de una misma instancia de la aplicación.
+
+Cada organización tendrá datos, administradores, configuración, contenido, medios y sesiones aisladas lógicamente mediante un identificador de organización (`organizationId`). Las rutas públicas resolverán la organización activa por subdominio, dominio personalizado, slug o configuración equivalente.
 
 La plataforma incluirá funcionalidades para gestionar:
 
@@ -75,7 +77,7 @@ Paleta de colores
 Contenido del Home
 ```
 
-El sistema no estará limitado a una única institución, permitiendo reutilizar la plataforma para diferentes organizaciones académicas o científicas.
+El sistema no estará limitado a una única institución. La plataforma deberá soportar múltiples organizaciones en producción sin mezclar datos entre tenants.
 
 ---
 
@@ -92,13 +94,41 @@ La plataforma estará compuesta por:
 | Autenticación             | JWT con refresh token seguro                                 |
 | Protección antispam       | Cloudflare Turnstile                                         |
 
+La arquitectura deberá aplicar aislamiento multi-tenant en backend, base de datos y panel administrativo. Toda consulta administrativa o pública deberá filtrarse por la organización correspondiente.
+
 ---
 
 # 6. Requerimientos funcionales
 
+# RF-00. Gestión multi-tenant de organizaciones
+
+El sistema deberá permitir administrar múltiples organizaciones académicas o científicas dentro de una misma instalación.
+
+Cada organización deberá incluir:
+
+| Campo                    | Obligatorio |
+| ------------------------ | ----------- |
+| Nombre de organización   | Sí          |
+| Slug público             | Sí          |
+| Dominio o subdominio     | Opcional    |
+| Estado                   | Sí          |
+| Fecha de creación        | Sí          |
+
+El sistema deberá garantizar:
+
+* Aislamiento lógico de datos por organización.
+* Slugs únicos para resolución pública.
+* Dominios únicos cuando se configuren.
+* Administradores asociados a una organización.
+* Contenido visible únicamente dentro de la organización correspondiente.
+
+La creación de organizaciones podrá realizarse mediante un superadministrador, proceso de aprovisionamiento interno o flujo de registro controlado. No deberá existir registro público de visitantes finales.
+
+---
+
 # RF-01. Gestión de configuración general
 
-El sistema deberá permitir administrar la configuración general del sitio desde el panel administrativo.
+El sistema deberá permitir administrar la configuración general del sitio de cada organización desde el panel administrativo.
 
 La configuración incluirá:
 
@@ -116,13 +146,13 @@ La configuración incluirá:
 | Colores principales      | Variables CSS configurables                     |
 | Información del footer   | Datos visibles en el pie de página              |
 
-Toda esta información deberá ser dinámica y editable.
+Toda esta información deberá ser dinámica, editable y pertenecer a una organización específica.
 
 ---
 
 # RF-02. Gestión del Home
 
-El sistema deberá permitir administrar la página principal del sitio.
+El sistema deberá permitir administrar la página principal del sitio de cada organización.
 
 El Home deberá incluir:
 
@@ -139,7 +169,7 @@ El Home deberá incluir:
 | Botón de contacto         | Acceso rápido a contacto             |
 | Footer institucional      | Información general y enlaces        |
 
-Todo el contenido deberá ser administrable desde el panel.
+Todo el contenido deberá ser administrable desde el panel y filtrarse por organización.
 
 ---
 
@@ -228,7 +258,7 @@ Cada proyecto deberá incluir:
 | Estado de publicación  | Sí          |
 | Orden de visualización | Sí          |
 
-Los proyectos podrán relacionarse con varios investigadores mediante una tabla intermedia.
+Los proyectos podrán relacionarse con varios investigadores mediante una tabla intermedia. Además, deberán poder relacionarse con una o varias líneas de investigación para permitir filtros y navegación por área temática.
 
 ---
 
@@ -255,6 +285,8 @@ Cada publicación deberá incluir:
 Las publicaciones podrán:
 
 * Tener múltiples autores.
+* Registrar autores internos vinculados a investigadores.
+* Registrar autores externos sin cuenta ni perfil de investigador.
 * Relacionarse opcionalmente con proyectos.
 * Destacarse en el Home.
 
@@ -369,18 +401,19 @@ Las imágenes deberán:
 | Conversión recomendada | WebP             |
 | Validación MIME        | Obligatoria      |
 
-En PostgreSQL solo se almacenará la URL y metadatos.
+En PostgreSQL se almacenará la URL, metadatos y referencia del archivo multimedia. Las entidades que usen imágenes deberán referenciar `media_files` mediante claves foráneas en lugar de duplicar URLs como fuente principal.
 
 ---
 
 # RF-13. Panel administrativo
 
-El sistema deberá incluir un panel administrativo privado.
+El sistema deberá incluir un panel administrativo privado y contextualizado por organización.
 
 Secciones recomendadas:
 
 ```txt id="z3dqdr"
 Dashboard
+Organizaciones
 Configuración general
 Home
 Nosotros
@@ -405,6 +438,8 @@ El administrador podrá:
 | Guardar como borrador |
 | Ordenar contenido     |
 | Buscar registros      |
+
+Cada administrador solo podrá gestionar la organización a la que pertenece, salvo que se implemente explícitamente un rol de superadministrador para operación global del sistema.
 
 ---
 
@@ -466,7 +501,7 @@ Las rutas administrativas deberán protegerse mediante:
 | Frontend | Angular Guards              |
 | Backend  | Middleware de autenticación |
 
-Las rutas públicas solo mostrarán contenido publicado.
+Las rutas públicas solo mostrarán contenido publicado de la organización resuelta por dominio, subdominio o slug.
 
 ---
 
@@ -487,12 +522,17 @@ GET /api/news
 POST /api/contact
 ```
 
+Las rutas públicas deberán resolver el tenant mediante el host, subdominio, dominio personalizado o un parámetro de slug según la estrategia de despliegue.
+
 ## Rutas administrativas sugeridas
 
 ```txt id="wj3dfn"
 POST /api/auth/login
 POST /api/auth/logout
 POST /api/auth/refresh
+
+POST /api/admin/organizations
+PUT /api/admin/organizations/:id
 
 POST /api/admin/researchers
 PUT /api/admin/researchers/:id
@@ -513,6 +553,10 @@ DELETE /api/admin/news/:id
 POST /api/admin/media/upload
 DELETE /api/admin/media/:id
 ```
+
+Todas las rutas administrativas deberán derivar la organización desde el JWT o la sesión del administrador, no desde parámetros manipulables enviados por el cliente.
+
+Las rutas de administración global de organizaciones solo deberán estar disponibles para superadministradores o procesos internos autorizados.
 
 ---
 
@@ -668,6 +712,7 @@ Backend recomendado:
 
 ```txt id="8fbrc8"
 auth
+organizations
 admins
 site-settings
 research-lines
@@ -688,13 +733,20 @@ La base de datos será PostgreSQL y deberá respetar la tercera forma normal.
 ## Entidades recomendadas
 
 ```txt id="qv32w9"
+organizations
 admins
 site_settings
+site_social_links
+home_settings
+about_settings
+about_objectives
 research_lines
 researchers
 researcher_social_links
 projects
 project_researchers
+project_research_lines
+authors
 publications
 publication_authors
 news
@@ -707,11 +759,29 @@ refresh_tokens
 
 | Relación                   | Tipo                           |
 | -------------------------- | ------------------------------ |
+| Organizaciones ↔ Contenido | Uno a muchos                   |
+| Organizaciones ↔ Admins    | Uno a muchos                   |
 | Investigadores ↔ Proyectos | Muchos a muchos                |
 | Proyectos ↔ Investigadores | Muchos a muchos                |
+| Proyectos ↔ Líneas         | Muchos a muchos                |
 | Publicaciones ↔ Proyectos  | Opcional                       |
 | Noticias ↔ Proyectos       | Opcional                       |
-| Publicaciones ↔ Autores    | Uno a muchos o muchos a muchos |
+| Publicaciones ↔ Autores    | Muchos a muchos                |
+| Autores ↔ Investigadores   | Opcional                       |
+
+## Reglas de normalización y restricciones
+
+La base de datos deberá cumplir estas reglas mínimas:
+
+* Todas las tablas de contenido deberán incluir `organization_id`.
+* Las tablas hijas deberán tener claves foráneas explícitas hacia su tabla padre.
+* Las relaciones muchos a muchos deberán usar tablas intermedias con claves primarias compuestas o restricciones únicas equivalentes.
+* Los estados cerrados deberán validarse con `CHECK` o tipos enum de PostgreSQL.
+* Los campos `slug`, `email`, `doi`, `orcid` y dominios deberán tener restricciones únicas según el alcance correcto.
+* La unicidad de contenido deberá evaluarse por organización cuando corresponda, por ejemplo `UNIQUE (organization_id, slug)`.
+* Las imágenes deberán centralizarse en `media_files` y referenciarse por FK desde las entidades consumidoras.
+* Los autores de publicaciones deberán normalizarse en una entidad `authors`, permitiendo autores internos asociados a `researchers` y autores externos.
+* Las eliminaciones deberán proteger integridad referencial mediante `ON DELETE RESTRICT`, `ON DELETE CASCADE` o soft delete según el caso de uso.
 
 ---
 
@@ -737,7 +807,7 @@ El sistema deberá permitir renovar sesiones mediante refresh token válido.
 
 # RA-04. Protección administrativa
 
-Las rutas administrativas deberán requerir autenticación.
+Las rutas administrativas deberán requerir autenticación y validar que el administrador pertenece a la organización del recurso solicitado.
 
 # RA-05. Cierre de sesión
 
@@ -812,6 +882,8 @@ Confirmaciones
 | CA-18  | La interfaz está en español                            |
 | CA-19  | El modelo relacional respeta tercera forma normal      |
 | CA-20  | Las rutas administrativas están protegidas             |
+| CA-21  | Los datos de una organización no son visibles ni editables desde otra organización |
+| CA-22  | El sistema resuelve correctamente el sitio público por slug, dominio o subdominio |
 
 ---
 
@@ -825,6 +897,7 @@ Confirmaciones
 | Backend                | Node.js + Express                      |
 | Base de datos          | PostgreSQL                             |
 | Arquitectura           | API REST                               |
+| Modelo                 | Multi-tenant por organización          |
 | Seguridad              | Alta                                   |
 | Autenticación          | JWT + refresh token seguro             |
 | Imágenes               | Imgur API                              |
@@ -837,8 +910,9 @@ Confirmaciones
 | Interfaz               | Español                                |
 | Visitantes             | Solo visualización                     |
 | Administradores        | CRUD completo                          |
+| Superadministrador     | Gestión controlada de organizaciones   |
 | Estados                | Borrador, Publicado, Oculto            |
 | Orden dinámico         | `displayOrder`                         |
 | Investigación          | Proyectos + artículos científicos      |
 | Noticias               | Eventos, congresos, logros y novedades |
-| Plataforma             | Dinámica y reutilizable                |
+| Plataforma             | Dinámica, reutilizable y multi-tenant  |

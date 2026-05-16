@@ -1,0 +1,23 @@
+<main class="login-shell">
+  <section class="login-copy">
+    <strong>REASONS Research Hub</strong>
+    <h1>Panel administrativo</h1>
+    <p>Gestiona contenido academico, investigadores, proyectos, publicaciones y noticias por organizacion.</p>
+  </section>
+
+  <form class="card form-grid" [formGroup]="form" (ngSubmit)="submit()">
+    <h2>Iniciar sesion</h2>
+    <label class="field">
+      <span>Correo electronico</span>
+      <input formControlName="email" type="email">
+    </label>
+    <label class="field">
+      <span>Contrasena</span>
+      <input formControlName="password" type="password">
+    </label>
+    <button class="button" type="submit">
+      <lucide-icon [img]="loginIcon" [size]="18" />
+      Entrar
+    </button>
+  </form>
+</main>

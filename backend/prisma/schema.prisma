@@ -1,0 +1,421 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum OrganizationStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  ORG_ADMIN
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  HIDDEN
+}
+
+enum ProjectLifecycleStatus {
+  PLANNED
+  IN_PROGRESS
+  COMPLETED
+  PAUSED
+}
+
+model Organization {
+  id            String             @id @default(uuid()) @db.Uuid
+  name          String
+  slug          String             @unique
+  primaryDomain String?            @unique @map("primary_domain")
+  status        OrganizationStatus @default(ACTIVE)
+  createdAt     DateTime           @default(now()) @map("created_at")
+  updatedAt     DateTime           @updatedAt @map("updated_at")
+
+  admins                Admin[]
+  mediaFiles            MediaFile[]
+  siteSettings          SiteSettings?
+  siteSocialLinks       SiteSocialLink[]
+  homeSettings          HomeSettings?
+  aboutSettings         AboutSettings?
+  aboutObjectives       AboutObjective[]
+  contactChannels       ContactChannel[]
+  researchLines         ResearchLine[]
+  researchers           Researcher[]
+  researcherSocialLinks ResearcherSocialLink[]
+  projects              Project[]
+  projectResearchers    ProjectResearcher[]
+  projectResearchLines  ProjectResearchLine[]
+  authors               Author[]
+  publications          Publication[]
+  news                  News[]
+
+  @@map("organizations")
+}
+
+model Admin {
+  id             String    @id @default(uuid()) @db.Uuid
+  organizationId String?   @map("organization_id") @db.Uuid
+  fullName       String    @map("full_name")
+  email          String    @unique
+  passwordHash   String    @map("password_hash")
+  role           AdminRole @default(ORG_ADMIN)
+  isActive       Boolean   @default(true) @map("is_active")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+
+  organization Organization?   @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  refreshTokens RefreshToken[]
+
+  @@map("admins")
+}
+
+model RefreshToken {
+  id        String    @id @default(uuid()) @db.Uuid
+  adminId   String    @map("admin_id") @db.Uuid
+  tokenHash String    @unique @map("token_hash")
+  expiresAt DateTime  @map("expires_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  revokedAt DateTime? @map("revoked_at")
+
+  admin Admin @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@index([adminId])
+  @@map("refresh_tokens")
+}
+
+model MediaFile {
+  id               String   @id @default(uuid()) @db.Uuid
+  organizationId   String   @map("organization_id") @db.Uuid
+  imgurId          String?  @unique @map("imgur_id")
+  url              String
+  deleteHash       String?  @map("delete_hash")
+  originalFilename String   @map("original_filename")
+  mimeType         String   @map("mime_type")
+  fileSizeBytes    Int      @map("file_size_bytes")
+  uploadedAt       DateTime @default(now()) @map("uploaded_at")
+
+  organization             Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  siteSettingsLogo         SiteSettings[] @relation("SiteSettingsLogo")
+  homeSettingsBanner       HomeSettings[] @relation("HomeSettingsBanner")
+  researcherPhotos         Researcher[]   @relation("ResearcherPhoto")
+  projectMainImages        Project[]      @relation("ProjectMainImage")
+  publicationCoverImages   Publication[]  @relation("PublicationCoverImage")
+  newsMainImages           News[]         @relation("NewsMainImage")
+
+  @@index([organizationId])
+  @@map("media_files")
+}
+
+model SiteSettings {
+  id                 String   @id @default(uuid()) @db.Uuid
+  organizationId     String   @unique @map("organization_id") @db.Uuid
+  institutionName    String   @map("institution_name")
+  groupName          String   @map("group_name")
+  acronym            String?
+  generalDescription String   @map("general_description") @db.Text
+  mission            String?  @db.Text
+  vision             String?  @db.Text
+  logoMediaId        String?  @map("logo_media_id") @db.Uuid
+  academicDomain     String?  @map("academic_domain")
+  institutionalEmail String?  @map("institutional_email")
+  address            String?  @db.Text
+  colorPrimary       String   @default("#0f766e") @map("color_primary")
+  colorSecondary     String   @default("#134e4a") @map("color_secondary")
+  colorBackground    String   @default("#f8fafc") @map("color_background")
+  colorSurface       String   @default("#ffffff") @map("color_surface")
+  colorText          String   @default("#1e293b") @map("color_text")
+  footerText         String?  @map("footer_text") @db.Text
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  organization Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  logo         MediaFile?       @relation("SiteSettingsLogo", fields: [logoMediaId], references: [id], onDelete: SetNull)
+  socialLinks  SiteSocialLink[]
+
+  @@map("site_settings")
+}
+
+model SiteSocialLink {
+  id             String @id @default(uuid()) @db.Uuid
+  organizationId String @map("organization_id") @db.Uuid
+  siteSettingsId String @map("site_settings_id") @db.Uuid
+  platform       String
+  url            String
+  displayOrder   Int    @default(0) @map("display_order")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  siteSettings SiteSettings @relation(fields: [siteSettingsId], references: [id], onDelete: Cascade)
+
+  @@unique([siteSettingsId, platform])
+  @@index([organizationId])
+  @@map("site_social_links")
+}
+
+model HomeSettings {
+  id                String   @id @default(uuid()) @db.Uuid
+  organizationId    String   @unique @map("organization_id") @db.Uuid
+  bannerMediaId     String?  @map("banner_media_id") @db.Uuid
+  bannerTitle       String   @map("banner_title")
+  bannerSubtitle    String?  @map("banner_subtitle")
+  contactButtonText String   @default("Contactar") @map("contact_button_text")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  banner       MediaFile?   @relation("HomeSettingsBanner", fields: [bannerMediaId], references: [id], onDelete: SetNull)
+
+  @@map("home_settings")
+}
+
+model AboutSettings {
+  id               String   @id @default(uuid()) @db.Uuid
+  organizationId   String   @unique @map("organization_id") @db.Uuid
+  description      String   @db.Text
+  generalObjective String?  @map("general_objective") @db.Text
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  organization Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  objectives   AboutObjective[]
+
+  @@map("about_settings")
+}
+
+model AboutObjective {
+  id              String @id @default(uuid()) @db.Uuid
+  organizationId  String @map("organization_id") @db.Uuid
+  aboutSettingsId String @map("about_settings_id") @db.Uuid
+  description     String @db.Text
+  displayOrder    Int    @default(0) @map("display_order")
+
+  organization  Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  aboutSettings AboutSettings @relation(fields: [aboutSettingsId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("about_objectives")
+}
+
+model ContactChannel {
+  id             String  @id @default(uuid()) @db.Uuid
+  organizationId String  @map("organization_id") @db.Uuid
+  type           String
+  value          String
+  label          String?
+  isEnabled      Boolean @default(true) @map("is_enabled")
+  displayOrder   Int     @default(0) @map("display_order")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("contact_channels")
+}
+
+model ResearchLine {
+  id             String        @id @default(uuid()) @db.Uuid
+  organizationId String        @map("organization_id") @db.Uuid
+  title          String
+  description    String        @db.Text
+  icon           String?
+  status         ContentStatus @default(DRAFT)
+  displayOrder   Int           @default(0) @map("display_order")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  organization         Organization          @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  projectResearchLines ProjectResearchLine[]
+
+  @@unique([organizationId, title])
+  @@index([organizationId, status, displayOrder])
+  @@map("research_lines")
+}
+
+model Researcher {
+  id                 String        @id @default(uuid()) @db.Uuid
+  organizationId     String        @map("organization_id") @db.Uuid
+  fullName           String        @map("full_name")
+  position           String
+  biography          String        @db.Text
+  institutionalEmail String        @map("institutional_email")
+  orcid              String?
+  photoMediaId       String?       @map("photo_media_id") @db.Uuid
+  isFeatured         Boolean       @default(false) @map("is_featured")
+  status             ContentStatus @default(DRAFT)
+  displayOrder       Int           @default(0) @map("display_order")
+  createdAt          DateTime      @default(now()) @map("created_at")
+  updatedAt          DateTime      @updatedAt @map("updated_at")
+
+  organization     Organization             @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  photo            MediaFile?               @relation("ResearcherPhoto", fields: [photoMediaId], references: [id], onDelete: SetNull)
+  socialLinks      ResearcherSocialLink[]
+  projectLinks     ProjectResearcher[]
+  authorProfiles   Author[]
+
+  @@unique([organizationId, institutionalEmail])
+  @@unique([organizationId, orcid])
+  @@index([organizationId, status, displayOrder])
+  @@map("researchers")
+}
+
+model ResearcherSocialLink {
+  id             String @id @default(uuid()) @db.Uuid
+  organizationId String @map("organization_id") @db.Uuid
+  researcherId   String @map("researcher_id") @db.Uuid
+  platform       String
+  url            String
+  displayOrder   Int    @default(0) @map("display_order")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  researcher   Researcher   @relation(fields: [researcherId], references: [id], onDelete: Cascade)
+
+  @@unique([researcherId, platform])
+  @@index([organizationId])
+  @@map("researcher_social_links")
+}
+
+model Project {
+  id             String                 @id @default(uuid()) @db.Uuid
+  organizationId String                 @map("organization_id") @db.Uuid
+  title          String
+  slug           String
+  description    String                 @db.Text
+  objectives     String                 @db.Text
+  results        String?                @db.Text
+  mainMediaId    String?                @map("main_media_id") @db.Uuid
+  projectStatus  ProjectLifecycleStatus @default(IN_PROGRESS) @map("project_status")
+  isFeatured     Boolean                @default(false) @map("is_featured")
+  status         ContentStatus          @default(DRAFT)
+  displayOrder   Int                    @default(0) @map("display_order")
+  createdAt      DateTime               @default(now()) @map("created_at")
+  updatedAt      DateTime               @updatedAt @map("updated_at")
+
+  organization         Organization          @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  mainImage            MediaFile?            @relation("ProjectMainImage", fields: [mainMediaId], references: [id], onDelete: SetNull)
+  researchers          ProjectResearcher[]
+  researchLines        ProjectResearchLine[]
+  publications         Publication[]
+  news                 News[]
+
+  @@unique([organizationId, slug])
+  @@index([organizationId, status, displayOrder])
+  @@map("projects")
+}
+
+model ProjectResearcher {
+  organizationId String  @map("organization_id") @db.Uuid
+  projectId      String  @map("project_id") @db.Uuid
+  researcherId   String  @map("researcher_id") @db.Uuid
+  role           String?
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  project      Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  researcher   Researcher   @relation(fields: [researcherId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, researcherId])
+  @@index([organizationId])
+  @@map("project_researchers")
+}
+
+model ProjectResearchLine {
+  organizationId String @map("organization_id") @db.Uuid
+  projectId      String @map("project_id") @db.Uuid
+  researchLineId String @map("research_line_id") @db.Uuid
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  project      Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  researchLine ResearchLine @relation(fields: [researchLineId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, researchLineId])
+  @@index([organizationId])
+  @@map("project_research_lines")
+}
+
+model Author {
+  id                 String   @id @default(uuid()) @db.Uuid
+  organizationId     String   @map("organization_id") @db.Uuid
+  researcherId       String?  @map("researcher_id") @db.Uuid
+  fullName           String   @map("full_name")
+  orcid              String?
+  externalProfileUrl String?  @map("external_profile_url")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  organization       Organization        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  researcher         Researcher?         @relation(fields: [researcherId], references: [id], onDelete: SetNull)
+  publicationAuthors PublicationAuthor[]
+
+  @@unique([organizationId, orcid])
+  @@index([organizationId])
+  @@map("authors")
+}
+
+model Publication {
+  id             String        @id @default(uuid()) @db.Uuid
+  organizationId String        @map("organization_id") @db.Uuid
+  title          String
+  slug           String
+  abstract       String        @db.Text
+  citation       String        @db.Text
+  coverMediaId   String?       @map("cover_media_id") @db.Uuid
+  doi            String?
+  externalLink   String?       @map("external_link")
+  projectId      String?       @map("project_id") @db.Uuid
+  isFeatured     Boolean       @default(false) @map("is_featured")
+  status         ContentStatus @default(DRAFT)
+  displayOrder   Int           @default(0) @map("display_order")
+  publishedAt    DateTime?     @map("published_at") @db.Date
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  organization Organization        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  coverImage   MediaFile?          @relation("PublicationCoverImage", fields: [coverMediaId], references: [id], onDelete: SetNull)
+  project      Project?            @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  authors      PublicationAuthor[]
+
+  @@unique([organizationId, slug])
+  @@unique([organizationId, doi])
+  @@index([organizationId, status, displayOrder])
+  @@map("publications")
+}
+
+model PublicationAuthor {
+  publicationId String @map("publication_id") @db.Uuid
+  authorId      String @map("author_id") @db.Uuid
+  authorOrder   Int    @map("author_order")
+
+  publication Publication @relation(fields: [publicationId], references: [id], onDelete: Cascade)
+  author      Author      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@id([publicationId, authorId])
+  @@unique([publicationId, authorOrder])
+  @@map("publication_authors")
+}
+
+model News {
+  id             String        @id @default(uuid()) @db.Uuid
+  organizationId String        @map("organization_id") @db.Uuid
+  title          String
+  slug           String
+  summary        String        @db.Text
+  content        String        @db.Text
+  mainMediaId    String?       @map("main_media_id") @db.Uuid
+  publishedAt    DateTime      @map("published_at") @db.Date
+  projectId      String?       @map("project_id") @db.Uuid
+  isFeatured     Boolean       @default(false) @map("is_featured")
+  status         ContentStatus @default(DRAFT)
+  displayOrder   Int           @default(0) @map("display_order")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  mainImage    MediaFile?   @relation("NewsMainImage", fields: [mainMediaId], references: [id], onDelete: SetNull)
+  project      Project?     @relation(fields: [projectId], references: [id], onDelete: SetNull)
+
+  @@unique([organizationId, slug])
+  @@index([organizationId, status, displayOrder, publishedAt])
+  @@map("news")
+}

@@ -1,0 +1,10 @@
+<section class="toast-stack" aria-live="polite">
+  @for (message of toastService.messages(); track message.id) {
+    <article class="toast" [class.success]="message.type === 'success'" [class.error]="message.type === 'error'">
+      <span>{{ message.text }}</span>
+      <button type="button" aria-label="Cerrar notificacion" (click)="toastService.dismiss(message.id)">
+        <lucide-icon [img]="closeIcon" [size]="16" />
+      </button>
+    </article>
+  }
+</section>

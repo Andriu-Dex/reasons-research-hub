@@ -1,0 +1,21 @@
+<section class="dashboard">
+  <div>
+    <span>Panel administrativo</span>
+    <h1>Bienvenido, {{ admin()?.fullName }}</h1>
+    <p>Desde aqui puedes gestionar el contenido publico de la organizacion.</p>
+  </div>
+  <div class="metrics">
+    <article class="card">
+      <strong>Multi-tenant</strong>
+      <span>Aislamiento por organizacion</span>
+    </article>
+    <article class="card">
+      <strong>Contenido dinamico</strong>
+      <span>Home, investigacion, noticias y contacto</span>
+    </article>
+    <article class="card">
+      <strong>Seguridad</strong>
+      <span>JWT y refresh token seguro</span>
+    </article>
+  </div>
+</section>

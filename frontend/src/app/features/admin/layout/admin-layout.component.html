@@ -1,0 +1,23 @@
+<div class="admin-shell">
+  <aside>
+    <strong>REASONS Admin</strong>
+    <span>{{ admin()?.organizationName || 'Organizacion' }}</span>
+    <nav>
+      <a [routerLink]="['/admin', slug, 'dashboard']" routerLinkActive="active">Dashboard</a>
+      <a [routerLink]="['/admin', slug, 'settings']" routerLinkActive="active">Configuracion</a>
+      <a [routerLink]="['/admin', slug, 'home']" routerLinkActive="active">Home</a>
+      <a [routerLink]="['/admin', slug, 'about']" routerLinkActive="active">Nosotros</a>
+      <a [routerLink]="['/admin', slug, 'research-lines']" routerLinkActive="active">Lineas</a>
+      <a [routerLink]="['/admin', slug, 'researchers']" routerLinkActive="active">Investigadores</a>
+      <a [routerLink]="['/admin', slug, 'projects']" routerLinkActive="active">Proyectos</a>
+      <a [routerLink]="['/admin', slug, 'publications']" routerLinkActive="active">Publicaciones</a>
+      <a [routerLink]="['/admin', slug, 'news']" routerLinkActive="active">Noticias</a>
+      <a [routerLink]="['/admin', slug, 'contact']" routerLinkActive="active">Contacto</a>
+      <a [routerLink]="['/admin', slug, 'profile']" routerLinkActive="active">Perfil</a>
+    </nav>
+    <button type="button" (click)="logout()">Cerrar sesion</button>
+  </aside>
+  <main>
+    <router-outlet />
+  </main>
+</div>

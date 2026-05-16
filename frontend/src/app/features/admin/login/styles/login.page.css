@@ -1,0 +1,38 @@
+.login-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  align-items: center;
+  gap: 56px;
+  width: min(1100px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.login-copy strong {
+  color: var(--color-primary);
+}
+
+.login-copy h1 {
+  max-width: 640px;
+  margin: 14px 0;
+  font-size: clamp(2.3rem, 6vw, 4.8rem);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.login-copy p {
+  color: var(--color-muted);
+  font-size: 1.12rem;
+  line-height: 1.8;
+}
+
+form {
+  padding: 28px;
+}
+
+@media (max-width: 860px) {
+  .login-shell {
+    grid-template-columns: 1fr;
+    padding: 48px 0;
+  }
+}
