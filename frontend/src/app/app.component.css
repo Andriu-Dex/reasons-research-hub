@@ -1,0 +1,34 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.app-shell {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+}
+
+.app-shell::before,
+.app-shell::after {
+  content: "";
+  position: fixed;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.app-shell::before {
+  top: -180px;
+  right: -120px;
+  background: radial-gradient(circle at 30% 30%, rgba(1, 8, 84, 0.35), transparent 70%);
+}
+
+.app-shell::after {
+  bottom: -220px;
+  left: -160px;
+  background: radial-gradient(circle at 70% 30%, rgba(200, 16, 46, 0.35), transparent 70%);
+}

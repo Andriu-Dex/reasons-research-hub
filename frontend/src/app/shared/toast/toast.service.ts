@@ -1,24 +1,53 @@
 import { Injectable, signal } from '@angular/core';
 
-export interface ToastMessage {
+export type ToastVariant = 'success' | 'error' | 'info' | 'warning';
+
+export interface ToastItem {
   id: number;
-  text: string;
-  type: 'success' | 'error' | 'info';
+  title: string;
+  message?: string;
+  variant: ToastVariant;
+  duration: number;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class ToastService {
-  private readonly messagesSignal = signal<ToastMessage[]>([]);
-  readonly messages = this.messagesSignal.asReadonly();
+  private readonly items = signal<ToastItem[]>([]);
+  readonly toasts = this.items.asReadonly();
   private nextId = 1;
 
-  show(text: string, type: ToastMessage['type'] = 'info') {
-    const message = { id: this.nextId++, text, type };
-    this.messagesSignal.update((messages) => [...messages, message]);
-    window.setTimeout(() => this.dismiss(message.id), 4200);
+  show(options: { title: string; message?: string; variant?: ToastVariant; duration?: number }): void {
+    const toast: ToastItem = {
+      id: this.nextId++,
+      title: options.title,
+      message: options.message,
+      variant: options.variant ?? 'info',
+      duration: options.duration ?? 4200
+    };
+
+    this.items.update((items) => [toast, ...items]);
+    window.setTimeout(() => this.dismiss(toast.id), toast.duration);
   }
 
-  dismiss(id: number) {
-    this.messagesSignal.update((messages) => messages.filter((message) => message.id !== id));
+  success(title: string, message?: string, duration?: number): void {
+    this.show({ title, message, duration, variant: 'success' });
+  }
+
+  error(title: string, message?: string, duration?: number): void {
+    this.show({ title, message, duration, variant: 'error' });
+  }
+
+  info(title: string, message?: string, duration?: number): void {
+    this.show({ title, message, duration, variant: 'info' });
+  }
+
+  warning(title: string, message?: string, duration?: number): void {
+    this.show({ title, message, duration, variant: 'warning' });
+  }
+
+  dismiss(id: number): void {
+    this.items.update((items) => items.filter((toast) => toast.id !== id));
   }
 }

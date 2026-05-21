@@ -1,0 +1,60 @@
+<section class="page-hero section compact">
+  <div class="container">
+    <span class="kicker">Contacto</span>
+    <h1 class="section-title">Hablemos sobre tu proyecto.</h1>
+    <p class="section-lead">Envia tus consultas y coordinamos una reunion con el equipo.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container contact-grid">
+    <div class="contact-info">
+      <div class="card contact-card reveal" style="--delay: 0.1s">
+        <h3>Canales disponibles</h3>
+        <p>Selecciona el canal que prefieras o envia el formulario para soporte institucional.</p>
+        <div class="contact-channels">
+          <div>
+            <span class="badge">Correo</span>
+            <p>investigacion@uta.edu.ec</p>
+          </div>
+          <div>
+            <span class="badge">WhatsApp</span>
+            <p>+593 99 000 0000</p>
+          </div>
+          <div>
+            <span class="badge">Direccion</span>
+            <p>Campus Ingahurco, Ambato</p>
+          </div>
+        </div>
+      </div>
+      <div class="card contact-card reveal" style="--delay: 0.2s">
+        <h3>Mapa institucional</h3>
+        <div class="map-placeholder">Mapa interactivo</div>
+      </div>
+    </div>
+
+    <form class="card contact-form reveal" style="--delay: 0.3s" #contactForm="ngForm" (ngSubmit)="submit(contactForm)">
+      <h3>Formulario de contacto</h3>
+      <div class="form-grid">
+        <label>
+          Nombre completo
+          <input type="text" name="name" [(ngModel)]="contact.name" required />
+        </label>
+        <label>
+          Correo institucional
+          <input type="email" name="email" [(ngModel)]="contact.email" required />
+        </label>
+        <label>
+          Asunto
+          <input type="text" name="subject" [(ngModel)]="contact.subject" required />
+        </label>
+        <label class="full">
+          Mensaje
+          <textarea name="message" rows="5" [(ngModel)]="contact.message" required></textarea>
+        </label>
+      </div>
+      <div class="captcha-box">Cloudflare Turnstile</div>
+      <button class="btn primary" type="submit">Enviar mensaje</button>
+    </form>
+  </div>
+</section>

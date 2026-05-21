@@ -1,0 +1,21 @@
+<div class="login-shell">
+  <div class="card login-card reveal">
+    <div class="login-header">
+      <span class="badge">Panel administrativo</span>
+      <h1>Iniciar sesion</h1>
+      <p>Acceso exclusivo para administradores de cada organizacion.</p>
+    </div>
+    <form #loginForm="ngForm" (ngSubmit)="submit(loginForm)">
+      <label>
+        Correo electronico
+        <input type="email" name="email" [(ngModel)]="credentials.email" required />
+      </label>
+      <label>
+        Contrasena
+        <input type="password" name="password" [(ngModel)]="credentials.password" required />
+      </label>
+      <button class="btn primary" type="submit">Ingresar</button>
+      <a class="back-link" routerLink="/uta-reasons">Volver al sitio publico</a>
+    </form>
+  </div>
+</div>

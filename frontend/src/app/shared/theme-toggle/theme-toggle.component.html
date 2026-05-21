@@ -1,0 +1,20 @@
+<button
+  class="theme-toggle"
+  type="button"
+  (click)="toggleTheme()"
+  [attr.aria-label]="isDark() ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
+>
+  <span class="toggle-glow"></span>
+  <svg *ngIf="!isDark()" class="icon" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      fill="currentColor"
+      d="M6.8 4.8 8.2 6.2 6.2 8.2 4.8 6.8zm10.4 0 2 2-1.4 1.4-2-2zM12 2h2v4h-2zm0 16h2v4h-2zM2 12h4v2H2zm16 0h4v2h-4zM6.2 15.8l2 2-1.4 1.4-2-2zm11.6 0 1.4 1.4-2 2-1.4-1.4zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"
+    />
+  </svg>
+  <svg *ngIf="isDark()" class="icon" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      fill="currentColor"
+      d="M20.7 14.7A8 8 0 0 1 9.3 3.3a9 9 0 1 0 11.4 11.4z"
+    />
+  </svg>
+</button>

@@ -1,0 +1,41 @@
+<div class="admin-shell">
+  <aside class="admin-sidebar" [ngClass]="{ open: isMenuOpen }">
+    <div class="admin-brand">
+      <span class="admin-mark">UTA</span>
+      <div>
+        <strong>REASONS</strong>
+        <span>Panel</span>
+      </div>
+    </div>
+    <nav class="admin-nav">
+      <a routerLink="dashboard" routerLinkActive="active" (click)="closeMenu()">Dashboard</a>
+      <button class="nav-item disabled" type="button">Configuracion</button>
+      <button class="nav-item disabled" type="button">Investigadores</button>
+      <button class="nav-item disabled" type="button">Proyectos</button>
+      <button class="nav-item disabled" type="button">Publicaciones</button>
+      <button class="nav-item disabled" type="button">Noticias</button>
+    </nav>
+    <div class="admin-footer">
+      <a routerLink="/admin/login">Cerrar sesion</a>
+    </div>
+  </aside>
+
+  <div class="admin-content">
+    <header class="admin-topbar">
+      <button class="admin-menu" type="button" aria-label="Abrir menu" (click)="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="admin-title">
+        <span class="kicker">Panel administrativo</span>
+        <strong>Gestion institucional</strong>
+      </div>
+      <button class="btn ghost">Nuevo contenido</button>
+    </header>
+
+    <main class="admin-main">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

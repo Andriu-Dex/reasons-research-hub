@@ -1,0 +1,60 @@
+.page-hero {
+  padding-top: 120px;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.about-card {
+  display: grid;
+  gap: 16px;
+}
+
+.about-card h3 {
+  margin: 0;
+  font-family: var(--font-display);
+}
+
+.timeline {
+  display: grid;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  color: var(--color-muted);
+}
+
+.timeline-year {
+  font-weight: 700;
+  color: var(--color-primary);
+  min-width: 52px;
+}
+
+.mission-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.values-grid h4 {
+  margin: 0 0 8px;
+}
+
+@media (max-width: 960px) {
+  .about-grid,
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+}
