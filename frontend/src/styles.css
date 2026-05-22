@@ -78,21 +78,22 @@ body::after {
 }
 
 body::before {
-  background: radial-gradient(420px 420px at 5% 8%, rgba(244, 180, 0, 0.12), transparent 70%),
-    radial-gradient(360px 360px at 95% 16%, rgba(200, 16, 46, 0.12), transparent 70%),
-    radial-gradient(560px 560px at 85% 88%, rgba(1, 8, 84, 0.14), transparent 75%);
+  background: radial-gradient(520px 520px at 5% 8%, rgba(244, 180, 0, 0.06), transparent 70%),
+    radial-gradient(480px 480px at 95% 16%, rgba(200, 16, 46, 0.06), transparent 70%),
+    radial-gradient(680px 680px at 85% 88%, rgba(1, 8, 84, 0.08), transparent 75%);
 }
 
 body::after {
-  background-image: linear-gradient(transparent 95%, rgba(1, 8, 84, 0.06) 96%),
-    linear-gradient(90deg, transparent 95%, rgba(1, 8, 84, 0.06) 96%);
-  background-size: 80px 80px;
-  opacity: 0.3;
+  background-image: linear-gradient(transparent 97%, rgba(1, 8, 84, 0.04) 98%),
+    linear-gradient(90deg, transparent 97%, rgba(1, 8, 84, 0.04) 98%);
+  background-size: 120px 120px;
+  opacity: 0.18;
 }
 
 html[data-theme='dark'] body::after {
-  background-image: linear-gradient(transparent 95%, rgba(231, 235, 244, 0.08) 96%),
-    linear-gradient(90deg, transparent 95%, rgba(231, 235, 244, 0.08) 96%);
+  background-image: linear-gradient(transparent 97%, rgba(231, 235, 244, 0.05) 98%),
+    linear-gradient(90deg, transparent 97%, rgba(231, 235, 244, 0.05) 98%);
+  opacity: 0.16;
 }
 
 img {

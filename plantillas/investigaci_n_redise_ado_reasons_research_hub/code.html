@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Investigación - REASONS Research Hub</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-primary-container": "#9bbdff",
+                "surface-tint": "#255dad",
+                "secondary-fixed-dim": "#75d1ff",
+                "on-secondary": "#ffffff",
+                "primary-fixed": "#d7e2ff",
+                "surface-variant": "#d8e3fb",
+                "surface-container-highest": "#d8e3fb",
+                "secondary": "#006688",
+                "on-background": "#111c2d",
+                "surface-container-low": "#f0f3ff",
+                "error": "#ba1a1a",
+                "secondary-fixed": "#c2e8ff",
+                "surface-dim": "#cfdaf2",
+                "on-error": "#ffffff",
+                "surface-container-lowest": "#ffffff",
+                "on-surface-variant": "#424751",
+                "outline": "#737783",
+                "on-secondary-container": "#004b65",
+                "inverse-on-surface": "#ecf1ff",
+                "surface-container": "#e7eeff",
+                "on-tertiary-container": "#babcbe",
+                "on-primary-fixed": "#001b3f",
+                "on-error-container": "#93000a",
+                "tertiary": "#323537",
+                "error-container": "#ffdad6",
+                "secondary-container": "#00c1fd",
+                "surface-bright": "#f9f9ff",
+                "tertiary-fixed": "#e0e3e5",
+                "on-tertiary-fixed-variant": "#444749",
+                "outline-variant": "#c2c6d3",
+                "tertiary-fixed-dim": "#c4c7c9",
+                "on-tertiary-fixed": "#191c1e",
+                "inverse-surface": "#263143",
+                "on-primary": "#ffffff",
+                "on-primary-fixed-variant": "#00458f",
+                "primary-container": "#004a99",
+                "on-tertiary": "#ffffff",
+                "on-surface": "#111c2d",
+                "on-secondary-fixed": "#001e2b",
+                "primary-fixed-dim": "#abc7ff",
+                "on-secondary-fixed-variant": "#004d67",
+                "surface": "#f9f9ff",
+                "inverse-primary": "#abc7ff",
+                "primary": "#00346f",
+                "tertiary-container": "#494c4e",
+                "background": "#f9f9ff",
+                "surface-container-high": "#dee8ff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "margin-mobile": "1rem",
+                "gutter": "1.5rem",
+                "margin-desktop": "2.5rem",
+                "container-max": "1280px",
+                "stack-md": "1rem",
+                "stack-sm": "0.5rem",
+                "stack-lg": "2rem"
+        },
+        "fontFamily": {
+                "body-lg": [
+                        "Inter"
+                ],
+                "headline-lg-mobile": [
+                        "Inter"
+                ],
+                "headline-md": [
+                        "Inter"
+                ],
+                "headline-xl": [
+                        "Inter"
+                ],
+                "body-md": [
+                        "Inter"
+                ],
+                "label-sm": [
+                        "Inter"
+                ],
+                "headline-lg": [
+                        "Inter"
+                ],
+                "label-md": [
+                        "Inter"
+                ]
+        },
+        "fontSize": {
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "28px",
+                        {
+                                "lineHeight": "36px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-xl": [
+                        "48px",
+                        {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "500"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<nav class="bg-surface dark:bg-background border-b border-outline-variant dark:border-outline flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto h-20 sticky top-0 z-50">
+<div class="flex items-center gap-stack-md">
+<span class="font-headline-lg-mobile md:font-headline-lg font-bold text-primary dark:text-on-primary-fixed tracking-tight">
+                REASONS Research Hub
+            </span>
+</div>
+<ul class="hidden md:flex gap-gutter items-center">
+<li><a class="font-body-md text-on-surface-variant dark:text-surface-variant hover:text-secondary transition-colors" href="#">Home</a></li>
+<li><a class="font-body-md text-on-surface-variant dark:text-surface-variant hover:text-secondary transition-colors" href="#">Nosotros</a></li>
+<li><a class="font-body-md text-secondary font-bold border-b-2 border-secondary pb-1 active:opacity-80" href="#">Investigación</a></li>
+<li><a class="font-body-md text-on-surface-variant dark:text-surface-variant hover:text-secondary transition-colors" href="#">Noticias</a></li>
+<li><a class="font-body-md text-on-surface-variant dark:text-surface-variant hover:text-secondary transition-colors" href="#">Contacto</a></li>
+</ul>
+<div class="flex items-center gap-stack-md">
+<button class="font-label-md px-stack-md py-stack-sm rounded border border-outline-variant text-primary hover:bg-surface-container-low transition-colors">
+                Login
+            </button>
+</div>
+</nav>
+<!-- Page Header -->
+<header class="w-full bg-surface-container-lowest border-b border-outline-variant py-stack-lg px-margin-mobile md:px-margin-desktop relative overflow-hidden">
+<div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: repeating-linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000), repeating-linear-gradient(45deg, #000 25%, #f9f9ff 25%, #f9f9ff 75%, #000 75%, #000); background-position: 0 0, 10px 10px; background-size: 20px 20px;"></div>
+<div class="max-w-container-max mx-auto relative z-10 flex flex-col gap-stack-sm">
+<h1 class="font-headline-xl text-primary">Gestión del Conocimiento</h1>
+<p class="font-body-lg text-on-surface-variant max-w-2xl">
+                Explora nuestro repositorio centralizado de proyectos activos, publicaciones peer-reviewed y líneas directrices que impulsan el ecosistema académico de REASONS.
+            </p>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Sidebar: Filters -->
+<aside class="md:col-span-3 flex flex-col gap-stack-lg">
+<!-- Search -->
+<div class="flex flex-col gap-stack-sm">
+<label class="font-label-md text-primary font-bold uppercase tracking-wider" for="search-input">Búsqueda Global</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-stack-sm top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="w-full pl-[36px] pr-stack-sm py-stack-sm border border-outline-variant bg-surface rounded text-body-md text-on-surface placeholder:text-outline focus:border-secondary focus:ring-1 focus:ring-secondary focus:outline-none transition-colors" id="search-input" placeholder="Término, autor, o DOI..." type="text"/>
+</div>
+</div>
+<!-- Filter: Líneas de Investigación -->
+<div class="flex flex-col gap-stack-md">
+<h3 class="font-label-md text-primary font-bold uppercase tracking-wider border-b border-outline-variant pb-2">Líneas de Investigación</h3>
+<ul class="flex flex-col gap-2 font-body-md text-on-surface-variant">
+<li>
+<label class="flex items-center gap-stack-sm cursor-pointer hover:text-primary transition-colors">
+<input checked="" class="rounded-sm border-outline-variant text-secondary focus:ring-secondary" type="checkbox"/>
+                                Inteligencia Artificial Aplicada
+                            </label>
+</li>
+<li>
+<label class="flex items-center gap-stack-sm cursor-pointer hover:text-primary transition-colors">
+<input class="rounded-sm border-outline-variant text-secondary focus:ring-secondary" type="checkbox"/>
+                                Sistemas Complejos
+                            </label>
+</li>
+<li>
+<label class="flex items-center gap-stack-sm cursor-pointer hover:text-primary transition-colors">
+<input class="rounded-sm border-outline-variant text-secondary focus:ring-secondary" type="checkbox"/>
+                                Sostenibilidad Energética
+                            </label>
+</li>
+<li>
+<label class="flex items-center gap-stack-sm cursor-pointer hover:text-primary transition-colors">
+<input class="rounded-sm border-outline-variant text-secondary focus:ring-secondary" type="checkbox"/>
+                                Bioinformática
+                            </label>
+</li>
+</ul>
+</div>
+<!-- Filter: Estado -->
+<div class="flex flex-col gap-stack-md">
+<h3 class="font-label-md text-primary font-bold uppercase tracking-wider border-b border-outline-variant pb-2">Estado del Proyecto</h3>
+<div class="flex flex-wrap gap-2">
+<button class="font-label-sm px-stack-sm py-1 rounded border border-secondary text-secondary bg-secondary-fixed transition-colors">En curso</button>
+<button class="font-label-sm px-stack-sm py-1 rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors">Completado</button>
+<button class="font-label-sm px-stack-sm py-1 rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors">En revisión</button>
+</div>
+</div>
+<!-- Filter: Año -->
+<div class="flex flex-col gap-stack-md">
+<h3 class="font-label-md text-primary font-bold uppercase tracking-wider border-b border-outline-variant pb-2">Año de Publicación</h3>
+<select class="w-full p-stack-sm border border-outline-variant bg-surface rounded text-body-md text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary focus:outline-none transition-colors">
+<option value="">Todos los años</option>
+<option value="2024">2024</option>
+<option value="2023">2023</option>
+<option value="2022">2022</option>
+</select>
+</div>
+</aside>
+<!-- Main Content: Projects & Publications -->
+<div class="md:col-span-9 flex flex-col gap-stack-lg">
+<!-- Section: Proyectos de Investigación -->
+<section class="flex flex-col gap-gutter">
+<div class="flex justify-between items-end border-b border-outline-variant pb-stack-sm">
+<h2 class="font-headline-lg font-semibold text-primary">Proyectos de Investigación</h2>
+<a class="font-label-md text-secondary hover:underline flex items-center gap-1" href="#">
+                            Ver todos <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Project Card 1 -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-lg p-gutter flex flex-col gap-stack-md transition-shadow hover:shadow-md">
+<div class="flex justify-between items-start">
+<span class="bg-surface-container-high text-on-surface font-label-sm px-2 py-1 rounded-sm uppercase tracking-wide">En curso</span>
+<button class="text-outline hover:text-primary transition-colors"><span class="material-symbols-outlined">bookmark_add</span></button>
+</div>
+<div class="flex flex-col gap-stack-sm flex-grow">
+<h3 class="font-headline-md font-semibold text-primary leading-tight">Optimización de Modelos Predictivos para Análisis Climático</h3>
+<p class="font-body-md text-on-surface-variant line-clamp-3">
+                                    Este proyecto evalúa el rendimiento de arquitecturas híbridas (CNN-LSTM) en la predicción de anomalías térmicas a corto plazo utilizando conjuntos de datos de satélites meteorológicos de alta resolución.
+                                </p>
+</div>
+<footer class="pt-stack-sm border-t border-surface-variant flex flex-col gap-2 mt-auto">
+<div class="flex items-center gap-stack-sm font-body-md text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">person</span> Investigador Principal: Dr. A. Ruiz
+                                </div>
+<div class="flex items-center gap-stack-sm font-body-md text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span> Inicio: Ene 2024
+                                </div>
+</footer>
+</article>
+<!-- Project Card 2 -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-lg p-gutter flex flex-col gap-stack-md transition-shadow hover:shadow-md">
+<div class="flex justify-between items-start">
+<span class="bg-surface-container-high text-on-surface font-label-sm px-2 py-1 rounded-sm uppercase tracking-wide">En curso</span>
+<button class="text-outline hover:text-primary transition-colors"><span class="material-symbols-outlined">bookmark_add</span></button>
+</div>
+<div class="flex flex-col gap-stack-sm flex-grow">
+<h3 class="font-headline-md font-semibold text-primary leading-tight">Mecanismos de Resiliencia en Cadenas de Suministro Globales</h3>
+<p class="font-body-md text-on-surface-variant line-clamp-3">
+                                    Análisis cuantitativo de las vulnerabilidades estructurales frente a disrupciones macroeconómicas, proponiendo un marco metodológico para la diversificación de nodos logísticos.
+                                </p>
+</div>
+<footer class="pt-stack-sm border-t border-surface-variant flex flex-col gap-2 mt-auto">
+<div class="flex items-center gap-stack-sm font-body-md text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">person</span> Investigadora Principal: Dra. L. Gómez
+                                </div>
+<div class="flex items-center gap-stack-sm font-body-md text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span> Inicio: Nov 2023
+                                </div>
+</footer>
+</article>
+</div>
+</section>
+<!-- Section: Publicaciones Científicas -->
+<section class="flex flex-col gap-gutter">
+<div class="flex justify-between items-end border-b border-outline-variant pb-stack-sm">
+<h2 class="font-headline-lg font-semibold text-primary">Publicaciones Científicas</h2>
+<div class="flex gap-stack-sm">
+<button class="font-label-md text-on-surface-variant flex items-center gap-1 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">sort</span> Recientes
+                            </button>
+</div>
+</div>
+<!-- List Container (Borderless approach) -->
+<div class="flex flex-col">
+<!-- Publication Item 1 -->
+<article class="py-stack-md border-b border-outline-variant flex flex-col gap-stack-sm hover:bg-surface-container-low transition-colors px-2 group rounded-md">
+<h4 class="font-body-lg font-medium text-primary group-hover:text-secondary transition-colors cursor-pointer">
+                                Topological Data Analysis in High-Dimensional Financial Datasets
+                            </h4>
+<p class="font-body-md text-sm text-on-surface-variant font-serif">
+                                Martínez, J., &amp; Silva, R. (2024). <em>Journal of Computational Finance</em>, 15(2), 112-135.
+                            </p>
+<div class="flex gap-gutter items-center mt-2 flex-wrap">
+<a class="font-label-md text-secondary hover:underline flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[16px]">link</span> DOI: 10.1234/jcf.2024.001
+                                </a>
+<button class="font-label-md text-on-surface-variant flex items-center gap-1 hover:text-primary transition-colors" onclick="alert('Cita copiada al portapapeles.')">
+<span class="material-symbols-outlined text-[16px]">content_copy</span> Citar APA
+                                </button>
+<span class="font-label-sm px-2 py-1 bg-surface-container-high rounded-sm text-on-surface-variant ml-auto">Peer Reviewed</span>
+</div>
+</article>
+<!-- Publication Item 2 -->
+<article class="py-stack-md border-b border-outline-variant flex flex-col gap-stack-sm hover:bg-surface-container-low transition-colors px-2 group rounded-md">
+<h4 class="font-body-lg font-medium text-primary group-hover:text-secondary transition-colors cursor-pointer">
+                                The Impact of Carbon Pricing on Renewable Energy Adoption in LatAm
+                            </h4>
+<p class="font-body-md text-sm text-on-surface-variant font-serif">
+                                Fernández, M., et al. (2023). <em>Energy Policy Review</em>, 42(1), 55-78.
+                            </p>
+<div class="flex gap-gutter items-center mt-2 flex-wrap">
+<a class="font-label-md text-secondary hover:underline flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[16px]">link</span> DOI: 10.1234/epr.2023.045
+                                </a>
+<button class="font-label-md text-on-surface-variant flex items-center gap-1 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[16px]">content_copy</span> Citar APA
+                                </button>
+<span class="font-label-sm px-2 py-1 bg-surface-container-high rounded-sm text-on-surface-variant ml-auto">Open Access</span>
+</div>
+</article>
+<!-- Publication Item 3 -->
+<article class="py-stack-md border-b border-outline-variant flex flex-col gap-stack-sm hover:bg-surface-container-low transition-colors px-2 group rounded-md">
+<h4 class="font-body-lg font-medium text-primary group-hover:text-secondary transition-colors cursor-pointer">
+                                Asymmetric Cryptography Protocols for Decentralized IoT Networks
+                            </h4>
+<p class="font-body-md text-sm text-on-surface-variant font-serif">
+                                Vargas, D., &amp; Chen, H. (2023). <em>IEEE Transactions on Network Security</em>, 9(4), 401-415.
+                            </p>
+<div class="flex gap-gutter items-center mt-2 flex-wrap">
+<a class="font-label-md text-secondary hover:underline flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[16px]">link</span> DOI: 10.1234/tns.2023.089
+                                </a>
+<button class="font-label-md text-on-surface-variant flex items-center gap-1 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[16px]">content_copy</span> Citar APA
+                                </button>
+<span class="font-label-sm px-2 py-1 bg-surface-container-high rounded-sm text-on-surface-variant ml-auto">Peer Reviewed</span>
+</div>
+</article>
+</div>
+<button class="self-center mt-stack-md font-label-md font-bold text-primary border border-outline-variant px-stack-lg py-stack-sm rounded hover:bg-surface-container transition-colors">
+                        Cargar más publicaciones
+                    </button>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-surface-container-highest dark:bg-surface-container-high border-t border-outline-variant flex flex-col items-center py-stack-lg px-margin-mobile md:px-margin-desktop w-full mt-auto">
+<div class="max-w-container-max w-full flex flex-col items-center gap-stack-md">
+<span class="font-headline-md font-bold text-tertiary">REASONS Research Hub</span>
+<ul class="flex flex-wrap justify-center gap-gutter">
+<li><a class="font-body-md text-sm text-on-surface-variant hover:text-primary transition-colors opacity-90" href="#">Privacidad</a></li>
+<li><a class="font-body-md text-sm text-on-surface-variant hover:text-primary transition-colors opacity-90" href="#">Términos de Uso</a></li>
+<li><a class="font-body-md text-sm text-on-surface-variant hover:text-primary transition-colors opacity-90" href="#">Soporte</a></li>
+<li><a class="font-body-md text-sm text-on-surface-variant hover:text-primary transition-colors opacity-90" href="#">Cookies</a></li>
+</ul>
+<p class="font-body-md text-sm text-on-surface-variant dark:text-on-surface mt-stack-sm text-center">
+                © 2024 REASONS Research Hub. Todos los derechos reservados.
+            </p>
+</div>
+</footer>
+</body></html>
