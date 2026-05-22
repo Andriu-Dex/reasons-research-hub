@@ -1,43 +1,76 @@
 <section class="dashboard">
   <div class="dashboard-header">
     <div>
-      <span class="kicker">Dashboard</span>
-      <h2>Resumen institucional</h2>
+      <span class="eyebrow">Vision general</span>
+      <h1>Metricas y actividad reciente de la red academica.</h1>
     </div>
-    <button class="btn primary">Crear contenido</button>
+    <div class="dashboard-actions">
+      <button class="btn ghost">Anadir investigador</button>
+      <button class="btn primary">Nuevo proyecto</button>
+    </div>
   </div>
 
   <div class="kpi-grid">
-    <div class="card kpi">
-      <span>Investigadores</span>
-      <strong>42</strong>
-    </div>
-    <div class="card kpi">
-      <span>Proyectos activos</span>
-      <strong>18</strong>
-    </div>
-    <div class="card kpi">
-      <span>Publicaciones</span>
-      <strong>120</strong>
-    </div>
-    <div class="card kpi">
-      <span>Noticias</span>
-      <strong>36</strong>
-    </div>
+    <article class="surface-card kpi">
+      <span>Investigadores activos</span>
+      <strong>342</strong>
+      <small>+12% este ciclo</small>
+    </article>
+    <article class="surface-card kpi">
+      <span>Proyectos en curso</span>
+      <strong>128</strong>
+      <small>+5% registrados</small>
+    </article>
+    <article class="surface-card kpi">
+      <span>Publicaciones del mes</span>
+      <strong>45</strong>
+      <small>Revision editorial</small>
+    </article>
+    <article class="surface-card kpi">
+      <span>Impacto de noticias</span>
+      <strong>1.2k</strong>
+      <small>+18% lecturas</small>
+    </article>
   </div>
 
   <div class="dashboard-grid">
-    <div class="card activity">
-      <h3>Actividad reciente</h3>
+    <article class="surface-card chart-card">
+      <header>
+        <h2>Crecimiento de publicaciones</h2>
+        <button type="button">Ultimo ano</button>
+      </header>
+      <div class="bar-chart" aria-label="Grafica de publicaciones por mes">
+        <span style="--value: 28%">Ene</span>
+        <span style="--value: 44%">Feb</span>
+        <span class="selected" style="--value: 70%">Mar</span>
+        <span style="--value: 48%">Abr</span>
+        <span style="--value: 60%">May</span>
+        <span style="--value: 84%">Jun</span>
+        <span style="--value: 38%">Jul</span>
+      </div>
+    </article>
+    <article class="surface-card activity-card">
+      <header>
+        <h2>Actividad reciente</h2>
+        <button type="button">Ver todo</button>
+      </header>
       <ul>
-        <li>Se publico una nueva convocatoria.</li>
-        <li>Proyecto "Observatorio" actualizado.</li>
-        <li>Se aprobo una nueva linea de investigacion.</li>
+        <li>
+          <strong>Dra. Elena Silva</strong>
+          <span>publico un nuevo articulo sobre sostenibilidad en zonas aridas.</span>
+          <small>Hace 2 horas</small>
+        </li>
+        <li>
+          <strong>Biotecnologia marina</strong>
+          <span>cambio su estado a en revision.</span>
+          <small>Hace 5 horas</small>
+        </li>
+        <li>
+          <strong>Dr. Carlos Mendoza</strong>
+          <span>fue anadido al equipo de fisica aplicada.</span>
+          <small>Ayer, 14:30</small>
+        </li>
       </ul>
-    </div>
-    <div class="card chart">
-      <h3>Indicadores clave</h3>
-      <div class="chart-placeholder">Grafica de impacto</div>
-    </div>
+    </article>
   </div>
 </section>

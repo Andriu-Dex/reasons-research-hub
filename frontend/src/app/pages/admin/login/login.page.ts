@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { ThemeToggleComponent } from '../../../shared/theme-toggle/theme-toggle.component';
 import { ToastService } from '../../../shared/toast/toast.service';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, ThemeToggleComponent],
   templateUrl: './login.page.html',
   styleUrl: './login.page.css'
 })

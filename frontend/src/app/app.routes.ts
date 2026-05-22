@@ -20,6 +20,7 @@ export const routes: Routes = [
       { path: '', pathMatch: 'full', loadComponent: () => import('./pages/public/home/home.page').then((m) => m.HomePage) },
       { path: 'nosotros', loadComponent: () => import('./pages/public/about/about.page').then((m) => m.AboutPage) },
       { path: 'investigacion', loadComponent: () => import('./pages/public/research/research.page').then((m) => m.ResearchPage) },
+      { path: 'investigadores', loadComponent: () => import('./pages/public/researchers/researchers.page').then((m) => m.ResearchersPage) },
       { path: 'noticias', loadComponent: () => import('./pages/public/news/news.page').then((m) => m.NewsPage) },
       { path: 'contacto', loadComponent: () => import('./pages/public/contact/contact.page').then((m) => m.ContactPage) }
     ]

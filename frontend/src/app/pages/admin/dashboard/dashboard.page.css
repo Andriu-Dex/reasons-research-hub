@@ -1,67 +1,205 @@
 .dashboard {
   display: grid;
-  gap: 24px;
+  gap: clamp(22px, 3vw, 34px);
 }
 
 .dashboard-header {
-  display: flex;
   align-items: center;
+  display: flex;
+  gap: 22px;
   justify-content: space-between;
-  gap: 16px;
 }
 
-.dashboard-header h2 {
-  margin: 8px 0 0;
+.dashboard-header > div {
+  min-width: 0;
+}
+
+.dashboard-header h1 {
+  color: var(--color-primary);
   font-family: var(--font-display);
+  font-size: clamp(2rem, 3.6vw, 4rem);
+  letter-spacing: -0.095em;
+  line-height: 1.02;
+  margin: 16px 0 0;
+  max-width: 860px;
+  overflow-wrap: break-word;
+}
+
+.dashboard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .kpi-grid {
   display: grid;
+  gap: 22px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
 }
 
 .kpi {
   display: grid;
   gap: 8px;
+  min-height: 212px;
+  padding: clamp(22px, 2.4vw, 30px);
+}
+
+.kpi span {
+  color: var(--color-muted);
+  font-weight: 900;
 }
 
 .kpi strong {
-  font-size: 1.8rem;
+  color: var(--color-primary);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3vw, 3.4rem);
+  letter-spacing: -0.08em;
+  line-height: 1;
+  margin-top: auto;
+}
+
+.kpi small {
+  background: var(--color-surface-alt);
+  border-radius: 999px;
+  color: var(--color-primary);
+  font-weight: 900;
+  justify-self: start;
+  padding: 7px 11px;
 }
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  grid-template-columns: minmax(0, 2fr) minmax(340px, 1fr);
+}
+
+.chart-card,
+.activity-card {
+  padding: clamp(22px, 3vw, 34px);
+}
+
+.chart-card header,
+.activity-card header {
+  align-items: center;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
   gap: 16px;
+  justify-content: space-between;
+  padding-bottom: 18px;
 }
 
-.activity ul {
-  margin: 12px 0 0;
-  padding-left: 18px;
-  color: var(--color-muted);
-  display: grid;
-  gap: 8px;
+.chart-card h2,
+.activity-card h2 {
+  color: var(--color-primary);
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2vw, 2rem);
+  letter-spacing: -0.055em;
+  margin: 0;
 }
 
-.chart-placeholder {
-  height: 220px;
-  border-radius: var(--radius-md);
-  background: linear-gradient(135deg, rgba(1, 8, 84, 0.1), rgba(200, 16, 46, 0.1));
+.chart-card button,
+.activity-card button {
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  color: var(--color-primary);
+  font-weight: 900;
+  padding: 11px 14px;
+}
+
+.bar-chart {
+  align-items: end;
+  background:
+    linear-gradient(to top, var(--color-border) 1px, transparent 1px);
+  background-size: 100% 25%;
   display: grid;
-  place-items: center;
+  gap: clamp(10px, 2vw, 24px);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  min-height: 410px;
+  padding: 44px 8px 38px;
+}
+
+.bar-chart span {
+  align-items: end;
+  background: var(--color-surface-strong);
+  border-radius: 12px 12px 6px 6px;
   color: var(--color-muted);
-  font-weight: 600;
+  display: flex;
+  font-size: 0.82rem;
+  font-weight: 900;
+  height: var(--value);
+  justify-content: center;
+  min-height: 72px;
+  padding-bottom: 12px;
+  position: relative;
+}
+
+.bar-chart span::after {
+  bottom: -28px;
+  content: attr(data-month);
+}
+
+.bar-chart span.selected {
+  background: linear-gradient(180deg, var(--color-primary-strong), #002d61);
+  box-shadow: var(--shadow-card);
+  color: #ffffff;
+}
+
+.activity-card ul {
+  display: grid;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.activity-card li {
+  border-bottom: 1px solid var(--color-border);
+  display: grid;
+  gap: 5px;
+  padding: 22px 0;
+}
+
+.activity-card li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.activity-card strong {
+  color: var(--color-primary);
+}
+
+.activity-card span {
+  color: var(--color-text);
+}
+
+.activity-card small {
+  color: var(--color-muted);
+  font-weight: 900;
 }
 
 @media (max-width: 960px) {
   .kpi-grid,
   .dashboard-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .dashboard-header {
-    flex-direction: column;
     align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 720px) {
+  .kpi-grid,
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-header h1 {
+    font-size: clamp(1.9rem, 8vw, 2.7rem);
+  }
+
+  .bar-chart {
+    min-height: 320px;
   }
 }

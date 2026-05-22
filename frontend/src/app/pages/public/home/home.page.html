@@ -1,127 +1,142 @@
-<section class="hero section">
-  <div class="container hero-grid">
-    <div class="hero-content reveal" style="--delay: 0.1s">
-      <span class="kicker">UTA | REASONS</span>
-      <h1>Investigacion conectada, visible y escalable.</h1>
-      <p class="hero-lead">
-        Un ecosistema digital para equipos academicos que necesitan gestionar proyectos, investigadores y
-        publicaciones con identidad propia.
+<section class="home-hero">
+  <div class="hero-backdrop"></div>
+  <div class="container hero-stage">
+    <div class="hero-copy reveal" style="--delay: 0.05s">
+      <span class="eyebrow">UTA | REASONS Research Hub</span>
+      <h1>Avanzamos el conocimiento con investigacion rigurosa y colaborativa.</h1>
+      <p>
+        Un punto de encuentro para proyectos, publicaciones e investigadores que convierten evidencia academica en
+        impacto regional.
       </p>
       <div class="hero-actions">
-        <a class="btn primary" routerLink="investigacion">Explorar investigacion</a>
-        <a class="btn ghost" routerLink="contacto">Hablar con el equipo</a>
-      </div>
-      <div class="hero-metrics">
-        <div class="metric">
-          <span class="metric-value">+48</span>
-          <span class="metric-label">Proyectos activos</span>
-        </div>
-        <div class="metric">
-          <span class="metric-value">+120</span>
-          <span class="metric-label">Publicaciones indexadas</span>
-        </div>
-        <div class="metric">
-          <span class="metric-value">9</span>
-          <span class="metric-label">Lineas de investigacion</span>
-        </div>
+        <a class="btn secondary" routerLink="investigacion">Explorar proyectos</a>
+        <a class="btn ghost" routerLink="investigadores">Conocer al equipo</a>
       </div>
     </div>
-    <div class="hero-card reveal" style="--delay: 0.25s">
-      <span class="badge">Convocatoria abierta</span>
-      <h3>Laboratorios con impacto regional</h3>
-      <p>
-        Gestiona convocatorias, recursos y resultados desde un panel centralizado. Integra visualizaciones, eventos y
-        perfiles publicos para cada organizacion.
-      </p>
-      <ul class="hero-list">
-        <li>Panel administrativo multi-tenant</li>
-        <li>Arquitectura API REST escalable</li>
-        <li>Imagen institucional configurable</li>
-      </ul>
-      <div class="hero-card-footer">
-        <span class="hero-chip">2026</span>
-        <span class="hero-chip">Multitenant</span>
-        <span class="hero-chip">API REST</span>
+    <div class="hero-summary reveal" style="--delay: 0.16s">
+      <span class="badge">Red academica activa</span>
+      <div class="hero-metrics">
+        <strong>48</strong>
+        <span>proyectos en seguimiento institucional</span>
+        <strong>120</strong>
+        <span>publicaciones visibles para la comunidad</span>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker">Lineas de investigacion</span>
-      <h2 class="section-title">Areas con identidad y visibilidad propia.</h2>
-      <p class="section-lead">
-        Cada linea se presenta con contenido, proyectos y publicaciones curadas, manteniendo un orden y jerarquia
-        visual clara.
+<section class="section mission-section">
+  <div class="container mission-grid">
+    <article class="mission-card surface-card reveal" style="--delay: 0.08s">
+      <span class="icon-shell">01</span>
+      <h2>Nuestra mision</h2>
+      <p>
+        Fomentar un entorno academico donde equipos multidisciplinares puedan analizar datos complejos, colaborar y
+        publicar hallazgos con claridad.
       </p>
+    </article>
+    <article class="mission-card surface-card reveal" style="--delay: 0.16s">
+      <span class="icon-shell accent">02</span>
+      <h2>Nuestra vision</h2>
+      <p>
+        Consolidar un hub flexible para instituciones que buscan mostrar investigacion confiable, trazable y preparada
+        para crecer.
+      </p>
+    </article>
+  </div>
+</section>
+
+<section class="section researchers-section">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">Investigadores destacados</span>
+        <h2 class="section-title">Personas que sostienen la ciencia aplicada.</h2>
+      </div>
+      <a class="directory-link" routerLink="investigadores">Ver directorio completo</a>
     </div>
-    <div class="feature-grid">
-      <div class="card feature-card reveal" style="--delay: 0.1s">
-        <div class="icon-badge">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="currentColor" d="M4 5h16v2H4zm0 6h16v2H4zm0 6h10v2H4z" />
-          </svg>
+    <div class="researcher-grid">
+      <article class="researcher-card surface-card reveal" style="--delay: 0.08s">
+        <div class="portrait portrait-rivas"></div>
+        <div>
+          <h3>Dra. Elena Rivas</h3>
+          <p>Ciencias de la Computacion</p>
+          <span>IA aplicada</span>
         </div>
-        <h3>Salud digital</h3>
-        <p>Aplicaciones clinicas, analitica y herramientas de telemedicina para instituciones regionales.</p>
-      </div>
-      <div class="card feature-card reveal" style="--delay: 0.2s">
-        <div class="icon-badge">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="currentColor" d="M12 2 2 7l10 5 10-5zm0 9L2 6v11l10 5 10-5V6z" />
-          </svg>
+      </article>
+      <article class="researcher-card surface-card reveal" style="--delay: 0.14s">
+        <div class="portrait portrait-mendoza"></div>
+        <div>
+          <h3>Dr. Carlos Mendoza</h3>
+          <p>Analisis estadistico</p>
+          <span>Econometria</span>
         </div>
-        <h3>Innovacion educativa</h3>
-        <p>Metodologias activas, recursos de aprendizaje abiertos y seguimiento institucional.</p>
-      </div>
-      <div class="card feature-card reveal" style="--delay: 0.3s">
-        <div class="icon-badge">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="currentColor" d="M3 12h18v2H3zm2-6h14v2H5zm2 12h10v2H7z" />
-          </svg>
+      </article>
+      <article class="researcher-card surface-card reveal" style="--delay: 0.2s">
+        <div class="portrait portrait-lin"></div>
+        <div>
+          <h3>Dra. Sofia Lin</h3>
+          <p>Biologia sintetica</p>
+          <span>Genomica</span>
         </div>
-        <h3>Transformacion productiva</h3>
-        <p>Vinculacion con la industria, analisis de impacto y transferencia tecnologica.</p>
+      </article>
+      <article class="researcher-card surface-card reveal" style="--delay: 0.26s">
+        <div class="portrait portrait-torres"></div>
+        <div>
+          <h3>Dr. Javier Torres</h3>
+          <p>Sociologia cuantitativa</p>
+          <span>Demografia</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section project-section">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">Proyectos activos</span>
+        <h2 class="section-title">Investigaciones con seguimiento y contexto.</h2>
       </div>
+      <a class="directory-link" routerLink="investigacion">Explorar repositorio</a>
+    </div>
+    <div class="project-grid">
+      <article class="project-card surface-card reveal" style="--delay: 0.08s">
+        <div class="project-meta">
+          <span class="tag">En revision</span>
+          <span>PRJ-2026-01A</span>
+        </div>
+        <h3>Modelado predictivo de redes neuronales en entornos estocasticos</h3>
+        <p>
+          Se estudian metodos de regularizacion empirica para mejorar la confiabilidad de modelos en escenarios con
+          alta variabilidad.
+        </p>
+        <footer>Investigadora principal: Dra. E. Rivas</footer>
+      </article>
+      <article class="project-card surface-card reveal" style="--delay: 0.16s">
+        <div class="project-meta">
+          <span class="tag">Recoleccion</span>
+          <span>PRJ-2026-08C</span>
+        </div>
+        <h3>Analisis longitudinal de disparidades socioeconomicas</h3>
+        <p>
+          Una iniciativa cuantitativa que conecta indicadores territoriales con decisiones de politica publica y
+          movilidad social.
+        </p>
+        <footer>Investigador principal: Dr. J. Torres</footer>
+      </article>
     </div>
   </div>
 </section>
 
 <section class="section compact">
-  <div class="container spotlight-grid">
-    <div class="spotlight-card reveal" style="--delay: 0.1s">
-      <span class="badge">Proyecto destacado</span>
-      <h3>Observatorio de investigacion aplicada</h3>
-      <p>
-        Visualiza indicadores, lineas activas y alianzas estrategicas. Exporta reportes y comparte resultados con
-        aliados.
-      </p>
-      <a class="btn secondary" routerLink="investigacion">Ver proyectos</a>
-    </div>
-    <div class="spotlight-list">
-      <div class="card reveal" style="--delay: 0.2s">
-        <h4>Repositorio academico</h4>
-        <p>Publicaciones indexadas, citas y autoria interna o externa.</p>
-      </div>
-      <div class="card reveal" style="--delay: 0.3s">
-        <h4>Noticias con impacto</h4>
-        <p>Eventos, convocatorias y logros con difusion inmediata.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container highlight-strip">
+  <div class="container collaboration-panel">
     <div>
-      <span class="kicker">Colabora con nosotros</span>
-      <h2>Tu organizacion puede activar su propio portal en minutos.</h2>
-      <p>
-        Cambia la identidad visual, administra contenido y comparte conocimiento desde un solo lugar.
-      </p>
+      <span class="eyebrow">Colabore con nosotros</span>
+      <h2>REASONS puede crecer con cada institucion que investiga.</h2>
+      <p>Construimos portales configurables para mostrar conocimiento, equipos y resultados con identidad propia.</p>
     </div>
-    <a class="btn primary" routerLink="contacto">Solicitar acceso</a>
+    <a class="btn secondary" routerLink="contacto">Contactar al equipo</a>
   </div>
 </section>

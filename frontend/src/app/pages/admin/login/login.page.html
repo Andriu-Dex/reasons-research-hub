@@ -1,21 +1,45 @@
 <div class="login-shell">
-  <div class="card login-card reveal">
-    <div class="login-header">
-      <span class="badge">Panel administrativo</span>
-      <h1>Iniciar sesion</h1>
-      <p>Acceso exclusivo para administradores de cada organizacion.</p>
+  <section class="login-story">
+    <a class="login-brand" routerLink="/uta-reasons">
+      <img src="https://i.imgur.com/RARaC9j.png" alt="Logo REASONS Research Hub" />
+      <span>
+        <strong>REASONS</strong>
+        <small>Research Hub</small>
+      </span>
+    </a>
+    <div>
+      <span class="eyebrow">Panel multi-tenant</span>
+      <h1>Administre investigacion con una lectura clara del ecosistema.</h1>
+      <p>Gestion de contenido, equipos y resultados para cada organizacion desde un entorno consistente.</p>
     </div>
-    <form #loginForm="ngForm" (ngSubmit)="submit(loginForm)">
-      <label>
-        Correo electronico
-        <input type="email" name="email" [(ngModel)]="credentials.email" required />
-      </label>
-      <label>
-        Contrasena
-        <input type="password" name="password" [(ngModel)]="credentials.password" required />
-      </label>
-      <button class="btn primary" type="submit">Ingresar</button>
-      <a class="back-link" routerLink="/uta-reasons">Volver al sitio publico</a>
-    </form>
-  </div>
+    <div class="login-stat">
+      <strong>UTA</strong>
+      <span>Tenant inicial para pruebas institucionales.</span>
+    </div>
+  </section>
+
+  <section class="login-access">
+    <div class="access-topbar">
+      <a routerLink="/uta-reasons">Volver al sitio publico</a>
+      <app-theme-toggle></app-theme-toggle>
+    </div>
+    <div class="surface-card login-card reveal">
+      <div class="login-header">
+        <span class="badge">Acceso administrativo</span>
+        <h2>Iniciar sesion</h2>
+        <p>Ingresa con la cuenta asignada para tu organizacion.</p>
+      </div>
+      <form #loginForm="ngForm" (ngSubmit)="submit(loginForm)">
+        <label>
+          Correo electronico
+          <input type="email" name="email" [(ngModel)]="credentials.email" required />
+        </label>
+        <label>
+          Contrasena
+          <input type="password" name="password" [(ngModel)]="credentials.password" required />
+        </label>
+        <button class="btn primary" type="submit">Ingresar</button>
+      </form>
+    </div>
+  </section>
 </div>

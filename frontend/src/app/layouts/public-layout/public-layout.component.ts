@@ -1,11 +1,12 @@
 import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ThemeToggleComponent } from '../../shared/theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'app-public-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgClass],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgClass, ThemeToggleComponent],
   templateUrl: './public-layout.component.html',
   styleUrl: './public-layout.component.css'
 })

@@ -1,97 +1,101 @@
-<section class="page-hero section compact">
+<section class="research-hero">
   <div class="container">
-    <span class="kicker">Investigacion</span>
-    <h1 class="section-title">Lineas activas, proyectos en ejecucion y publicaciones recientes.</h1>
-    <p class="section-lead">
-      Una vista integral del conocimiento generado por cada organizacion. Filtra, explora y comparte con tu comunidad.
-    </p>
+    <span class="eyebrow">Gestion del conocimiento</span>
+    <h1>Proyectos, publicaciones y lineas para explorar investigacion con contexto.</h1>
+    <p>Filtra el repositorio inicial de REASONS y recorre resultados cientificos sin perder la ruta institucional.</p>
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker">Lineas de investigacion</span>
-      <h2 class="section-title">Explora nuestras areas estrategicas.</h2>
-    </div>
-    <div class="research-grid">
-      <div class="card research-card reveal" style="--delay: 0.1s">
-        <h3>Biotecnologia aplicada</h3>
-        <p>Procesos sostenibles, biomateriales y soluciones para el agro regional.</p>
+<section class="section research-workspace">
+  <div class="container workspace-grid">
+    <aside class="filters surface-card">
+      <label>
+        Busqueda global
+        <input type="search" placeholder="Termino, autor o DOI..." />
+      </label>
+      <div class="filter-group">
+        <h2>Lineas de investigacion</h2>
+        <button type="button" class="filter-option active">Inteligencia artificial aplicada</button>
+        <button type="button" class="filter-option">Sistemas complejos</button>
+        <button type="button" class="filter-option">Sostenibilidad energetica</button>
+        <button type="button" class="filter-option">Bioinformatica</button>
       </div>
-      <div class="card research-card reveal" style="--delay: 0.2s">
-        <h3>Salud y bienestar</h3>
-        <p>Telemedicina, analitica clinica y programas de prevencion.</p>
+      <div class="filter-group">
+        <h2>Estado del proyecto</h2>
+        <div class="filter-chips">
+          <button type="button" class="active">En curso</button>
+          <button type="button">Completado</button>
+          <button type="button">En revision</button>
+        </div>
       </div>
-      <div class="card research-card reveal" style="--delay: 0.3s">
-        <h3>Educacion digital</h3>
-        <p>Innovacion pedagogica, recursos multimedia y evaluacion formativa.</p>
-      </div>
-      <div class="card research-card reveal" style="--delay: 0.4s">
-        <h3>Industria 4.0</h3>
-        <p>Automatizacion, IoT y analisis de datos industriales.</p>
-      </div>
-      <div class="card research-card reveal" style="--delay: 0.5s">
-        <h3>Gestion ambiental</h3>
-        <p>Economia circular, control de residuos y energias renovables.</p>
-      </div>
-      <div class="card research-card reveal" style="--delay: 0.6s">
-        <h3>Analitica social</h3>
-        <p>Estudios de impacto, indicadores y politicas publicas.</p>
-      </div>
-    </div>
-  </div>
-</section>
+      <label>
+        Ano de publicacion
+        <select>
+          <option>Todos los anos</option>
+          <option>2026</option>
+          <option>2025</option>
+        </select>
+      </label>
+    </aside>
 
-<section class="section compact">
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker">Proyectos</span>
-      <h2 class="section-title">Iniciativas en ejecucion.</h2>
-    </div>
-    <div class="project-grid">
-      <article class="card project-card reveal" style="--delay: 0.1s">
-        <span class="badge">Activo</span>
-        <h3>Observatorio de salud universitaria</h3>
-        <p>Plataforma para seguimiento de indicadores de bienestar estudiantil.</p>
-      </article>
-      <article class="card project-card reveal" style="--delay: 0.2s">
-        <span class="badge">Colaborativo</span>
-        <h3>Laboratorio de IA aplicada</h3>
-        <p>Modelos predictivos para procesos productivos regionales.</p>
-      </article>
-      <article class="card project-card reveal" style="--delay: 0.3s">
-        <span class="badge">Nuevo</span>
-        <h3>Repositorio de recursos educativos</h3>
-        <p>Biblioteca digital con contenido abierto y metodologias activas.</p>
-      </article>
-    </div>
-  </div>
-</section>
+    <div class="research-results">
+      <section class="result-section">
+        <div class="result-header">
+          <h2>Proyectos de investigacion</h2>
+          <a routerLink="../contacto">Ver todos</a>
+        </div>
+        <div class="result-projects">
+          <article class="surface-card result-project">
+            <span class="tag">En curso</span>
+            <h3>Optimizacion de modelos predictivos para analisis climatico</h3>
+            <p>Arquitecturas hibridas para prediccion de anomalias termicas a corto plazo.</p>
+            <footer>
+              <span>Investigador principal: Dr. A. Ruiz</span>
+              <span>Inicio: Ene 2026</span>
+            </footer>
+          </article>
+          <article class="surface-card result-project">
+            <span class="tag">En curso</span>
+            <h3>Mecanismos de resiliencia en cadenas de suministro globales</h3>
+            <p>Analisis cuantitativo de vulnerabilidades estructurales frente a disrupciones.</p>
+            <footer>
+              <span>Investigadora principal: Dra. L. Gomez</span>
+              <span>Inicio: Nov 2025</span>
+            </footer>
+          </article>
+        </div>
+      </section>
 
-<section class="section compact">
-  <div class="container publications">
-    <div>
-      <span class="kicker">Publicaciones</span>
-      <h2 class="section-title">Resultados cientificos destacados.</h2>
-      <p class="section-lead">
-        Produccion academica con trazabilidad, autores internos y externos.
-      </p>
-      <a class="btn ghost" routerLink="../contacto">Solicitar acceso a repositorio</a>
-    </div>
-    <div class="publication-list">
-      <div class="card publication-item reveal" style="--delay: 0.1s">
-        <h4>Analitica de datos para sostenibilidad urbana</h4>
-        <p>Revista Latinoamericana de Tecnologia, 2025</p>
-      </div>
-      <div class="card publication-item reveal" style="--delay: 0.2s">
-        <h4>Modelos predictivos en salud preventiva</h4>
-        <p>Journal of Digital Health, 2026</p>
-      </div>
-      <div class="card publication-item reveal" style="--delay: 0.3s">
-        <h4>Innovacion educativa con realidad aumentada</h4>
-        <p>Education Tech Review, 2025</p>
-      </div>
+      <section class="result-section publications">
+        <div class="result-header">
+          <h2>Publicaciones cientificas</h2>
+          <span>Recientes</span>
+        </div>
+        <article class="publication-row">
+          <div>
+            <h3>Topological data analysis in high-dimensional financial datasets</h3>
+            <p>Martinez, J. y Silva, R. Journal of Computational Finance, 2026.</p>
+            <a href="#">DOI: 10.1234/jcf.2026.001</a>
+          </div>
+          <span class="tag">Peer reviewed</span>
+        </article>
+        <article class="publication-row">
+          <div>
+            <h3>Renewable energy adoption under carbon pricing in LatAm</h3>
+            <p>Fernandez, M. y equipo. Energy Policy Review, 2025.</p>
+            <a href="#">DOI: 10.1234/epr.2025.045</a>
+          </div>
+          <span class="tag">Acceso abierto</span>
+        </article>
+        <article class="publication-row">
+          <div>
+            <h3>Decentralized IoT networks for academic laboratories</h3>
+            <p>Vargas, D. y Chen, H. IEEE Research Systems, 2025.</p>
+            <a href="#">DOI: 10.1234/irs.2025.089</a>
+          </div>
+          <span class="tag">Peer reviewed</span>
+        </article>
+      </section>
     </div>
   </div>
 </section>

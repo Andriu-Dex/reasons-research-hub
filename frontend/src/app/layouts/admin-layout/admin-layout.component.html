@@ -1,10 +1,10 @@
 <div class="admin-shell">
   <aside class="admin-sidebar" [ngClass]="{ open: isMenuOpen }">
     <div class="admin-brand">
-      <span class="admin-mark">UTA</span>
+      <img src="https://i.imgur.com/RARaC9j.png" alt="Logo REASONS Research Hub" />
       <div>
-        <strong>REASONS</strong>
-        <span>Panel</span>
+        <strong>Admin REASONS</strong>
+        <span>Gestion central</span>
       </div>
     </div>
     <nav class="admin-nav">
@@ -14,10 +14,10 @@
       <button class="nav-item disabled" type="button">Proyectos</button>
       <button class="nav-item disabled" type="button">Publicaciones</button>
       <button class="nav-item disabled" type="button">Noticias</button>
+      <button class="nav-item disabled" type="button">Ajustes del sitio</button>
     </nav>
-    <div class="admin-footer">
-      <a routerLink="/admin/login">Cerrar sesion</a>
-    </div>
+    <button class="research-cta" type="button">Iniciar investigacion</button>
+    <a class="admin-logout" routerLink="/admin/login">Cerrar sesion</a>
   </aside>
 
   <div class="admin-content">
@@ -27,11 +27,18 @@
         <span></span>
         <span></span>
       </button>
+      <label class="admin-search">
+        <span class="sr-only">Buscar</span>
+        <input type="search" placeholder="Buscar proyectos, investigadores..." />
+      </label>
       <div class="admin-title">
-        <span class="kicker">Panel administrativo</span>
-        <strong>Gestion institucional</strong>
+        <strong>Panel de administracion</strong>
+        <span>Universidad Tecnica de Ambato</span>
       </div>
-      <button class="btn ghost">Nuevo contenido</button>
+      <div class="topbar-actions">
+        <app-theme-toggle></app-theme-toggle>
+        <span class="admin-profile">AR</span>
+      </div>
     </header>
 
     <main class="admin-main">
