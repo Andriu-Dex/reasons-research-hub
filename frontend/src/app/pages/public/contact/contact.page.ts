@@ -7,7 +7,7 @@ import { finalize } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ContactChannel } from '../../../core/models/content.models';
 import { PublicContentService } from '../../../core/services/public-content.service';
-import { TenantContextService } from '../../../core/services/tenant-context.service';
+import { getRouteTenantSlug } from '../../../core/utils/route-tenant.util';
 import { ToastService } from '../../../shared/toast/toast.service';
 
 declare global {
@@ -43,22 +43,13 @@ export class ContactPage implements AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private publicContentService: PublicContentService,
-    private tenantContextService: TenantContextService,
     private toastService: ToastService
   ) {
-    const routeTenantSlug = this.route.parent?.snapshot.paramMap.get('tenantSlug');
-    if (routeTenantSlug) {
-      this.tenantContextService.setTenantSlug(routeTenantSlug);
-    }
-
-    this.tenantContextService.tenantSlug$
+    this.tenantSlug = getRouteTenantSlug(this.route);
+    this.publicContentService
+      .getContactChannels(this.tenantSlug)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((tenantSlug) => {
-        this.tenantSlug = tenantSlug;
-        this.publicContentService
-          .getContactChannels(this.tenantSlug)
-          .subscribe({ next: (channels) => (this.channels = channels) });
-      });
+      .subscribe({ next: (channels) => (this.channels = channels) });
   }
 
   ngAfterViewInit(): void {

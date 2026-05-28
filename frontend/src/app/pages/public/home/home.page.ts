@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HomePayload } from '../../../core/models/content.models';
 import { PublicContentService } from '../../../core/services/public-content.service';
-import { TenantContextService } from '../../../core/services/tenant-context.service';
+import { getRouteTenantSlug } from '../../../core/utils/route-tenant.util';
 
 @Component({
   selector: 'app-home-page',
@@ -22,20 +22,10 @@ export class HomePage {
 
   constructor(
     private route: ActivatedRoute,
-    private publicContentService: PublicContentService,
-    private tenantContextService: TenantContextService
+    private publicContentService: PublicContentService
   ) {
-    const routeTenantSlug = this.route.parent?.snapshot.paramMap.get('tenantSlug');
-    if (routeTenantSlug) {
-      this.tenantContextService.setTenantSlug(routeTenantSlug);
-    }
-
-    this.tenantContextService.tenantSlug$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((tenantSlug) => {
-        this.tenantSlug = tenantSlug;
-        this.load();
-      });
+    this.tenantSlug = getRouteTenantSlug(this.route);
+    this.load();
   }
 
   get heroImage(): string {

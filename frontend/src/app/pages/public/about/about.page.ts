@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { AboutSettings } from '../../../core/models/content.models';
 import { PublicContentService } from '../../../core/services/public-content.service';
-import { TenantContextService } from '../../../core/services/tenant-context.service';
+import { getRouteTenantSlug } from '../../../core/utils/route-tenant.util';
 
 @Component({
   selector: 'app-about-page',
@@ -21,29 +21,20 @@ export class AboutPage {
 
   constructor(
     private route: ActivatedRoute,
-    private publicContentService: PublicContentService,
-    private tenantContextService: TenantContextService
+    private publicContentService: PublicContentService
   ) {
-    const routeTenantSlug = this.route.parent?.snapshot.paramMap.get('tenantSlug');
-    if (routeTenantSlug) {
-      this.tenantContextService.setTenantSlug(routeTenantSlug);
-    }
-
-    this.tenantContextService.tenantSlug$
+    this.publicContentService
+      .getAbout(getRouteTenantSlug(this.route))
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((tenantSlug) => {
-        this.isLoading = true;
-        this.hasError = false;
-        this.publicContentService.getAbout(tenantSlug).subscribe({
-          next: (about) => {
-            this.about = about;
-            this.isLoading = false;
-          },
-          error: () => {
-            this.hasError = true;
-            this.isLoading = false;
-          }
-        });
+      .subscribe({
+        next: (about) => {
+          this.about = about;
+          this.isLoading = false;
+        },
+        error: () => {
+          this.hasError = true;
+          this.isLoading = false;
+        }
       });
   }
 }

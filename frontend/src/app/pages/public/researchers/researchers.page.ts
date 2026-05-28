@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { Researcher } from '../../../core/models/content.models';
 import { PublicContentService } from '../../../core/services/public-content.service';
-import { TenantContextService } from '../../../core/services/tenant-context.service';
+import { getRouteTenantSlug } from '../../../core/utils/route-tenant.util';
 
 @Component({
   selector: 'app-researchers-page',
@@ -21,29 +21,20 @@ export class ResearchersPage {
 
   constructor(
     private route: ActivatedRoute,
-    private publicContentService: PublicContentService,
-    private tenantContextService: TenantContextService
+    private publicContentService: PublicContentService
   ) {
-    const routeTenantSlug = this.route.parent?.snapshot.paramMap.get('tenantSlug');
-    if (routeTenantSlug) {
-      this.tenantContextService.setTenantSlug(routeTenantSlug);
-    }
-
-    this.tenantContextService.tenantSlug$
+    this.publicContentService
+      .getResearchers(getRouteTenantSlug(this.route))
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((tenantSlug) => {
-        this.isLoading = true;
-        this.hasError = false;
-        this.publicContentService.getResearchers(tenantSlug).subscribe({
-          next: (researchers) => {
-            this.researchers = researchers;
-            this.isLoading = false;
-          },
-          error: () => {
-            this.hasError = true;
-            this.isLoading = false;
-          }
-        });
+      .subscribe({
+        next: (researchers) => {
+          this.researchers = researchers;
+          this.isLoading = false;
+        },
+        error: () => {
+          this.hasError = true;
+          this.isLoading = false;
+        }
       });
   }
 }
