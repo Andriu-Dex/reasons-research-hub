@@ -1,0 +1,113 @@
+.admin-view {
+  display: grid;
+  gap: 24px;
+}
+
+.admin-view-header h1,
+.admin-form h2,
+.admin-table-card h2 {
+  color: var(--color-primary);
+  font-family: var(--font-display);
+  letter-spacing: -0.05em;
+  margin: 0;
+}
+
+.admin-view-header p {
+  color: var(--color-muted);
+  margin: 8px 0 0;
+}
+
+.admin-form,
+.admin-table-card {
+  padding: clamp(20px, 3vw, 30px);
+}
+
+.form-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 20px;
+}
+
+label {
+  color: var(--color-text);
+  display: grid;
+  font-weight: 800;
+  gap: 8px;
+}
+
+label.full {
+  grid-column: 1 / -1;
+}
+
+select[multiple] {
+  min-height: 140px;
+}
+
+.check-row {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.form-actions,
+.table-tools,
+.actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.form-actions {
+  margin-top: 20px;
+}
+
+.table-tools {
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  min-width: 860px;
+  width: 100%;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--color-border);
+  padding: 13px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.actions button {
+  background: var(--color-surface-alt);
+  border-radius: 999px;
+  color: var(--color-primary);
+  font-size: 0.82rem;
+  font-weight: 900;
+  padding: 8px 12px;
+}
+
+.actions .danger {
+  color: var(--color-danger);
+}
+
+@media (max-width: 760px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

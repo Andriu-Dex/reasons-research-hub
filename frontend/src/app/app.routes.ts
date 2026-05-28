@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
+import { superAdminGuard } from './core/guards/super-admin.guard';
 
 export const routes: Routes = [
   {
@@ -7,12 +8,29 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/admin/login/login.page').then((m) => m.LoginPage)
   },
   {
+    path: 'admin/organizations',
+    canActivate: [superAdminGuard],
+    loadComponent: () => import('./pages/admin/organizations/organizations.page').then((m) => m.OrganizationsPage)
+  },
+  {
     path: 'admin/:tenantSlug',
     canActivate: [authGuard],
     loadComponent: () => import('./layouts/admin-layout/admin-layout.component').then((m) => m.AdminLayoutComponent),
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
-      { path: 'dashboard', loadComponent: () => import('./pages/admin/dashboard/dashboard.page').then((m) => m.DashboardPage) }
+      { path: 'dashboard', loadComponent: () => import('./pages/admin/dashboard/dashboard.page').then((m) => m.DashboardPage) },
+      { path: 'settings', loadComponent: () => import('./pages/admin/settings/settings.page').then((m) => m.SettingsPage) },
+      { path: 'home', loadComponent: () => import('./pages/admin/home/home-admin.page').then((m) => m.HomeAdminPage) },
+      { path: 'about', loadComponent: () => import('./pages/admin/about/about-admin.page').then((m) => m.AboutAdminPage) },
+      { path: 'research-lines', loadComponent: () => import('./pages/admin/research-lines/research-lines.page').then((m) => m.ResearchLinesPage) },
+      { path: 'researchers', loadComponent: () => import('./pages/admin/researchers/researchers-admin.page').then((m) => m.ResearchersAdminPage) },
+      { path: 'projects', loadComponent: () => import('./pages/admin/projects/projects-admin.page').then((m) => m.ProjectsAdminPage) },
+      { path: 'authors', loadComponent: () => import('./pages/admin/authors/authors-admin.page').then((m) => m.AuthorsAdminPage) },
+      { path: 'publications', loadComponent: () => import('./pages/admin/publications/publications-admin.page').then((m) => m.PublicationsAdminPage) },
+      { path: 'news', loadComponent: () => import('./pages/admin/news/news-admin.page').then((m) => m.NewsAdminPage) },
+      { path: 'contact', loadComponent: () => import('./pages/admin/contact/contact-admin.page').then((m) => m.ContactAdminPage) },
+      { path: 'media', loadComponent: () => import('./pages/admin/media/media-admin.page').then((m) => m.MediaAdminPage) },
+      { path: 'profile', loadComponent: () => import('./pages/admin/profile/profile.page').then((m) => m.ProfilePage) }
     ]
   },
   {

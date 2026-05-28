@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = environment.apiUrl;
 const SESSION_KEY = 'reasons-admin-session';
 
 export type AdminRole = 'ORG_ADMIN' | 'SUPER_ADMIN';
@@ -71,6 +72,19 @@ export class AuthService {
     }
 
     return `/admin/${session?.admin.organizationSlug ?? 'uta-reasons'}/dashboard`;
+  }
+
+  belongsToTenant(tenantSlug: string | null): boolean {
+    const session = this.currentSession();
+    if (!session || !tenantSlug) return false;
+    if (session.admin.role === 'SUPER_ADMIN') return true;
+    return session.admin.organizationSlug === tenantSlug;
+  }
+
+  updateStoredAdmin(admin: Partial<AdminSession['admin']>): void {
+    const session = this.currentSession();
+    if (!session) return;
+    this.storeSession({ ...session, admin: { ...session.admin, ...admin } });
   }
 
   clearSession(): void {

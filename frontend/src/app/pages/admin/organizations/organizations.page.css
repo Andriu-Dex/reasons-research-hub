@@ -1,0 +1,26 @@
+@import '../shared-admin-form.css';
+.actions {
+  display: flex;
+  gap: 10px;
+}
+.table-scroll {
+  overflow-x: auto;
+}
+table {
+  border-collapse: collapse;
+  min-width: 760px;
+  width: 100%;
+}
+th,
+td {
+  border-bottom: 1px solid var(--color-border);
+  padding: 12px;
+  text-align: left;
+}
+td button {
+  background: var(--color-surface-alt);
+  border-radius: 999px;
+  color: var(--color-primary);
+  font-weight: 900;
+  padding: 8px 12px;
+}

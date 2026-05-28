@@ -1,87 +1,36 @@
-<section class="about-intro">
-  <div class="container about-hero">
-    <div class="about-copy reveal" style="--delay: 0.05s">
-      <span class="eyebrow">Acerca de nosotros</span>
-      <h1>REASONS conecta ciencia, datos y colaboracion institucional.</h1>
-      <p>
-        Desde la Universidad Tecnica de Ambato impulsamos un ecosistema multidisciplinar para centralizar recursos,
-        publicar hallazgos y facilitar alianzas academicas.
-      </p>
-      <a class="btn secondary" href="#objetivos">Conocer objetivos</a>
-    </div>
-    <div class="laboratory-frame reveal" style="--delay: 0.14s">
-      <div class="laboratory-image"></div>
-    </div>
-  </div>
-</section>
-
-<section id="objetivos" class="section compact">
-  <div class="container objective-panel">
-    <div class="objective-heading">
-      <span class="eyebrow">Nuestros logros</span>
-      <h2 class="section-title">Objetivos estrategicos.</h2>
-    </div>
-    <article class="general-objective">
-      <span>Objetivo general</span>
-      <p>
-        Consolidar una red de investigacion empirica que estandarice metodologias de recoleccion de datos y permita
-        difundir descubrimientos de alto impacto.
-      </p>
-    </article>
-    <div class="objective-grid">
-      <article class="surface-card objective-card">
-        <strong>Interconexion de datos</strong>
-        <p>Protocolos seguros para compartir datasets y resultados entre instituciones asociadas.</p>
-      </article>
-      <article class="surface-card objective-card">
-        <strong>Formacion academica</strong>
-        <p>Mentoria avanzada para investigadores y estudiantes con interes interdisciplinar.</p>
-      </article>
-      <article class="surface-card objective-card">
-        <strong>Alcance global</strong>
-        <p>Publicaciones accesibles y alianzas que amplian el dialogo cientifico.</p>
-      </article>
-      <article class="surface-card objective-card">
-        <strong>Innovacion estructural</strong>
-        <p>Marcos teoricos claros para transformar investigacion en soluciones verificables.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="section domain-section">
-  <div class="container domain-card">
-    <div>
-      <span class="badge">Dominio principal</span>
-      <h2>Sistemas computacionales y biologia sintetica</h2>
-      <p>
-        Nuestro trabajo cruza informatica algoritmica, modelacion biologica y analisis de precision para estudiar
-        problemas que no caben en una sola disciplina.
-      </p>
-    </div>
-    <span class="domain-mark">RE</span>
-  </div>
-</section>
-
-<section class="section compact lines-section">
+<section class="about-shell section">
   <div class="container">
-    <div class="lines-heading">
-      <span class="eyebrow">Nuestro trabajo</span>
-      <h2 class="section-title">Lineas de investigacion.</h2>
-    </div>
-    <div class="lines-grid">
-      <article class="surface-card line-card">
-        <h3>Redes neuronales aplicadas</h3>
-        <p>Arquitecturas de aprendizaje profundo para datos genomicos y señales complejas.</p>
-      </article>
-      <article class="surface-card line-card">
-        <h3>Cognicion y computacion</h3>
-        <p>Modelos comparativos para decisiones humanas y algoritmicas bajo incertidumbre.</p>
-      </article>
-      <article class="surface-card line-card">
-        <h3>Sostenibilidad bio-digital</h3>
-        <p>Evaluacion energetica y diseno de alternativas computacionales eficientes.</p>
-      </article>
-    </div>
+    @if (isLoading) {
+      <div class="state-card">Cargando informacion institucional...</div>
+    } @else if (hasError) {
+      <div class="state-card error">No se pudo cargar la pagina Nosotros.</div>
+    } @else {
+      <div class="about-hero">
+        <span class="eyebrow">Nosotros</span>
+        <h1>Una identidad academica clara, editable y preparada para crecer.</h1>
+        <p>{{ about?.description || 'La descripcion institucional aun no ha sido configurada.' }}</p>
+      </div>
+
+      <div class="about-grid">
+        <article class="surface-card about-card">
+          <span class="icon-shell">OG</span>
+          <h2>Objetivo general</h2>
+          <p>{{ about?.generalObjective || 'El objetivo general aun no ha sido configurado.' }}</p>
+        </article>
+        <article class="surface-card about-card objectives">
+          <span class="icon-shell accent">OE</span>
+          <h2>Objetivos especificos</h2>
+          @if (about?.objectives?.length) {
+            <ol>
+              @for (objective of about?.objectives; track objective.description) {
+                <li>{{ objective.description }}</li>
+              }
+            </ol>
+          } @else {
+            <p>Aun no se han registrado objetivos especificos.</p>
+          }
+        </article>
+      </div>
+    }
   </div>
 </section>

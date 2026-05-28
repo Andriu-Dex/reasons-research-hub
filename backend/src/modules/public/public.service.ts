@@ -99,6 +99,13 @@ export class PublicService {
       orderBy: [{ publishedAt: 'desc' }, { displayOrder: 'asc' }]
     });
   }
+
+  async getContactChannels(organizationId: string) {
+    return prisma.contactChannel.findMany({
+      where: { organizationId, isEnabled: true },
+      orderBy: { displayOrder: 'asc' }
+    });
+  }
 }
 
 export const publicService = new PublicService();

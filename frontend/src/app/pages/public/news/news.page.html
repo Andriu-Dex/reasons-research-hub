@@ -1,38 +1,35 @@
-<section class="news-hero">
+<section class="news-hero section">
   <div class="container">
     <span class="eyebrow">Noticias</span>
-    <h1>Convocatorias, eventos y resultados que mantienen viva la red.</h1>
-    <p>Actualizaciones pensadas para investigadores, aliados institucionales y comunidad universitaria.</p>
+    <h1>Actualidad academica, eventos y resultados institucionales.</h1>
+    <p>Publicaciones visibles para visitantes, ordenadas por fecha de publicacion.</p>
   </div>
 </section>
 
 <section class="section">
-  <div class="container news-layout">
-    <article class="feature-story surface-card reveal" style="--delay: 0.08s">
-      <span class="badge">Evento central</span>
-      <h2>Semana de investigacion aplicada 2026</h2>
-      <p>Ponencias, talleres y espacios de vinculacion para presentar evidencia, prototipos y nuevas alianzas.</p>
-      <div class="story-meta">
-        <span>12 - 16 de mayo</span>
-        <span>Auditorio UTA</span>
+  <div class="container">
+    @if (isLoading) {
+      <div class="state-card">Cargando noticias...</div>
+    } @else if (hasError) {
+      <div class="state-card error">No se pudo cargar noticias.</div>
+    } @else if (!news.length) {
+      <div class="state-card">Aun no hay noticias publicadas.</div>
+    } @else {
+      <div class="news-grid">
+        @for (item of news; track item.id) {
+          <article class="surface-card news-card">
+            @if (item.mainImage?.url) {
+              <img [src]="item.mainImage?.url" [alt]="item.title" />
+            }
+            <div>
+              <span class="tag">{{ item.publishedAt | date: 'dd MMM yyyy' }}</span>
+              <h2>{{ item.title }}</h2>
+              <p>{{ item.summary }}</p>
+              <div class="news-content">{{ item.content }}</div>
+            </div>
+          </article>
+        }
       </div>
-    </article>
-    <div class="news-feed">
-      <article class="surface-card news-card reveal" style="--delay: 0.14s">
-        <span class="tag">Logro</span>
-        <h2>REASONS recibe financiamiento regional para fortalecer su observatorio.</h2>
-        <p>Nuevos recursos para proyectos con impacto en salud, educacion y transferencia tecnologica.</p>
-      </article>
-      <article class="surface-card news-card reveal" style="--delay: 0.2s">
-        <span class="tag">Convocatoria</span>
-        <h2>Fondo de movilidad academica para equipos interdisciplinares.</h2>
-        <p>Postulaciones abiertas para docentes e investigadores con resultados publicables.</p>
-      </article>
-      <article class="surface-card news-card reveal" style="--delay: 0.26s">
-        <span class="tag">Congreso</span>
-        <h2>Inscripciones para ciencia y tecnologia UTA.</h2>
-        <p>La agenda incluye posters, demostraciones y conversaciones con aliados del sector productivo.</p>
-      </article>
-    </div>
+    }
   </div>
 </section>

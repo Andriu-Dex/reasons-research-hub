@@ -1,0 +1,30 @@
+<section class="settings-page">
+  <div class="admin-view-header">
+    <span class="eyebrow">Configuracion</span>
+    <h1>Ajustes generales del sitio</h1>
+    <p>Controla identidad institucional, colores, datos de contacto y logo.</p>
+  </div>
+  @if (isLoading) {
+    <div class="state-card">Cargando configuracion...</div>
+  } @else {
+    <form class="surface-card admin-form" (ngSubmit)="save()">
+      <div class="form-grid">
+        <label>Institucion<input name="institutionName" [(ngModel)]="model.institutionName" required /></label>
+        <label>Grupo<input name="groupName" [(ngModel)]="model.groupName" required /></label>
+        <label>Acronimo<input name="acronym" [(ngModel)]="model.acronym" /></label>
+        <label>Correo institucional<input name="institutionalEmail" type="email" [(ngModel)]="model.institutionalEmail" /></label>
+        <label class="full">Descripcion<textarea name="generalDescription" rows="4" [(ngModel)]="model.generalDescription" required></textarea></label>
+        <label class="full">Mision<textarea name="mission" rows="3" [(ngModel)]="model.mission"></textarea></label>
+        <label class="full">Vision<textarea name="vision" rows="3" [(ngModel)]="model.vision"></textarea></label>
+        <label class="full">Direccion<textarea name="address" rows="2" [(ngModel)]="model.address"></textarea></label>
+        <label>Color primario<input name="colorPrimary" type="color" [(ngModel)]="model.colorPrimary" /></label>
+        <label>Color secundario<input name="colorSecondary" type="color" [(ngModel)]="model.colorSecondary" /></label>
+        <label>Color fondo<input name="colorBackground" type="color" [(ngModel)]="model.colorBackground" /></label>
+        <label>Color texto<input name="colorText" type="color" [(ngModel)]="model.colorText" /></label>
+        <label class="full">Texto de pie de pagina<textarea name="footerText" rows="2" [(ngModel)]="model.footerText"></textarea></label>
+        <label class="full">Logo<app-media-picker [(selectedId)]="model.logoMediaId"></app-media-picker></label>
+      </div>
+      <button class="btn primary" type="submit" [disabled]="isSaving">{{ isSaving ? 'Guardando...' : 'Guardar configuracion' }}</button>
+    </form>
+  }
+</section>

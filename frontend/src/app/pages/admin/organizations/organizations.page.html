@@ -1,0 +1,44 @@
+<section>
+  <div class="admin-view-header">
+    <span class="eyebrow">Superadministrador</span>
+    <h1>Organizaciones</h1>
+    <p>Crea y administra tenants disponibles en la plataforma.</p>
+  </div>
+
+  <form class="surface-card admin-form" (ngSubmit)="save()">
+    <div class="form-grid">
+      <label>Nombre<input name="name" [(ngModel)]="model.name" required /></label>
+      <label>Slug<input name="slug" [(ngModel)]="model.slug" required /></label>
+      <label>Dominio principal<input name="primaryDomain" [(ngModel)]="model.primaryDomain" /></label>
+      <label>Estado
+        <select name="status" [(ngModel)]="model.status">
+          <option value="ACTIVE">Activa</option>
+          <option value="INACTIVE">Inactiva</option>
+        </select>
+      </label>
+    </div>
+    <div class="actions">
+      <button class="btn primary" type="submit">{{ editingId ? 'Actualizar' : 'Crear organizacion' }}</button>
+      <button class="btn ghost" type="button" (click)="cancel()">Limpiar</button>
+    </div>
+  </form>
+
+  <div class="surface-card admin-form">
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Nombre</th><th>Slug</th><th>Dominio</th><th>Estado</th><th>Acciones</th></tr></thead>
+        <tbody>
+          @for (organization of organizations; track organization.id) {
+            <tr>
+              <td>{{ organization.name }}</td>
+              <td>{{ organization.slug }}</td>
+              <td>{{ organization.primaryDomain || 'No configurado' }}</td>
+              <td>{{ organization.status }}</td>
+              <td><button type="button" (click)="edit(organization)">Editar</button></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

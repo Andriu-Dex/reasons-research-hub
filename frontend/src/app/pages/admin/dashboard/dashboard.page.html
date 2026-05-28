@@ -1,76 +1,36 @@
-<section class="dashboard">
-  <div class="dashboard-header">
-    <div>
-      <span class="eyebrow">Vision general</span>
-      <h1>Metricas y actividad reciente de la red academica.</h1>
-    </div>
-    <div class="dashboard-actions">
-      <button class="btn ghost">Anadir investigador</button>
-      <button class="btn primary">Nuevo proyecto</button>
-    </div>
+<section class="dashboard-page">
+  <div class="dashboard-hero surface-card">
+    <span class="eyebrow">Dashboard</span>
+    <h1>Metricas y actividad reciente de la red academica.</h1>
+    <p>Resumen operativo de contenido, medios y publicaciones administrables.</p>
   </div>
 
-  <div class="kpi-grid">
-    <article class="surface-card kpi">
-      <span>Investigadores activos</span>
-      <strong>342</strong>
-      <small>+12% este ciclo</small>
-    </article>
-    <article class="surface-card kpi">
-      <span>Proyectos en curso</span>
-      <strong>128</strong>
-      <small>+5% registrados</small>
-    </article>
-    <article class="surface-card kpi">
-      <span>Publicaciones del mes</span>
-      <strong>45</strong>
-      <small>Revision editorial</small>
-    </article>
-    <article class="surface-card kpi">
-      <span>Impacto de noticias</span>
-      <strong>1.2k</strong>
-      <small>+18% lecturas</small>
-    </article>
-  </div>
+  @if (isLoading) {
+    <div class="state-card">Cargando metricas...</div>
+  } @else if (!dashboard) {
+    <div class="state-card error">No se pudo cargar el dashboard.</div>
+  } @else {
+    <div class="metric-grid">
+      <article class="surface-card metric-card"><span>Investigadores</span><strong>{{ dashboard.counts.researchers }}</strong></article>
+      <article class="surface-card metric-card"><span>Proyectos</span><strong>{{ dashboard.counts.projects }}</strong></article>
+      <article class="surface-card metric-card"><span>Publicaciones</span><strong>{{ dashboard.counts.publications }}</strong></article>
+      <article class="surface-card metric-card"><span>Noticias</span><strong>{{ dashboard.counts.news }}</strong></article>
+      <article class="surface-card metric-card"><span>Lineas</span><strong>{{ dashboard.counts.researchLines }}</strong></article>
+      <article class="surface-card metric-card"><span>Medios</span><strong>{{ dashboard.counts.mediaFiles }}</strong></article>
+    </div>
 
-  <div class="dashboard-grid">
-    <article class="surface-card chart-card">
-      <header>
-        <h2>Crecimiento de publicaciones</h2>
-        <button type="button">Ultimo ano</button>
-      </header>
-      <div class="bar-chart" aria-label="Grafica de publicaciones por mes">
-        <span style="--value: 28%">Ene</span>
-        <span style="--value: 44%">Feb</span>
-        <span class="selected" style="--value: 70%">Mar</span>
-        <span style="--value: 48%">Abr</span>
-        <span style="--value: 60%">May</span>
-        <span style="--value: 84%">Jun</span>
-        <span style="--value: 38%">Jul</span>
-      </div>
+    <article class="surface-card recent-card">
+      <h2>Noticias actualizadas recientemente</h2>
+      @if (dashboard.recentNews.length) {
+        @for (item of dashboard.recentNews; track item.id) {
+          <div class="recent-row">
+            <strong>{{ item.title }}</strong>
+            <span>{{ item.status }} · {{ item.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+        }
+      } @else {
+        <p>No hay actividad reciente.</p>
+      }
     </article>
-    <article class="surface-card activity-card">
-      <header>
-        <h2>Actividad reciente</h2>
-        <button type="button">Ver todo</button>
-      </header>
-      <ul>
-        <li>
-          <strong>Dra. Elena Silva</strong>
-          <span>publico un nuevo articulo sobre sostenibilidad en zonas aridas.</span>
-          <small>Hace 2 horas</small>
-        </li>
-        <li>
-          <strong>Biotecnologia marina</strong>
-          <span>cambio su estado a en revision.</span>
-          <small>Hace 5 horas</small>
-        </li>
-        <li>
-          <strong>Dr. Carlos Mendoza</strong>
-          <span>fue anadido al equipo de fisica aplicada.</span>
-          <small>Ayer, 14:30</small>
-        </li>
-      </ul>
-    </article>
-  </div>
+  }
 </section>

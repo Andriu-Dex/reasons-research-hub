@@ -131,3 +131,13 @@ export const newsSchema = z.object({
   status: z.enum(['DRAFT', 'PUBLISHED', 'HIDDEN']).default('DRAFT'),
   displayOrder: optionalNumber.default(0)
 });
+
+export const profileSchema = z.object({
+  fullName: z.string().min(2),
+  email: z.string().email()
+});
+
+export const passwordSchema = z.object({
+  currentPassword: z.string().min(8),
+  newPassword: z.string().min(8)
+});

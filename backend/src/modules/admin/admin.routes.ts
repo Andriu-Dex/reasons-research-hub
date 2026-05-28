@@ -10,6 +10,8 @@ import {
   homeSettingsSchema,
   newsSchema,
   organizationSchema,
+  passwordSchema,
+  profileSchema,
   projectSchema,
   publicationSchema,
   researcherSchema,
@@ -44,8 +46,13 @@ adminRouter.get('/organizations', requireSuperAdmin, asyncHandler(adminControlle
 adminRouter.post('/organizations', requireSuperAdmin, validateBody(organizationSchema), asyncHandler(adminController.createOrganization));
 adminRouter.put('/organizations/:id', requireSuperAdmin, validateBody(organizationSchema.partial()), asyncHandler(adminController.updateOrganization));
 
+adminRouter.get('/profile', asyncHandler(adminController.getProfile));
+adminRouter.put('/profile', validateBody(profileSchema), asyncHandler(adminController.updateProfile));
+adminRouter.put('/profile/password', validateBody(passwordSchema), asyncHandler(adminController.updatePassword));
+
 adminRouter.use(requireTenantAdmin());
 
+adminRouter.get('/dashboard', asyncHandler(adminController.dashboard));
 adminRouter.get('/site-settings', asyncHandler(adminController.getSiteSettings));
 adminRouter.put('/site-settings', validateBody(siteSettingsSchema), asyncHandler(adminController.updateSiteSettings));
 adminRouter.get('/home-settings', asyncHandler(adminController.getHomeSettings));

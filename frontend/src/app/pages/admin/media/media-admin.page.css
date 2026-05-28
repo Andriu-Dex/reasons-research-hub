@@ -1,0 +1,27 @@
+@import '../shared-admin-form.css';
+.media-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  margin-top: 24px;
+}
+.media-card {
+  overflow: hidden;
+}
+.media-card img {
+  height: 170px;
+  object-fit: cover;
+  width: 100%;
+}
+.media-card div {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+.media-card button {
+  background: var(--color-surface-alt);
+  border-radius: 999px;
+  color: var(--color-danger);
+  font-weight: 900;
+  padding: 9px 12px;
+}

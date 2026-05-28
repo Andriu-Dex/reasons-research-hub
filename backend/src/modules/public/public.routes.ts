@@ -16,4 +16,5 @@ publicRouter.get('/researchers', asyncHandler(publicController.researchers));
 publicRouter.get('/projects', asyncHandler(publicController.projects));
 publicRouter.get('/publications', asyncHandler(publicController.publications));
 publicRouter.get('/news', asyncHandler(publicController.news));
+publicRouter.get('/contact-channels', asyncHandler(publicController.contactChannels));
 publicRouter.post('/contact', validateBody(contactMessageSchema), asyncHandler(publicController.contact));

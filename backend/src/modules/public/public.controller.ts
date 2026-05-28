@@ -41,6 +41,10 @@ export class PublicController {
     response.json(await publicService.getNews(getTenantId(request)));
   }
 
+  async contactChannels(request: Request, response: Response) {
+    response.json(await publicService.getContactChannels(getTenantId(request)));
+  }
+
   async contact(request: Request, response: Response) {
     await contactService.sendMessage(getTenantId(request), request.body);
     response.status(202).json({ message: 'Mensaje enviado correctamente.' });

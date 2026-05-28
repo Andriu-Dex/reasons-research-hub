@@ -3,21 +3,29 @@
     <div class="admin-brand">
       <img src="https://i.imgur.com/RARaC9j.png" alt="Logo REASONS Research Hub" />
       <div>
-        <strong>Admin REASONS</strong>
-        <span>Gestion central</span>
+        <strong>{{ organizationName }}</strong>
+        <span>{{ roleLabel }}</span>
       </div>
     </div>
     <nav class="admin-nav">
       <a routerLink="dashboard" routerLinkActive="active" (click)="closeMenu()">Dashboard</a>
-      <button class="nav-item disabled" type="button">Configuracion</button>
-      <button class="nav-item disabled" type="button">Investigadores</button>
-      <button class="nav-item disabled" type="button">Proyectos</button>
-      <button class="nav-item disabled" type="button">Publicaciones</button>
-      <button class="nav-item disabled" type="button">Noticias</button>
-      <button class="nav-item disabled" type="button">Ajustes del sitio</button>
+      <a routerLink="settings" routerLinkActive="active" (click)="closeMenu()">Configuracion</a>
+      <a routerLink="home" routerLinkActive="active" (click)="closeMenu()">Home</a>
+      <a routerLink="about" routerLinkActive="active" (click)="closeMenu()">Nosotros</a>
+      <a routerLink="research-lines" routerLinkActive="active" (click)="closeMenu()">Lineas</a>
+      <a routerLink="researchers" routerLinkActive="active" (click)="closeMenu()">Investigadores</a>
+      <a routerLink="projects" routerLinkActive="active" (click)="closeMenu()">Proyectos</a>
+      <a routerLink="authors" routerLinkActive="active" (click)="closeMenu()">Autores</a>
+      <a routerLink="publications" routerLinkActive="active" (click)="closeMenu()">Publicaciones</a>
+      <a routerLink="news" routerLinkActive="active" (click)="closeMenu()">Noticias</a>
+      <a routerLink="contact" routerLinkActive="active" (click)="closeMenu()">Contacto</a>
+      <a routerLink="media" routerLinkActive="active" (click)="closeMenu()">Medios</a>
+      <a routerLink="profile" routerLinkActive="active" (click)="closeMenu()">Perfil</a>
     </nav>
-    <button class="research-cta" type="button">Iniciar investigacion</button>
-    <a class="admin-logout" routerLink="/admin/login">Cerrar sesion</a>
+    <a class="research-cta" routerLink="projects">Iniciar investigacion</a>
+    <button class="admin-logout" type="button" (click)="logout()">
+      {{ isLoggingOut ? 'Cerrando...' : 'Cerrar sesion' }}
+    </button>
   </aside>
 
   <div class="admin-content">
@@ -33,11 +41,11 @@
       </label>
       <div class="admin-title">
         <strong>Panel de administracion</strong>
-        <span>Universidad Tecnica de Ambato</span>
+        <span>{{ organizationName }}</span>
       </div>
       <div class="topbar-actions">
         <app-theme-toggle></app-theme-toggle>
-        <span class="admin-profile">AR</span>
+        <span class="admin-profile">{{ initials }}</span>
       </div>
     </header>
 

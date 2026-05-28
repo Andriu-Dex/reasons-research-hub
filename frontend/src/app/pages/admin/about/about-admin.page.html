@@ -1,0 +1,19 @@
+<section>
+  <div class="admin-view-header">
+    <span class="eyebrow">Nosotros</span>
+    <h1>Informacion institucional</h1>
+    <p>Edita la descripcion, objetivo general y objetivos especificos.</p>
+  </div>
+  @if (isLoading) {
+    <div class="state-card">Cargando informacion...</div>
+  } @else {
+    <form class="surface-card admin-form" (ngSubmit)="save()">
+      <div class="form-grid">
+        <label class="full">Descripcion<textarea name="description" rows="5" [(ngModel)]="model.description" required></textarea></label>
+        <label class="full">Objetivo general<textarea name="generalObjective" rows="4" [(ngModel)]="model.generalObjective"></textarea></label>
+        <label class="full">Objetivos especificos, uno por linea<textarea name="objectivesText" rows="7" [(ngModel)]="objectivesText"></textarea></label>
+      </div>
+      <button class="btn primary" type="submit" [disabled]="isSaving">{{ isSaving ? 'Guardando...' : 'Guardar Nosotros' }}</button>
+    </form>
+  }
+</section>

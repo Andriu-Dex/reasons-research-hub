@@ -1,101 +1,93 @@
-<section class="research-hero">
+<section class="research-hero section">
   <div class="container">
-    <span class="eyebrow">Gestion del conocimiento</span>
-    <h1>Proyectos, publicaciones y lineas para explorar investigacion con contexto.</h1>
-    <p>Filtra el repositorio inicial de REASONS y recorre resultados cientificos sin perder la ruta institucional.</p>
+    <span class="eyebrow">Investigacion</span>
+    <h1>Proyectos, publicaciones y lineas para explorar conocimiento con contexto.</h1>
+    <p>Consulta el repositorio publicado por la organizacion. Los borradores permanecen protegidos en el panel administrativo.</p>
   </div>
 </section>
 
-<section class="section research-workspace">
-  <div class="container workspace-grid">
-    <aside class="filters surface-card">
-      <label>
-        Busqueda global
-        <input type="search" placeholder="Termino, autor o DOI..." />
-      </label>
-      <div class="filter-group">
-        <h2>Lineas de investigacion</h2>
-        <button type="button" class="filter-option active">Inteligencia artificial aplicada</button>
-        <button type="button" class="filter-option">Sistemas complejos</button>
-        <button type="button" class="filter-option">Sostenibilidad energetica</button>
-        <button type="button" class="filter-option">Bioinformatica</button>
+<section class="section research-content">
+  <div class="container">
+    @if (isLoading) {
+      <div class="state-card">Cargando investigacion publicada...</div>
+    } @else if (hasError) {
+      <div class="state-card error">No se pudo cargar la informacion de investigacion.</div>
+    } @else {
+      <div class="research-block">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Lineas</span>
+            <h2 class="section-title">Ejes de trabajo</h2>
+          </div>
+        </div>
+        @if (researchLines.length) {
+          <div class="line-grid">
+            @for (line of researchLines; track line.id) {
+              <article class="surface-card line-card">
+                <span class="icon-shell">{{ line.icon || 'LI' }}</span>
+                <h3>{{ line.title }}</h3>
+                <p>{{ line.description }}</p>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="state-card">Aun no hay lineas de investigacion publicadas.</div>
+        }
       </div>
-      <div class="filter-group">
-        <h2>Estado del proyecto</h2>
-        <div class="filter-chips">
-          <button type="button" class="active">En curso</button>
-          <button type="button">Completado</button>
-          <button type="button">En revision</button>
+
+      <div class="research-block">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Proyectos</span>
+            <h2 class="section-title">Investigaciones activas y resultados</h2>
+          </div>
         </div>
+        @if (projects.length) {
+          <div class="project-list">
+            @for (project of projects; track project.id) {
+              <article class="surface-card project-item">
+                @if (project.mainImage?.url) {
+                  <img [src]="project.mainImage?.url" [alt]="project.title" />
+                }
+                <div>
+                  <span class="tag">{{ project.projectStatus }}</span>
+                  <h3>{{ project.title }}</h3>
+                  <p>{{ project.description }}</p>
+                  <small>{{ project.researchLines?.length || 0 }} lineas asociadas</small>
+                </div>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="state-card">Aun no hay proyectos publicados.</div>
+        }
       </div>
-      <label>
-        Ano de publicacion
-        <select>
-          <option>Todos los anos</option>
-          <option>2026</option>
-          <option>2025</option>
-        </select>
-      </label>
-    </aside>
 
-    <div class="research-results">
-      <section class="result-section">
-        <div class="result-header">
-          <h2>Proyectos de investigacion</h2>
-          <a routerLink="../contacto">Ver todos</a>
-        </div>
-        <div class="result-projects">
-          <article class="surface-card result-project">
-            <span class="tag">En curso</span>
-            <h3>Optimizacion de modelos predictivos para analisis climatico</h3>
-            <p>Arquitecturas hibridas para prediccion de anomalias termicas a corto plazo.</p>
-            <footer>
-              <span>Investigador principal: Dr. A. Ruiz</span>
-              <span>Inicio: Ene 2026</span>
-            </footer>
-          </article>
-          <article class="surface-card result-project">
-            <span class="tag">En curso</span>
-            <h3>Mecanismos de resiliencia en cadenas de suministro globales</h3>
-            <p>Analisis cuantitativo de vulnerabilidades estructurales frente a disrupciones.</p>
-            <footer>
-              <span>Investigadora principal: Dra. L. Gomez</span>
-              <span>Inicio: Nov 2025</span>
-            </footer>
-          </article>
-        </div>
-      </section>
-
-      <section class="result-section publications">
-        <div class="result-header">
-          <h2>Publicaciones cientificas</h2>
-          <span>Recientes</span>
-        </div>
-        <article class="publication-row">
+      <div class="research-block">
+        <div class="section-heading">
           <div>
-            <h3>Topological data analysis in high-dimensional financial datasets</h3>
-            <p>Martinez, J. y Silva, R. Journal of Computational Finance, 2026.</p>
-            <a href="#">DOI: 10.1234/jcf.2026.001</a>
+            <span class="eyebrow">Publicaciones</span>
+            <h2 class="section-title">Produccion cientifica reciente</h2>
           </div>
-          <span class="tag">Peer reviewed</span>
-        </article>
-        <article class="publication-row">
-          <div>
-            <h3>Renewable energy adoption under carbon pricing in LatAm</h3>
-            <p>Fernandez, M. y equipo. Energy Policy Review, 2025.</p>
-            <a href="#">DOI: 10.1234/epr.2025.045</a>
+        </div>
+        @if (publications.length) {
+          <div class="publication-grid">
+            @for (publication of publications; track publication.id) {
+              <article class="surface-card publication-card">
+                <span class="tag">{{ publication.publishedAt | date: 'yyyy' }}</span>
+                <h3>{{ publication.title }}</h3>
+                <p>{{ publication.abstract }}</p>
+                <small>{{ publication.citation }}</small>
+                @if (publication.externalLink) {
+                  <a [href]="publication.externalLink" target="_blank" rel="noopener">Ver publicacion</a>
+                }
+              </article>
+            }
           </div>
-          <span class="tag">Acceso abierto</span>
-        </article>
-        <article class="publication-row">
-          <div>
-            <h3>Decentralized IoT networks for academic laboratories</h3>
-            <p>Vargas, D. y Chen, H. IEEE Research Systems, 2025.</p>
-            <a href="#">DOI: 10.1234/irs.2025.089</a>
-          </div>
-          <span class="tag">Peer reviewed</span>
-        </article>
-      </section>
-    </div>
+        } @else {
+          <div class="state-card">Aun no hay publicaciones visibles.</div>
+        }
+      </div>
+    }
   </div>
 </section>

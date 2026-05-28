@@ -1,13 +1,13 @@
 :root {
-  --color-primary: #00346f;
+  --color-primary: var(--tenant-primary, #00346f);
   --color-primary-strong: #004a99;
-  --color-secondary: #006688;
+  --color-secondary: var(--tenant-secondary, #006688);
   --color-accent: #00c1fd;
   --color-bg: #f7f9ff;
-  --color-surface: #ffffff;
+  --color-surface: var(--tenant-surface, #ffffff);
   --color-surface-alt: #eef3ff;
   --color-surface-strong: #dbe7ff;
-  --color-text: #111c2d;
+  --color-text: var(--tenant-text, #111c2d);
   --color-muted: #465163;
   --color-border: rgba(0, 52, 111, 0.14);
   --color-border-strong: rgba(0, 52, 111, 0.28);
@@ -237,6 +237,20 @@ select:focus {
   height: 48px;
   justify-content: center;
   width: 48px;
+}
+
+.state-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  color: var(--color-muted);
+  font-weight: 800;
+  padding: clamp(20px, 3vw, 30px);
+}
+
+.state-card.error {
+  color: var(--color-danger);
 }
 
 .icon {

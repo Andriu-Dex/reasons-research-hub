@@ -61,6 +61,17 @@ export class MediaService {
   async remove(organizationId: string, id: string) {
     const file = await prisma.mediaFile.findFirst({ where: { id, organizationId } });
     if (!file) throw new HttpError(404, 'Archivo no encontrado.');
+
+    if (!env.IMGUR_MOCK && env.IMGUR_CLIENT_ID && file.deleteHash) {
+      try {
+        await axios.delete(`https://api.imgur.com/3/image/${file.deleteHash}`, {
+          headers: { Authorization: `Client-ID ${env.IMGUR_CLIENT_ID}` }
+        });
+      } catch (error) {
+        console.error('No se pudo eliminar la imagen en Imgur.', error);
+      }
+    }
+
     await prisma.mediaFile.delete({ where: { id } });
   }
 }

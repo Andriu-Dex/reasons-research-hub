@@ -9,6 +9,7 @@ import { adminRouter } from './modules/admin/admin.routes.js';
 import { authRouter } from './modules/auth/auth.routes.js';
 import { mediaRouter } from './modules/media/media.routes.js';
 import { publicRouter } from './modules/public/public.routes.js';
+import { tenantRouter } from './modules/tenant/tenant.routes.js';
 import { errorHandler } from './middlewares/error-handler.js';
 import { notFoundHandler } from './middlewares/not-found.js';
 
@@ -27,6 +28,7 @@ export function createApp() {
   });
 
   app.use('/api/auth', authRouter);
+  app.use('/api/tenant', tenantRouter);
   app.use('/api/admin/media', mediaRouter);
   app.use('/api/admin', adminRouter);
   app.use('/api/:tenantSlug', publicRouter);

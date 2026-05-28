@@ -1,0 +1,22 @@
+<section class="media-page">
+  <div class="admin-view-header">
+    <span class="eyebrow">Medios</span>
+    <h1>Biblioteca de imagenes</h1>
+    <p>Sube imagenes optimizadas y reutilizalas en las pantallas publicas.</p>
+  </div>
+  <div class="surface-card admin-form">
+    <app-media-picker [(selectedId)]="selectedId"></app-media-picker>
+  </div>
+  <div class="media-grid">
+    @for (media of mediaFiles; track media.id) {
+      <article class="surface-card media-card">
+        <img [src]="media.url" [alt]="media.originalFilename" />
+        <div>
+          <strong>{{ media.originalFilename }}</strong>
+          <span>{{ media.fileSizeBytes / 1024 | number: '1.0-0' }} KB</span>
+          <button type="button" (click)="remove(media.id)">Eliminar</button>
+        </div>
+      </article>
+    }
+  </div>
+</section>

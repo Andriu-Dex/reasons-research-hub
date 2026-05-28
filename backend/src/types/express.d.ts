@@ -4,6 +4,8 @@ declare global {
       tenant?: {
         id: string;
         slug: string;
+        name?: string;
+        primaryDomain?: string | null;
       };
       admin?: {
         id: string;

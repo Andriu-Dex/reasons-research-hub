@@ -2,14 +2,10 @@
   <header class="public-header">
     <div class="container header-inner">
       <a class="brand" [routerLink]="['/', tenantSlug]">
-        <img
-          class="brand-logo"
-          src="https://i.imgur.com/RARaC9j.png"
-          alt="Logo REASONS Research Hub"
-        />
+        <img class="brand-logo" [src]="logoUrl" [alt]="'Logo ' + brandName" />
         <span class="brand-text">
-          <span class="brand-name">REASONS</span>
-          <span class="brand-sub">Research Hub UTA</span>
+          <span class="brand-name">{{ brandName }}</span>
+          <span class="brand-sub">{{ brandSubtitle }}</span>
         </span>
       </a>
       <div class="header-actions">
@@ -63,10 +59,10 @@
     <div class="container footer-grid">
       <div class="footer-brand">
         <div class="footer-identity">
-          <img src="https://i.imgur.com/RARaC9j.png" alt="" />
-          <h3>REASONS Research Hub</h3>
+          <img [src]="logoUrl" alt="" />
+          <h3>{{ siteSettings?.groupName || 'REASONS Research Hub' }}</h3>
         </div>
-        <p>Investigacion, colaboracion y divulgacion cientifica con una identidad institucional flexible.</p>
+        <p>{{ siteSettings?.footerText || siteSettings?.generalDescription || 'Investigacion, colaboracion y divulgacion cientifica con una identidad institucional flexible.' }}</p>
       </div>
       <div class="footer-links">
         <span class="footer-title">Explorar</span>
@@ -77,15 +73,15 @@
         <a [routerLink]="['/', tenantSlug, 'noticias']">Noticias</a>
       </div>
       <div class="footer-contact">
-        <span class="footer-title">Universidad Tecnica de Ambato</span>
-        <p>Universidad Tecnica de Ambato</p>
-        <p>investigacion@uta.edu.ec</p>
-        <p>Ambato, Ecuador</p>
+        <span class="footer-title">{{ siteSettings?.institutionName || 'Institucion' }}</span>
+        <p>{{ siteSettings?.groupName || 'Grupo de investigacion' }}</p>
+        <p>{{ siteSettings?.institutionalEmail || 'Correo institucional no configurado' }}</p>
+        <p>{{ siteSettings?.address || 'Direccion no configurada' }}</p>
       </div>
     </div>
     <div class="footer-bottom">
       <div class="container">
-        <span>2026 UTA - REASONS Research Hub. Todos los derechos reservados.</span>
+        <span>2026 {{ siteSettings?.groupName || 'REASONS Research Hub' }}. Todos los derechos reservados.</span>
       </div>
     </div>
   </footer>

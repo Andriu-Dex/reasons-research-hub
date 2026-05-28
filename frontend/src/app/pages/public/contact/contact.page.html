@@ -1,62 +1,52 @@
-<section class="contact-hero">
-  <div class="container">
-    <span class="eyebrow">Contacto</span>
-    <h1>Una conversacion clara puede iniciar la siguiente colaboracion.</h1>
-    <p>Escribenos para coordinar investigacion, soporte institucional o una demostracion del portal.</p>
-  </div>
-</section>
+<section class="contact-hero section">
+  <div class="container contact-layout">
+    <div>
+      <span class="eyebrow">Contacto</span>
+      <h1>Conversemos sobre investigacion, colaboracion y transferencia.</h1>
+      <p>Envianos un mensaje y el equipo responsable respondera desde los canales institucionales configurados.</p>
 
-<section class="section">
-  <div class="container contact-grid">
-    <aside class="contact-panel">
-      <article class="surface-card channel-card">
-        <h2>Canales disponibles</h2>
-        <p>El equipo de REASONS responde solicitudes relacionadas con proyectos, publicaciones y alianzas.</p>
-        <div class="channels">
-          <div>
-            <span>Correo</span>
-            <strong>investigacion@uta.edu.ec</strong>
-          </div>
-          <div>
-            <span>Telefono</span>
-            <strong>+593 99 000 0000</strong>
-          </div>
-          <div>
-            <span>Ubicacion</span>
-            <strong>Campus Ingahurco, Ambato</strong>
-          </div>
-        </div>
-      </article>
-      <article class="surface-card map-card">
-        <span class="tag">UTA</span>
-        <h2>Punto institucional</h2>
-        <p>Mapa y datos dinamicos quedaran conectados desde la configuracion del tenant.</p>
-      </article>
-    </aside>
+      <div class="contact-channels">
+        @if (channels.length) {
+          @for (channel of channels; track channel.id) {
+            <article class="surface-card channel-card">
+              <span class="tag">{{ channel.label || channel.type }}</span>
+              <strong>{{ channel.value }}</strong>
+            </article>
+          }
+        } @else {
+          <article class="surface-card channel-card">
+            <span class="tag">Canales</span>
+            <strong>Los canales de contacto aun no han sido configurados.</strong>
+          </article>
+        }
+      </div>
+    </div>
 
     <form class="surface-card contact-form" #contactForm="ngForm" (ngSubmit)="submit(contactForm)">
-      <span class="eyebrow">Formulario</span>
-      <h2>Cuéntanos que necesitas.</h2>
-      <div class="form-grid">
-        <label>
-          Nombre completo
-          <input type="text" name="name" [(ngModel)]="contact.name" required />
-        </label>
-        <label>
-          Correo electronico
-          <input type="email" name="email" [(ngModel)]="contact.email" required />
-        </label>
-        <label class="full">
-          Asunto
-          <input type="text" name="subject" [(ngModel)]="contact.subject" required />
-        </label>
-        <label class="full">
-          Mensaje
-          <textarea name="message" rows="6" [(ngModel)]="contact.message" required></textarea>
-        </label>
-      </div>
-      <div class="captcha-box">Verificacion Turnstile en integracion</div>
-      <button class="btn primary" type="submit">Enviar mensaje</button>
+      <label>
+        Nombre completo
+        <input name="name" [(ngModel)]="contact.name" required minlength="2" />
+      </label>
+      <label>
+        Correo electronico
+        <input name="email" type="email" [(ngModel)]="contact.email" required email />
+      </label>
+      <label>
+        Asunto
+        <input name="subject" [(ngModel)]="contact.subject" required minlength="3" />
+      </label>
+      <label>
+        Mensaje
+        <textarea name="message" rows="6" [(ngModel)]="contact.message" required minlength="10"></textarea>
+      </label>
+      @if (turnstileSiteKey) {
+        <div class="captcha-box" #turnstileContainer></div>
+      } @else {
+        <div class="captcha-box">Verificacion antispam en modo desarrollo.</div>
+      }
+      <button class="btn primary" type="submit" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Enviando...' : 'Enviar mensaje' }}
+      </button>
     </form>
   </div>
 </section>

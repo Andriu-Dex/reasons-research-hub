@@ -65,12 +65,6 @@
   transition: background var(--transition-base), color var(--transition-base);
 }
 
-.admin-nav .disabled {
-  background: transparent;
-  cursor: not-allowed;
-  opacity: 0.72;
-}
-
 .admin-nav a.active,
 .admin-nav a:hover {
   background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface));
@@ -78,20 +72,25 @@
 }
 
 .research-cta {
+  align-items: center;
   background: var(--color-primary-strong);
   border-radius: 16px;
   box-shadow: var(--shadow-card);
   color: #ffffff;
+  display: flex;
   font-weight: 800;
+  justify-content: center;
   margin-top: auto;
   min-height: 56px;
   padding: 0 18px;
 }
 
 .admin-logout {
+  background: transparent;
   color: var(--color-muted);
   font-weight: 800;
   padding: 0 10px;
+  text-align: left;
 }
 
 .admin-content {

@@ -1,0 +1,16 @@
+<div class="media-picker">
+  <label class="upload-tile">
+    <span>{{ isUploading ? 'Subiendo...' : 'Subir imagen' }}</span>
+    <input type="file" accept="image/jpeg,image/png,image/webp" (change)="upload($event)" [disabled]="isUploading" />
+  </label>
+
+  <button class="media-option empty" type="button" [class.selected]="!selectedId" (click)="select(null)">
+    Sin imagen
+  </button>
+
+  @for (media of mediaFiles; track media.id) {
+    <button class="media-option" type="button" [class.selected]="media.id === selectedId" (click)="select(media.id)">
+      <img [src]="media.url" [alt]="media.originalFilename" />
+    </button>
+  }
+</div>

@@ -1,0 +1,39 @@
+.media-picker {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+}
+
+.upload-tile,
+.media-option {
+  align-items: center;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  color: var(--color-muted);
+  display: grid;
+  font-weight: 800;
+  min-height: 92px;
+  overflow: hidden;
+  place-items: center;
+  text-align: center;
+}
+
+.upload-tile input {
+  display: none;
+}
+
+.media-option img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.media-option.selected {
+  border-color: var(--color-primary-strong);
+  box-shadow: 0 0 0 4px rgba(0, 193, 253, 0.16);
+}
+
+.media-option.empty {
+  padding: 10px;
+}

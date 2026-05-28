@@ -9,6 +9,26 @@ function organizationIdFrom(request: Request) {
 }
 
 export class AdminController {
+  async dashboard(request: Request, response: Response) {
+    response.json(await adminService.getDashboard(organizationIdFrom(request)));
+  }
+
+  async getProfile(request: Request, response: Response) {
+    if (!request.admin?.id) throw new HttpError(401, 'Debe iniciar sesion para continuar.');
+    response.json(await adminService.getProfile(request.admin.id));
+  }
+
+  async updateProfile(request: Request, response: Response) {
+    if (!request.admin?.id) throw new HttpError(401, 'Debe iniciar sesion para continuar.');
+    response.json(await adminService.updateProfile(request.admin.id, request.body));
+  }
+
+  async updatePassword(request: Request, response: Response) {
+    if (!request.admin?.id) throw new HttpError(401, 'Debe iniciar sesion para continuar.');
+    await adminService.updatePassword(request.admin.id, request.body.currentPassword, request.body.newPassword);
+    response.status(204).send();
+  }
+
   async list(request: Request, response: Response) {
     response.json(await adminService.list(String(request.params.resource), organizationIdFrom(request)));
   }

@@ -1,0 +1,20 @@
+<section>
+  <div class="admin-view-header">
+    <span class="eyebrow">Home</span>
+    <h1>Portada publica</h1>
+    <p>Configura el mensaje principal y la imagen de bienvenida.</p>
+  </div>
+  @if (isLoading) {
+    <div class="state-card">Cargando Home...</div>
+  } @else {
+    <form class="surface-card admin-form" (ngSubmit)="save()">
+      <div class="form-grid">
+        <label class="full">Titulo principal<input name="bannerTitle" [(ngModel)]="model.bannerTitle" required /></label>
+        <label class="full">Subtitulo<textarea name="bannerSubtitle" rows="3" [(ngModel)]="model.bannerSubtitle"></textarea></label>
+        <label>Texto del boton<input name="contactButtonText" [(ngModel)]="model.contactButtonText" required /></label>
+        <label class="full">Banner<app-media-picker [(selectedId)]="model.bannerMediaId"></app-media-picker></label>
+      </div>
+      <button class="btn primary" type="submit" [disabled]="isSaving">{{ isSaving ? 'Guardando...' : 'Guardar Home' }}</button>
+    </form>
+  }
+</section>
