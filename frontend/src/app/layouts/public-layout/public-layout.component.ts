@@ -4,7 +4,9 @@ import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@ang
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SiteSettings } from '../../core/models/content.models';
 import { PublicContentService } from '../../core/services/public-content.service';
+import { TenantContextService } from '../../core/services/tenant-context.service';
 import { ThemeToggleComponent } from '../../shared/theme-toggle/theme-toggle.component';
+import { environment } from '../../../environments/environment';
 
 const DEFAULT_LOGO = 'https://i.imgur.com/RARaC9j.png';
 
@@ -18,17 +20,26 @@ const DEFAULT_LOGO = 'https://i.imgur.com/RARaC9j.png';
 export class PublicLayoutComponent {
   private readonly destroyRef = inject(DestroyRef);
   tenantSlug = 'uta-reasons';
+  usesPathTenant = true;
   siteSettings: SiteSettings | null = null;
   readonly defaultLogo = DEFAULT_LOGO;
   isMenuOpen = false;
 
   constructor(
     private route: ActivatedRoute,
-    private publicContentService: PublicContentService
+    private publicContentService: PublicContentService,
+    private tenantContextService: TenantContextService
   ) {
     this.route.paramMap.subscribe((params) => {
-      this.tenantSlug = params.get('tenantSlug') ?? 'uta-reasons';
-      this.loadSiteSettings();
+      const routeTenantSlug = params.get('tenantSlug');
+      this.usesPathTenant = Boolean(routeTenantSlug);
+
+      if (routeTenantSlug) {
+        this.setTenant(routeTenantSlug);
+        return;
+      }
+
+      this.resolveTenantForCurrentHost();
     });
   }
 
@@ -42,6 +53,14 @@ export class PublicLayoutComponent {
 
   get brandSubtitle(): string {
     return this.siteSettings?.institutionName || 'Research Hub';
+  }
+
+  linkTo(path = ''): unknown[] {
+    if (!this.usesPathTenant) {
+      return path ? ['/', path] : ['/'];
+    }
+
+    return path ? ['/', this.tenantSlug, path] : ['/', this.tenantSlug];
   }
 
   toggleMenu(): void {
@@ -65,6 +84,33 @@ export class PublicLayoutComponent {
           this.siteSettings = null;
         }
       });
+  }
+
+  private resolveTenantForCurrentHost(): void {
+    if (typeof window === 'undefined') {
+      this.setTenant(environment.defaultTenantSlug);
+      return;
+    }
+
+    const host = window.location.hostname;
+    if (host === 'localhost' || host === '127.0.0.1') {
+      this.setTenant(environment.defaultTenantSlug);
+      return;
+    }
+
+    this.publicContentService
+      .getCurrentTenant()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (tenant) => this.setTenant(tenant.slug),
+        error: () => this.setTenant(environment.defaultTenantSlug)
+      });
+  }
+
+  private setTenant(tenantSlug: string): void {
+    this.tenantSlug = tenantSlug;
+    this.tenantContextService.setTenantSlug(tenantSlug);
+    this.loadSiteSettings();
   }
 
   private applySiteVariables(settings: SiteSettings | null): void {

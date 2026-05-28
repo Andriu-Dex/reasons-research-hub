@@ -7,6 +7,7 @@ import { finalize } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ContactChannel } from '../../../core/models/content.models';
 import { PublicContentService } from '../../../core/services/public-content.service';
+import { TenantContextService } from '../../../core/services/tenant-context.service';
 import { ToastService } from '../../../shared/toast/toast.service';
 
 declare global {
@@ -42,13 +43,22 @@ export class ContactPage implements AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private publicContentService: PublicContentService,
+    private tenantContextService: TenantContextService,
     private toastService: ToastService
   ) {
-    this.tenantSlug = this.route.parent?.snapshot.paramMap.get('tenantSlug') ?? 'uta-reasons';
-    this.publicContentService
-      .getContactChannels(this.tenantSlug)
+    const routeTenantSlug = this.route.parent?.snapshot.paramMap.get('tenantSlug');
+    if (routeTenantSlug) {
+      this.tenantContextService.setTenantSlug(routeTenantSlug);
+    }
+
+    this.tenantContextService.tenantSlug$
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({ next: (channels) => (this.channels = channels) });
+      .subscribe((tenantSlug) => {
+        this.tenantSlug = tenantSlug;
+        this.publicContentService
+          .getContactChannels(this.tenantSlug)
+          .subscribe({ next: (channels) => (this.channels = channels) });
+      });
   }
 
   ngAfterViewInit(): void {

@@ -1,7 +1,7 @@
 <div class="public-layout">
   <header class="public-header">
     <div class="container header-inner">
-      <a class="brand" [routerLink]="['/', tenantSlug]">
+      <a class="brand" [routerLink]="linkTo()">
         <img class="brand-logo" [src]="logoUrl" [alt]="'Logo ' + brandName" />
         <span class="brand-text">
           <span class="brand-name">{{ brandName }}</span>
@@ -11,26 +11,26 @@
       <div class="header-actions">
         <nav id="primary-nav" class="nav-links" [ngClass]="{ open: isMenuOpen }">
           <a
-            [routerLink]="['/', tenantSlug]"
+            [routerLink]="linkTo()"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
             (click)="closeMenu()"
           >
             Inicio
           </a>
-          <a [routerLink]="['/', tenantSlug, 'nosotros']" routerLinkActive="active" (click)="closeMenu()">
+          <a [routerLink]="linkTo('nosotros')" routerLinkActive="active" (click)="closeMenu()">
             Nosotros
           </a>
-          <a [routerLink]="['/', tenantSlug, 'investigacion']" routerLinkActive="active" (click)="closeMenu()">
+          <a [routerLink]="linkTo('investigacion')" routerLinkActive="active" (click)="closeMenu()">
             Investigacion
           </a>
-          <a [routerLink]="['/', tenantSlug, 'investigadores']" routerLinkActive="active" (click)="closeMenu()">
+          <a [routerLink]="linkTo('investigadores')" routerLinkActive="active" (click)="closeMenu()">
             Investigadores
           </a>
-          <a [routerLink]="['/', tenantSlug, 'noticias']" routerLinkActive="active" (click)="closeMenu()">
+          <a [routerLink]="linkTo('noticias')" routerLinkActive="active" (click)="closeMenu()">
             Noticias
           </a>
-          <a [routerLink]="['/', tenantSlug, 'contacto']" routerLinkActive="active" (click)="closeMenu()">
+          <a [routerLink]="linkTo('contacto')" routerLinkActive="active" (click)="closeMenu()">
             Contacto
           </a>
         </nav>
@@ -66,11 +66,11 @@
       </div>
       <div class="footer-links">
         <span class="footer-title">Explorar</span>
-        <a [routerLink]="['/', tenantSlug]">Inicio</a>
-        <a [routerLink]="['/', tenantSlug, 'nosotros']">Nosotros</a>
-        <a [routerLink]="['/', tenantSlug, 'investigacion']">Investigacion</a>
-        <a [routerLink]="['/', tenantSlug, 'investigadores']">Investigadores</a>
-        <a [routerLink]="['/', tenantSlug, 'noticias']">Noticias</a>
+        <a [routerLink]="linkTo()">Inicio</a>
+        <a [routerLink]="linkTo('nosotros')">Nosotros</a>
+        <a [routerLink]="linkTo('investigacion')">Investigacion</a>
+        <a [routerLink]="linkTo('investigadores')">Investigadores</a>
+        <a [routerLink]="linkTo('noticias')">Noticias</a>
       </div>
       <div class="footer-contact">
         <span class="footer-title">{{ siteSettings?.institutionName || 'Institucion' }}</span>

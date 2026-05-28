@@ -7,6 +7,10 @@ const prismaMock = {
   },
   researchLine: {
     findMany: vi.fn()
+  },
+  mediaFile: {
+    findFirst: vi.fn(),
+    delete: vi.fn()
   }
 };
 
@@ -21,6 +25,7 @@ process.env.FRONTEND_URL = 'http://localhost:4200';
 
 const { createApp } = await import('./app.js');
 const { publicService } = await import('./modules/public/public.service.js');
+const { mediaService } = await import('./modules/media/media.service.js');
 
 describe('REASONS API', () => {
   beforeEach(() => {
@@ -52,6 +57,21 @@ describe('REASONS API', () => {
     });
   });
 
+  it('rejects unknown custom domains', async () => {
+    prismaMock.organization.findFirst.mockResolvedValue(null);
+
+    const response = await request(createApp()).get('/api/tenant/current').set('Host', 'unknown.example.com');
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('No se pudo resolver una organizacion activa para este dominio.');
+  });
+
+  it('blocks admin routes without an access token', async () => {
+    const response = await request(createApp()).get('/api/admin/dashboard');
+
+    expect(response.status).toBe(401);
+  });
+
   it('filters public research lines by organization and published status', async () => {
     prismaMock.researchLine.findMany.mockResolvedValue([]);
 
@@ -61,5 +81,16 @@ describe('REASONS API', () => {
       where: { organizationId: 'org-1', status: 'PUBLISHED' },
       orderBy: [{ displayOrder: 'asc' }, { createdAt: 'desc' }]
     });
+  });
+
+  it('does not remove media files outside the active organization', async () => {
+    prismaMock.mediaFile.findFirst.mockResolvedValue(null);
+
+    await expect(mediaService.remove('org-1', 'media-from-other-org')).rejects.toMatchObject({
+      statusCode: 404,
+      message: 'Archivo no encontrado.'
+    });
+
+    expect(prismaMock.mediaFile.delete).not.toHaveBeenCalled();
   });
 });

@@ -4,6 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { NewsItem } from '../../../core/models/content.models';
 import { PublicContentService } from '../../../core/services/public-content.service';
+import { TenantContextService } from '../../../core/services/tenant-context.service';
 
 @Component({
   selector: 'app-news-page',
@@ -20,21 +21,29 @@ export class NewsPage {
 
   constructor(
     private route: ActivatedRoute,
-    private publicContentService: PublicContentService
+    private publicContentService: PublicContentService,
+    private tenantContextService: TenantContextService
   ) {
-    const tenantSlug = this.route.parent?.snapshot.paramMap.get('tenantSlug') ?? 'uta-reasons';
-    this.publicContentService
-      .getNews(tenantSlug)
+    const routeTenantSlug = this.route.parent?.snapshot.paramMap.get('tenantSlug');
+    if (routeTenantSlug) {
+      this.tenantContextService.setTenantSlug(routeTenantSlug);
+    }
+
+    this.tenantContextService.tenantSlug$
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (news) => {
-          this.news = news;
-          this.isLoading = false;
-        },
-        error: () => {
-          this.hasError = true;
-          this.isLoading = false;
-        }
+      .subscribe((tenantSlug) => {
+        this.isLoading = true;
+        this.hasError = false;
+        this.publicContentService.getNews(tenantSlug).subscribe({
+          next: (news) => {
+            this.news = news;
+            this.isLoading = false;
+          },
+          error: () => {
+            this.hasError = true;
+            this.isLoading = false;
+          }
+        });
       });
   }
 }
