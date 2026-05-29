@@ -1,31 +1,35 @@
-<section class="news-hero section">
+<header class="news-hero">
   <div class="container">
-    <span class="eyebrow">Noticias</span>
-    <h1>Actualidad academica, eventos y resultados institucionales.</h1>
-    <p>Publicaciones visibles para visitantes, ordenadas por fecha de publicacion.</p>
+    <span class="eyebrow">Actualidad y Eventos</span>
+    <h1>Noticias, congresos y resultados institucionales.</h1>
+    <p>Mantente al día con las últimas publicaciones de la organización, ordenadas por fecha de publicación.</p>
   </div>
-</section>
+</header>
 
-<section class="section">
+<section class="news-workspace section">
   <div class="container">
     @if (isLoading) {
       <div class="state-card">Cargando noticias...</div>
     } @else if (hasError) {
       <div class="state-card error">No se pudo cargar noticias.</div>
     } @else if (!news.length) {
-      <div class="state-card">Aun no hay noticias publicadas.</div>
+      <div class="state-card">Aún no hay noticias publicadas.</div>
     } @else {
       <div class="news-grid">
         @for (item of news; track item.id) {
-          <article class="surface-card news-card">
+          <article class="surface-card news-card reveal">
             @if (item.mainImage?.url) {
-              <img [src]="item.mainImage?.url" [alt]="item.title" />
+              <figure class="news-cover">
+                <img [src]="item.mainImage?.url" [alt]="item.title" loading="lazy" />
+              </figure>
             }
-            <div>
-              <span class="tag">{{ item.publishedAt | date: 'dd MMM yyyy' }}</span>
-              <h2>{{ item.title }}</h2>
-              <p>{{ item.summary }}</p>
-              <div class="news-content">{{ item.content }}</div>
+            <div class="news-body">
+              <header>
+                <time class="tag" [attr.datetime]="item.publishedAt">{{ item.publishedAt | date: 'dd MMM yyyy' }}</time>
+                <h2>{{ item.title }}</h2>
+              </header>
+              <p class="summary">{{ item.summary }}</p>
+              <div class="news-content" [innerHTML]="item.content"></div>
             </div>
           </article>
         }

@@ -1,43 +1,62 @@
+/* ─── Contact Hero ──────────────────────────────────────── */
 .contact-hero {
   background:
-    radial-gradient(circle at 88% 18%, rgba(0, 193, 253, 0.22), transparent 26rem),
-    linear-gradient(135deg, var(--color-surface), var(--color-surface-alt));
-  border-bottom: 1px solid var(--color-border);
-  padding: clamp(58px, 8vw, 104px) 0;
+    radial-gradient(ellipse 70% 70% at 90% 0%, rgba(0, 184, 240, 0.18), transparent),
+    radial-gradient(ellipse 50% 50% at 5% 90%, rgba(0, 74, 153, 0.10), transparent),
+    linear-gradient(150deg, #edf2fc 0%, #f4f7fe 60%, #e8f4fc 100%);
+  border-bottom: 1.5px solid var(--color-border);
+  padding: clamp(64px, 8.5vw, 110px) 0 clamp(52px, 7vw, 88px);
+  position: relative;
+  overflow: hidden;
+}
+
+:host-context(html[data-theme='dark']) .contact-hero {
+  background:
+    radial-gradient(ellipse 70% 70% at 90% 0%, rgba(0, 184, 240, 0.12), transparent),
+    radial-gradient(ellipse 50% 50% at 5% 90%, rgba(0, 74, 153, 0.16), transparent),
+    linear-gradient(150deg, #07111f 0%, #060e1a 60%, #071520 100%);
 }
 
 .contact-hero h1 {
   color: var(--color-primary);
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 4vw, 4.2rem);
-  letter-spacing: -0.085em;
-  line-height: 1.03;
-  margin: 18px 0 12px;
-  max-width: 980px;
+  font-size: clamp(2.2rem, 4.2vw, 4.4rem);
+  letter-spacing: -0.082em;
+  line-height: 1.05;
+  margin: 14px 0 16px;
+  max-width: 940px;
 }
 
 .contact-hero p {
   color: var(--color-muted);
-  font-size: clamp(1rem, 1.3vw, 1.18rem);
+  font-size: clamp(1rem, 1.3vw, 1.16rem);
+  line-height: 1.7;
   margin: 0;
+  max-width: 700px;
 }
 
-.contact-grid {
+/* ─── Contact Body ──────────────────────────────────────── */
+.contact-workspace {
+  padding: clamp(44px, 6vw, 72px) 0 var(--section-spacing);
+}
+
+.contact-layout {
   align-items: start;
   display: grid;
-  gap: 24px;
-  grid-template-columns: minmax(0, 0.88fr) minmax(420px, 1.12fr);
+  gap: 28px;
+  grid-template-columns: minmax(0, 0.85fr) minmax(380px, 1.15fr);
 }
 
-.contact-panel {
+.contact-info {
   display: grid;
-  gap: 22px;
+  gap: 0;
 }
 
+/* ─── Cards ─────────────────────────────────────────────── */
 .channel-card,
 .map-card,
 .contact-form {
-  padding: clamp(24px, 3vw, 36px);
+  padding: clamp(26px, 3.2vw, 38px);
 }
 
 .channel-card h2,
@@ -45,109 +64,125 @@
 .contact-form h2 {
   color: var(--color-primary);
   font-family: var(--font-display);
-  font-size: clamp(1.35rem, 2vw, 2rem);
+  font-size: clamp(1.3rem, 1.9vw, 1.9rem);
   letter-spacing: -0.055em;
-  line-height: 1.12;
-  margin: 0 0 12px;
+  line-height: 1.14;
+  margin: 0 0 14px;
 }
 
 .channel-card p,
 .map-card p {
   color: var(--color-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
   margin: 0;
 }
 
-.channels {
+/* ─── Channel List ──────────────────────────────────────── */
+.contact-channels {
   display: grid;
   gap: 14px;
-  margin-top: 24px;
 }
 
-.channels div {
-  background: var(--color-surface-alt);
-  border: 1px solid var(--color-border);
-  border-radius: 16px;
+.channel-card {
   display: grid;
-  gap: 5px;
-  padding: 16px;
+  gap: 6px;
+  padding: clamp(22px, 2.8vw, 32px);
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
 }
 
-.channels span {
-  color: var(--color-muted);
-  font-size: 0.78rem;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.channel-card:hover {
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-2px);
 }
 
-.channels strong {
+.channel-card strong {
   color: var(--color-primary);
+  font-size: 1rem;
+  font-weight: 700;
+  display: block;
+  margin-top: 8px;
 }
 
+/* ─── Map Card ──────────────────────────────────────────── */
 .map-card {
   background:
-    linear-gradient(135deg, rgba(0, 52, 111, 0.92), rgba(0, 102, 136, 0.8)),
-    linear-gradient(45deg, rgba(255, 255, 255, 0.12) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.12) 75%);
-  background-size: auto, 28px 28px;
+    radial-gradient(ellipse 70% 60% at 90% 10%, rgba(0, 200, 255, 0.24), transparent),
+    linear-gradient(135deg, #002955, #005575);
   color: #ffffff;
-  min-height: 260px;
+  min-height: 240px;
+  display: grid;
+  align-content: end;
+  position: relative;
+  overflow: hidden;
 }
 
-.map-card h2,
-.map-card p {
+.map-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+
+.map-card h2 {
   color: #ffffff;
+  position: relative;
+  z-index: 1;
 }
 
 .map-card p {
-  color: rgba(237, 244, 255, 0.8);
+  color: rgba(210, 235, 255, 0.80);
+  position: relative;
+  z-index: 1;
 }
 
+/* ─── Contact Form ──────────────────────────────────────── */
 .contact-form {
   display: grid;
-  gap: 20px;
+  gap: 18px;
+  padding: clamp(26px, 3.2vw, 38px);
 }
 
 .contact-form h2 {
-  margin-bottom: 0;
+  color: var(--color-primary);
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 1.9vw, 1.9rem);
+  letter-spacing: -0.055em;
+  line-height: 1.14;
+  margin: 0;
 }
 
-.form-grid {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.form-grid label {
+.contact-form label {
   color: var(--color-muted);
   display: grid;
-  font-size: 0.9rem;
-  font-weight: 900;
-  gap: 8px;
+  font-size: 0.84rem;
+  font-weight: 800;
+  gap: 7px;
+  letter-spacing: 0.02em;
 }
 
-.form-grid label.full {
-  grid-column: 1 / -1;
+.contact-form-wrapper {
+  display: contents;
 }
 
 .captcha-box {
-  border: 1px dashed var(--color-border-strong);
-  border-radius: 16px;
-  color: var(--color-muted);
+  background: var(--color-surface-alt);
+  border: 1.5px dashed var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--color-subtle);
   display: grid;
-  font-weight: 900;
-  min-height: 78px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  min-height: 76px;
   place-items: center;
   text-align: center;
 }
 
+/* ─── Responsive ─────────────────────────────────────────── */
 @media (max-width: 960px) {
-  .contact-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 620px) {
-  .form-grid {
+  .contact-layout {
     grid-template-columns: 1fr;
   }
 }

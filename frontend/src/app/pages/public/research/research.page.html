@@ -1,93 +1,99 @@
-<section class="research-hero section">
+<header class="research-hero">
   <div class="container">
-    <span class="eyebrow">Investigacion</span>
-    <h1>Proyectos, publicaciones y lineas para explorar conocimiento con contexto.</h1>
-    <p>Consulta el repositorio publicado por la organizacion. Los borradores permanecen protegidos en el panel administrativo.</p>
+    <h1>Proyectos, publicaciones y líneas para explorar conocimiento.</h1>
+    <p>Consulta nuestro repositorio académico. Explora líneas de trabajo, proyectos activos y resultados oficiales estructurados de manera integral.</p>
   </div>
-</section>
+</header>
 
-<section class="section research-content">
-  <div class="container">
-    @if (isLoading) {
-      <div class="state-card">Cargando investigacion publicada...</div>
-    } @else if (hasError) {
-      <div class="state-card error">No se pudo cargar la informacion de investigacion.</div>
-    } @else {
-      <div class="research-block">
-        <div class="section-heading">
-          <div>
-            <span class="eyebrow">Lineas</span>
-            <h2 class="section-title">Ejes de trabajo</h2>
-          </div>
-        </div>
+<section class="research-workspace">
+  <div class="container workspace-grid">
+    <!-- Barra lateral con filtros/Líneas (Sticky) -->
+    <aside class="filters">
+      <div class="filter-group">
+        <h2>Líneas de investigación</h2>
         @if (researchLines.length) {
-          <div class="line-grid">
+          <div class="filter-chips">
             @for (line of researchLines; track line.id) {
-              <article class="surface-card line-card">
-                <span class="icon-shell">{{ line.icon || 'LI' }}</span>
-                <h3>{{ line.title }}</h3>
-                <p>{{ line.description }}</p>
-              </article>
+              <button type="button">{{ line.title }}</button>
             }
           </div>
         } @else {
-          <div class="state-card">Aun no hay lineas de investigacion publicadas.</div>
+          <p class="filter-option">No hay líneas disponibles.</p>
         }
       </div>
-
-      <div class="research-block">
-        <div class="section-heading">
-          <div>
-            <span class="eyebrow">Proyectos</span>
-            <h2 class="section-title">Investigaciones activas y resultados</h2>
-          </div>
+      
+      <div class="filter-group">
+        <h2>Repositorio</h2>
+        <div class="filter-chips">
+          <button type="button" class="active">Proyectos</button>
+          <button type="button">Publicaciones</button>
         </div>
-        @if (projects.length) {
-          <div class="project-list">
-            @for (project of projects; track project.id) {
-              <article class="surface-card project-item">
-                @if (project.mainImage?.url) {
-                  <img [src]="project.mainImage?.url" [alt]="project.title" />
-                }
-                <div>
-                  <span class="tag">{{ project.projectStatus }}</span>
-                  <h3>{{ project.title }}</h3>
+      </div>
+    </aside>
+
+    <!-- Zona principal de resultados -->
+    <main class="research-results">
+      @if (isLoading) {
+        <div class="state-card">Cargando ecosistema de investigación...</div>
+      } @else if (hasError) {
+        <div class="state-card error">No se pudo cargar la información de investigación.</div>
+      } @else {
+
+        <!-- Bloque de Proyectos -->
+        <div class="result-section">
+          <header class="result-header">
+            <h2>Proyectos activos y resultados</h2>
+            <span>{{ projects.length }} proyectos</span>
+          </header>
+
+          @if (projects.length) {
+            <div class="result-projects">
+              @for (project of projects; track project.id) {
+                <article class="surface-card result-project reveal">
+                  <div>
+                    <span class="tag">{{ project.projectStatus }}</span>
+                    <h3>{{ project.title }}</h3>
+                  </div>
                   <p>{{ project.description }}</p>
-                  <small>{{ project.researchLines?.length || 0 }} lineas asociadas</small>
-                </div>
-              </article>
-            }
-          </div>
-        } @else {
-          <div class="state-card">Aun no hay proyectos publicados.</div>
-        }
-      </div>
-
-      <div class="research-block">
-        <div class="section-heading">
-          <div>
-            <span class="eyebrow">Publicaciones</span>
-            <h2 class="section-title">Produccion cientifica reciente</h2>
-          </div>
+                  <footer>
+                    <span>Identificador: {{ project.slug }}</span>
+                  </footer>
+                </article>
+              }
+            </div>
+          } @else {
+            <div class="state-card">Aún no hay proyectos publicados.</div>
+          }
         </div>
-        @if (publications.length) {
-          <div class="publication-grid">
-            @for (publication of publications; track publication.id) {
-              <article class="surface-card publication-card">
-                <span class="tag">{{ publication.publishedAt | date: 'yyyy' }}</span>
-                <h3>{{ publication.title }}</h3>
-                <p>{{ publication.abstract }}</p>
-                <small>{{ publication.citation }}</small>
-                @if (publication.externalLink) {
-                  <a [href]="publication.externalLink" target="_blank" rel="noopener">Ver publicacion</a>
-                }
-              </article>
-            }
-          </div>
-        } @else {
-          <div class="state-card">Aun no hay publicaciones visibles.</div>
-        }
-      </div>
-    }
+
+        <!-- Bloque de Publicaciones -->
+        <div class="result-section">
+          <header class="result-header">
+            <h2>Producción científica reciente</h2>
+            <span>{{ publications.length }} artículos</span>
+          </header>
+
+          @if (publications.length) {
+            <div class="surface-card publications">
+              @for (publication of publications; track publication.id) {
+                <article class="publication-row">
+                  <div>
+                    <h3>{{ publication.title }}</h3>
+                    <p>{{ publication.abstract }}</p>
+                    @if (publication.externalLink) {
+                      <a [href]="publication.externalLink" target="_blank" rel="noopener">Ir a la publicación →</a>
+                    }
+                  </div>
+                  <span class="tag">{{ publication.publishedAt | date: 'MMM yyyy' }}</span>
+                </article>
+              }
+            </div>
+          } @else {
+            <div class="state-card">Aún no hay publicaciones visibles.</div>
+          }
+        </div>
+
+      }
+    </main>
   </div>
 </section>

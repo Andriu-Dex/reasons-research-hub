@@ -1,36 +1,44 @@
-<section class="about-shell section">
-  <div class="container">
-    @if (isLoading) {
-      <div class="state-card">Cargando informacion institucional...</div>
-    } @else if (hasError) {
-      <div class="state-card error">No se pudo cargar la pagina Nosotros.</div>
-    } @else {
-      <div class="about-hero">
-        <span class="eyebrow">Nosotros</span>
-        <h1>Una identidad academica clara, editable y preparada para crecer.</h1>
-        <p>{{ about?.description || 'La descripcion institucional aun no ha sido configurada.' }}</p>
-      </div>
+@if (isLoading) {
+  <div class="container section"><div class="state-card">Cargando información institucional...</div></div>
+} @else if (hasError) {
+  <div class="container section"><div class="state-card error">No se pudo cargar la página Nosotros.</div></div>
+} @else {
+  <header class="about-hero">
+    <div class="container">
+      <span class="eyebrow">Identidad Institucional</span>
+      <h1>Una identidad académica clara, editable y preparada para crecer.</h1>
+      <p class="lead-text">{{ about?.description || 'La descripción institucional aún no ha sido configurada.' }}</p>
+    </div>
+  </header>
 
-      <div class="about-grid">
-        <article class="surface-card about-card">
+  <section class="about-workspace section">
+    <div class="container about-grid">
+      <article class="surface-card about-card reveal">
+        <header class="card-heading">
           <span class="icon-shell">OG</span>
           <h2>Objetivo general</h2>
-          <p>{{ about?.generalObjective || 'El objetivo general aun no ha sido configurado.' }}</p>
-        </article>
-        <article class="surface-card about-card objectives">
+        </header>
+        <p>{{ about?.generalObjective || 'El objetivo general aún no ha sido configurado.' }}</p>
+      </article>
+
+      <article class="surface-card about-card objectives reveal">
+        <header class="card-heading">
           <span class="icon-shell accent">OE</span>
-          <h2>Objetivos especificos</h2>
-          @if (about?.objectives?.length) {
-            <ol>
-              @for (objective of about?.objectives; track objective.description) {
-                <li>{{ objective.description }}</li>
-              }
-            </ol>
-          } @else {
-            <p>Aun no se han registrado objetivos especificos.</p>
-          }
-        </article>
-      </div>
-    }
-  </div>
-</section>
+          <h2>Objetivos específicos</h2>
+        </header>
+        @if (about?.objectives?.length) {
+          <ul class="objective-list">
+            @for (objective of about?.objectives; track objective.description; let i = $index) {
+              <li>
+                <strong>0{{ i + 1 }}</strong>
+                <span>{{ objective.description }}</span>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="empty-state">Aún no se han registrado objetivos específicos.</p>
+        }
+      </article>
+    </div>
+  </section>
+}

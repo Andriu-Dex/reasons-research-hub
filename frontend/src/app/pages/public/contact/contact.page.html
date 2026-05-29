@@ -1,14 +1,20 @@
-<section class="contact-hero section">
-  <div class="container contact-layout">
-    <div>
-      <span class="eyebrow">Contacto</span>
-      <h1>Conversemos sobre investigacion, colaboracion y transferencia.</h1>
-      <p>Envianos un mensaje y el equipo responsable respondera desde los canales institucionales configurados.</p>
+<header class="contact-hero">
+  <div class="container">
+    <span class="eyebrow">Contacto Institucional</span>
+    <h1>Conversemos sobre investigación, colaboración y transferencia.</h1>
+    <p>Envíanos un mensaje y el equipo responsable responderá a la brevedad desde los canales oficiales configurados.</p>
+  </div>
+</header>
 
+<section class="contact-workspace section">
+  <div class="container contact-layout">
+    
+    <!-- Panel de canales -->
+    <aside class="contact-info">
       <div class="contact-channels">
         @if (channels.length) {
           @for (channel of channels; track channel.id) {
-            <article class="surface-card channel-card">
+            <article class="surface-card channel-card reveal">
               <span class="tag">{{ channel.label || channel.type }}</span>
               <strong>{{ channel.value }}</strong>
             </article>
@@ -16,13 +22,15 @@
         } @else {
           <article class="surface-card channel-card">
             <span class="tag">Canales</span>
-            <strong>Los canales de contacto aun no han sido configurados.</strong>
+            <strong>Los canales de contacto aún no han sido configurados.</strong>
           </article>
         }
       </div>
-    </div>
+    </aside>
 
-    <form class="surface-card contact-form" #contactForm="ngForm" (ngSubmit)="submit(contactForm)">
+    <!-- Panel del formulario -->
+    <main class="contact-form-wrapper">
+      <form class="surface-card contact-form reveal" #contactForm="ngForm" (ngSubmit)="submit(contactForm)">
       <label>
         Nombre completo
         <input name="name" [(ngModel)]="contact.name" required minlength="2" />
@@ -42,11 +50,12 @@
       @if (turnstileSiteKey) {
         <div class="captcha-box" #turnstileContainer></div>
       } @else {
-        <div class="captcha-box">Verificacion antispam en modo desarrollo.</div>
+          <div class="captcha-box">Verificación antispam en modo desarrollo.</div>
       }
       <button class="btn primary" type="submit" [disabled]="isSubmitting">
         {{ isSubmitting ? 'Enviando...' : 'Enviar mensaje' }}
       </button>
     </form>
+    </main>
   </div>
 </section>

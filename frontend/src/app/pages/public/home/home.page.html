@@ -3,11 +3,11 @@
 } @else if (hasError || !data) {
   <section class="section"><div class="container state-card error">No se pudo cargar el sitio. Intenta nuevamente.</div></section>
 } @else {
-  <section class="home-hero" [style.background-image]="'linear-gradient(90deg, rgba(0, 35, 79, 0.96), rgba(0, 52, 111, 0.72), rgba(0, 52, 111, 0.24)), url(' + heroImage + ')'">
+  <header class="home-hero" [style.background-image]="'linear-gradient(90deg, rgba(0, 35, 79, 0.96), rgba(0, 52, 111, 0.72), rgba(0, 52, 111, 0.24)), url(' + heroImage + ')'">
     <div class="hero-backdrop"></div>
     <div class="container hero-stage">
       <div class="hero-copy reveal">
-        <span class="eyebrow">{{ data.siteSettings?.institutionName || 'Institucion academica' }}</span>
+        <span class="eyebrow">{{ data.siteSettings?.institutionName || 'Institución académica' }}</span>
         <h1>{{ data.homeSettings?.bannerTitle || data.siteSettings?.groupName }}</h1>
         <p>{{ data.homeSettings?.bannerSubtitle || data.siteSettings?.generalDescription }}</p>
         <div class="hero-actions">
@@ -18,39 +18,43 @@
       <div class="hero-summary reveal">
         <span class="badge">Contenido publicado</span>
         <div class="hero-metrics">
-          <strong>{{ data.projects.length }}</strong>
-          <span>proyectos destacados</span>
-          <strong>{{ data.publications.length }}</strong>
-          <span>publicaciones recientes</span>
+          <div class="metric-item">
+            <strong>{{ data.projects.length }}</strong>
+            <span>proyectos activos</span>
+          </div>
+          <div class="metric-item">
+            <strong>{{ data.publications.length }}</strong>
+            <span>publicaciones recientes</span>
+          </div>
         </div>
       </div>
     </div>
-  </section>
+  </header>
 
   <section class="section mission-section">
     <div class="container mission-grid">
       <article class="mission-card surface-card reveal">
         <span class="icon-shell">01</span>
-        <h2>Nuestra mision</h2>
-        <p>{{ data.siteSettings?.mission || 'La mision institucional aun no ha sido configurada.' }}</p>
+        <h2>Nuestra misión</h2>
+        <p>{{ data.siteSettings?.mission || 'La misión institucional aún no ha sido configurada.' }}</p>
       </article>
-      <article class="mission-card surface-card reveal">
+      <article class="mission-card accent-card surface-card reveal">
         <span class="icon-shell accent">02</span>
-        <h2>Nuestra vision</h2>
-        <p>{{ data.siteSettings?.vision || 'La vision institucional aun no ha sido configurada.' }}</p>
+        <h2>Nuestra visión</h2>
+        <p>{{ data.siteSettings?.vision || 'La visión institucional aún no ha sido configurada.' }}</p>
       </article>
     </div>
   </section>
 
   <section class="section researchers-section">
     <div class="container">
-      <div class="section-heading">
+      <header class="section-heading">
         <div>
           <span class="eyebrow">Investigadores destacados</span>
           <h2 class="section-title">Personas que sostienen la ciencia aplicada.</h2>
         </div>
         <a class="directory-link" routerLink="investigadores">Ver directorio completo</a>
-      </div>
+      </header>
       @if (data.researchers.length) {
         <div class="researcher-grid">
           @for (researcher of data.researchers; track researcher.id) {
@@ -65,20 +69,20 @@
           }
         </div>
       } @else {
-        <div class="state-card">Aun no hay investigadores destacados publicados.</div>
+        <div class="state-card">Aún no hay investigadores destacados publicados.</div>
       }
     </div>
   </section>
 
   <section class="section project-section">
     <div class="container">
-      <div class="section-heading">
+      <header class="section-heading">
         <div>
           <span class="eyebrow">Proyectos activos</span>
           <h2 class="section-title">Investigaciones con seguimiento y contexto.</h2>
         </div>
         <a class="directory-link" routerLink="investigacion">Explorar repositorio</a>
-      </div>
+      </header>
       @if (data.projects.length) {
         <div class="project-grid">
           @for (project of data.projects; track project.id) {
@@ -94,7 +98,7 @@
           }
         </div>
       } @else {
-        <div class="state-card">Aun no hay proyectos destacados publicados.</div>
+        <div class="state-card">Aún no hay proyectos destacados publicados.</div>
       }
     </div>
   </section>
@@ -103,7 +107,7 @@
     <div class="container collaboration-panel">
       <div>
         <span class="eyebrow">Colabore con nosotros</span>
-        <h2>{{ data.siteSettings?.groupName || 'Research Hub' }} esta abierto a nuevas conexiones academicas.</h2>
+        <h2>{{ data.siteSettings?.groupName || 'Research Hub' }} está abierto a nuevas conexiones académicas.</h2>
         <p>{{ data.siteSettings?.generalDescription }}</p>
       </div>
       <a class="btn secondary" routerLink="contacto">{{ data.homeSettings?.contactButtonText || 'Contactar' }}</a>
