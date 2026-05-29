@@ -443,7 +443,7 @@ async function main() {
       text: '#111c2d'
     },
     logoUrl: 'https://i.imgur.com/RARaC9j.png',
-    bannerUrl: 'https://i.imgur.com/2B9Qf7C.jpeg'
+    bannerUrl: 'https://i.imgur.com/GIP46xu.jpeg'
   }, passwordHash);
 
   await seedOrganization({
