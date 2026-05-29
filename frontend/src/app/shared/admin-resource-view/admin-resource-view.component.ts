@@ -41,6 +41,8 @@ export class AdminResourceViewComponent implements OnInit {
   searchTerm = '';
   isLoading = true;
   isSaving = false;
+  showForm = false;
+
 
   constructor(
     private adminApi: AdminApiService,
@@ -77,13 +79,22 @@ export class AdminResourceViewComponent implements OnInit {
   edit(item: Record<string, any>): void {
     this.editingId = String(item['id']);
     this.formModel = this.normalizeForForm(item);
+    this.showForm = true;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   cancel(): void {
     this.editingId = null;
     this.resetForm();
+    this.showForm = false;
   }
+
+  openCreateForm(): void {
+    this.editingId = null;
+    this.resetForm();
+    this.showForm = true;
+  }
+
 
   save(): void {
     if (this.isSaving) return;

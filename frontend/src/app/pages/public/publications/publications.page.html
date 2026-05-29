@@ -1,0 +1,46 @@
+<header class="publications-hero">
+  <div class="container">
+    <span class="eyebrow">{{ config.eyebrow }}</span>
+    <h1>{{ config.title }}</h1>
+    <p>{{ config.description }}</p>
+  </div>
+</header>
+
+<section class="publications-section section">
+  <div class="container">
+    @if (isLoading) {
+      <div class="state-card">Cargando publicaciones...</div>
+    } @else if (hasError) {
+      <div class="state-card error">No se pudo cargar las publicaciones.</div>
+    } @else if (!publications.length) {
+      <div class="state-card">{{ config.emptyMessage }}</div>
+    } @else {
+      <div class="publications-list">
+        @for (publication of publications; track publication.id) {
+          <article class="surface-card publication-card">
+            @if (publication.coverImage?.url) {
+              <figure class="publication-cover">
+                <img [src]="publication.coverImage?.url" [alt]="publication.title" loading="lazy" />
+              </figure>
+            }
+            <div class="publication-content">
+              <span class="tag">{{ publication.publishedAt | date: 'yyyy' }}</span>
+              <h2>{{ publication.title }}</h2>
+              <p class="authors">{{ authorsOf(publication) }}</p>
+              <p>{{ publication.abstract }}</p>
+              <blockquote>{{ publication.citation }}</blockquote>
+              <div class="publication-actions">
+                @if (publication.doi) {
+                  <span>DOI: {{ publication.doi }}</span>
+                }
+                @if (publication.externalLink) {
+                  <a [href]="publication.externalLink" target="_blank" rel="noopener">Consultar publicación</a>
+                }
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </div>
+</section>

@@ -13,6 +13,17 @@
 
   <section class="about-workspace section">
     <div class="container about-grid">
+      <article class="surface-card about-card about-navigation reveal">
+        <header class="card-heading">
+          <span class="icon-shell">IR</span>
+          <h2>Explorar Nosotros</h2>
+        </header>
+        <div class="about-links">
+          <a [routerLink]="['/', tenantSlug, 'nosotros', 'quienes-somos']">Quiénes somos</a>
+          <a [routerLink]="['/', tenantSlug, 'nosotros', 'equipo']">Equipo de trabajo</a>
+        </div>
+      </article>
+
       <article class="surface-card about-card reveal">
         <header class="card-heading">
           <span class="icon-shell">OG</span>

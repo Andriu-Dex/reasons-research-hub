@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HomePayload } from '../../../core/models/content.models';
@@ -13,7 +13,7 @@ import { getRouteTenantSlug } from '../../../core/utils/route-tenant.util';
   templateUrl: './home.page.html',
   styleUrl: './home.page.css'
 })
-export class HomePage {
+export class HomePage implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   tenantSlug = 'uta-reasons';
   data: HomePayload | null = null;
@@ -22,8 +22,11 @@ export class HomePage {
 
   constructor(
     private route: ActivatedRoute,
-    private publicContentService: PublicContentService
-  ) {
+    private publicContentService: PublicContentService,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
     this.tenantSlug = getRouteTenantSlug(this.route);
     this.load();
   }
@@ -43,10 +46,12 @@ export class HomePage {
         next: (data) => {
           this.data = data;
           this.isLoading = false;
+          this.changeDetectorRef.markForCheck();
         },
         error: () => {
           this.hasError = true;
           this.isLoading = false;
+          this.changeDetectorRef.markForCheck();
         }
       });
   }

@@ -1,20 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Researcher } from '../../../core/models/content.models';
 import { PublicContentService } from '../../../core/services/public-content.service';
 import { getRouteTenantSlug } from '../../../core/utils/route-tenant.util';
 
 @Component({
-  selector: 'app-researchers-page',
+  selector: 'app-team-page',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './researchers.page.html',
-  styleUrl: './researchers.page.css'
+  imports: [CommonModule, RouterLink],
+  templateUrl: './team.page.html',
+  styleUrl: './team.page.css'
 })
-export class ResearchersPage implements OnInit {
+export class TeamPage implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
+  tenantSlug = 'uta-reasons';
   researchers: Researcher[] = [];
   isLoading = true;
   hasError = false;
@@ -26,8 +27,9 @@ export class ResearchersPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.tenantSlug = getRouteTenantSlug(this.route);
     this.publicContentService
-      .getResearchers(getRouteTenantSlug(this.route))
+      .getResearchers(this.tenantSlug)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (researchers) => {

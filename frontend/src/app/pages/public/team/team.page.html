@@ -1,0 +1,43 @@
+<header class="team-hero">
+  <div class="container team-hero-grid">
+    <div>
+      <span class="eyebrow">Equipo de trabajo</span>
+      <h1>Personas que convierten la investigación en resultados visibles.</h1>
+      <p>Conoce al equipo académico y científico que sostiene las líneas, proyectos y publicaciones de la organización.</p>
+    </div>
+    <a class="team-link" [routerLink]="['/', tenantSlug, 'investigadores']">Ver directorio completo</a>
+  </div>
+</header>
+
+<section class="team-section section">
+  <div class="container">
+    @if (isLoading) {
+      <div class="state-card">Cargando equipo de trabajo...</div>
+    } @else if (hasError) {
+      <div class="state-card error">No se pudo cargar el equipo de trabajo.</div>
+    } @else if (!researchers.length) {
+      <div class="state-card">Aún no hay integrantes publicados.</div>
+    } @else {
+      <div class="team-grid">
+        @for (researcher of researchers; track researcher.id) {
+          <article class="surface-card team-card">
+            <figure class="team-photo">
+              @if (researcher.photo?.url) {
+                <img [src]="researcher.photo?.url" [alt]="researcher.fullName" loading="lazy" />
+              } @else {
+                <span>{{ researcher.fullName.slice(0, 2) }}</span>
+              }
+            </figure>
+            <div class="team-content">
+              <span class="tag">{{ researcher.isFeatured ? 'Investigador destacado' : 'Equipo académico' }}</span>
+              <h2>{{ researcher.fullName }}</h2>
+              <strong>{{ researcher.position }}</strong>
+              <p>{{ researcher.biography }}</p>
+              <a [href]="'mailto:' + researcher.institutionalEmail">{{ researcher.institutionalEmail }}</a>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </div>
+</section>

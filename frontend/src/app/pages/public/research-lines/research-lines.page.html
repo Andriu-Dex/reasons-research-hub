@@ -1,0 +1,31 @@
+<header class="lines-hero">
+  <div class="container">
+    <span class="eyebrow">Líneas de investigación</span>
+    <h1>Ejes académicos para ordenar preguntas, proyectos y resultados.</h1>
+    <p>Explora las áreas temáticas publicadas por la organización y su enfoque de trabajo.</p>
+  </div>
+</header>
+
+<section class="lines-section section">
+  <div class="container">
+    @if (isLoading) {
+      <div class="state-card">Cargando líneas de investigación...</div>
+    } @else if (hasError) {
+      <div class="state-card error">No se pudo cargar las líneas de investigación.</div>
+    } @else if (!researchLines.length) {
+      <div class="state-card">Aún no hay líneas de investigación publicadas.</div>
+    } @else {
+      <div class="lines-grid">
+        @for (line of researchLines; track line.id; let i = $index) {
+          <article class="surface-card line-card">
+            <span class="line-number">{{ (i + 1).toString().padStart(2, '0') }}</span>
+            <div>
+              <h2>{{ line.title }}</h2>
+              <p>{{ line.description }}</p>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </div>
+</section>

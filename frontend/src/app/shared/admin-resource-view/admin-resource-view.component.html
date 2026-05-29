@@ -1,58 +1,68 @@
 <section class="admin-view">
   <div class="admin-view-header">
     <div>
-      <span class="eyebrow">Gestion administrativa</span>
+      <span class="eyebrow">Gestión administrativa</span>
       <h1>{{ config.title }}</h1>
       <p>{{ config.description }}</p>
     </div>
+    @if (!showForm) {
+      <button class="btn primary" type="button" (click)="openCreateForm()">
+        + Nuevo
+      </button>
+    }
   </div>
 
-  <form class="surface-card admin-form" (ngSubmit)="save()">
-    <h2>{{ editingId ? 'Editar registro' : 'Crear registro' }}</h2>
-    <div class="form-grid">
-      @for (field of config.fields; track field.key) {
-        <label [class.full]="field.type === 'textarea' || field.type === 'media' || field.type === 'multiselect'">
-          {{ field.label }}
-          @switch (field.type) {
-            @case ('textarea') {
-              <textarea rows="5" [(ngModel)]="formModel[field.key]" [name]="field.key" [required]="field.required === true"></textarea>
+  @if (showForm) {
+    <form class="surface-card admin-form reveal" (ngSubmit)="save()">
+      <div class="form-header">
+        <h2>{{ editingId ? 'Editar registro' : 'Crear registro' }}</h2>
+        <button class="close-form-btn" type="button" aria-label="Cerrar formulario" (click)="cancel()">×</button>
+      </div>
+      <div class="form-grid">
+        @for (field of config.fields; track field.key) {
+          <label [class.full]="field.type === 'textarea' || field.type === 'media' || field.type === 'multiselect'">
+            {{ field.label }}
+            @switch (field.type) {
+              @case ('textarea') {
+                <textarea rows="5" [(ngModel)]="formModel[field.key]" [name]="field.key" [required]="field.required === true"></textarea>
+              }
+              @case ('checkbox') {
+                <span class="check-row">
+                  <input type="checkbox" [(ngModel)]="formModel[field.key]" [name]="field.key" />
+                  Activado
+                </span>
+              }
+              @case ('select') {
+                <select [(ngModel)]="formModel[field.key]" [name]="field.key" [required]="field.required === true">
+                  <option value="">Seleccionar</option>
+                  @for (option of optionsFor(field); track option.value) {
+                    <option [value]="option.value">{{ option.label }}</option>
+                  }
+                </select>
+              }
+              @case ('multiselect') {
+                <select multiple [(ngModel)]="formModel[field.key]" [name]="field.key">
+                  @for (option of optionsFor(field); track option.value) {
+                    <option [value]="option.value">{{ option.label }}</option>
+                  }
+                </select>
+              }
+              @case ('media') {
+                <app-media-picker [(selectedId)]="formModel[field.key]"></app-media-picker>
+              }
+              @default {
+                <input [type]="field.type" [(ngModel)]="formModel[field.key]" [name]="field.key" [required]="field.required === true" />
+              }
             }
-            @case ('checkbox') {
-              <span class="check-row">
-                <input type="checkbox" [(ngModel)]="formModel[field.key]" [name]="field.key" />
-                Activado
-              </span>
-            }
-            @case ('select') {
-              <select [(ngModel)]="formModel[field.key]" [name]="field.key" [required]="field.required === true">
-                <option value="">Seleccionar</option>
-                @for (option of optionsFor(field); track option.value) {
-                  <option [value]="option.value">{{ option.label }}</option>
-                }
-              </select>
-            }
-            @case ('multiselect') {
-              <select multiple [(ngModel)]="formModel[field.key]" [name]="field.key">
-                @for (option of optionsFor(field); track option.value) {
-                  <option [value]="option.value">{{ option.label }}</option>
-                }
-              </select>
-            }
-            @case ('media') {
-              <app-media-picker [(selectedId)]="formModel[field.key]"></app-media-picker>
-            }
-            @default {
-              <input [type]="field.type" [(ngModel)]="formModel[field.key]" [name]="field.key" [required]="field.required === true" />
-            }
-          }
-        </label>
-      }
-    </div>
-    <div class="form-actions">
-      <button class="btn primary" type="submit" [disabled]="isSaving">{{ isSaving ? 'Guardando...' : 'Guardar' }}</button>
-      <button class="btn ghost" type="button" (click)="cancel()">Limpiar</button>
-    </div>
-  </form>
+          </label>
+        }
+      </div>
+      <div class="form-actions">
+        <button class="btn primary" type="submit" [disabled]="isSaving">{{ isSaving ? 'Guardando...' : 'Guardar' }}</button>
+        <button class="btn ghost" type="button" (click)="cancel()">Cancelar</button>
+      </div>
+    </form>
+  }
 
   <div class="surface-card admin-table-card">
     <div class="table-tools">

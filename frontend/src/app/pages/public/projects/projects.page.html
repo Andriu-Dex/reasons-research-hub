@@ -1,0 +1,50 @@
+<header class="projects-hero">
+  <div class="container">
+    <span class="eyebrow">{{ config.eyebrow }}</span>
+    <h1>{{ config.title }}</h1>
+    <p>{{ config.description }}</p>
+  </div>
+</header>
+
+<section class="projects-section section">
+  <div class="container">
+    @if (isLoading) {
+      <div class="state-card">Cargando proyectos...</div>
+    } @else if (hasError) {
+      <div class="state-card error">No se pudo cargar los proyectos.</div>
+    } @else if (!projects.length) {
+      <div class="state-card">{{ config.emptyMessage }}</div>
+    } @else {
+      <div class="projects-grid">
+        @for (project of projects; track project.id) {
+          <article class="surface-card project-card">
+            @if (project.mainImage?.url) {
+              <figure class="project-cover">
+                <img [src]="project.mainImage?.url" [alt]="project.title" loading="lazy" />
+              </figure>
+            }
+            <div class="project-body">
+              <span class="tag">{{ project.projectStatus }}</span>
+              <h2>{{ project.title }}</h2>
+              <p>{{ project.description }}</p>
+              <dl>
+                <div>
+                  <dt>Objetivos</dt>
+                  <dd>{{ project.objectives }}</dd>
+                </div>
+                <div>
+                  <dt>Equipo</dt>
+                  <dd>{{ researchersOf(project) }}</dd>
+                </div>
+                <div>
+                  <dt>Líneas asociadas</dt>
+                  <dd>{{ linesOf(project) }}</dd>
+                </div>
+              </dl>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </div>
+</section>

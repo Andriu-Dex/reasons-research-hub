@@ -321,6 +321,31 @@
   grid-row: span 1;
 }
 
+.about-navigation {
+  background:
+    radial-gradient(circle at top right, rgba(0, 184, 240, 0.12), transparent 55%),
+    var(--color-surface);
+}
+
+.about-links {
+  display: grid;
+  gap: 10px;
+}
+
+.about-links a {
+  background: var(--color-primary);
+  border-radius: var(--radius-xs);
+  color: #ffffff;
+  font-weight: 900;
+  padding: 14px 16px;
+  transition: background var(--transition-base), transform var(--transition-base);
+}
+
+.about-links a:hover {
+  background: var(--color-secondary);
+  transform: translateX(4px);
+}
+
 .card-heading {
   align-items: center;
   display: flex;

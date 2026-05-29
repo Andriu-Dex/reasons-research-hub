@@ -2,20 +2,20 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { Researcher } from '../../../core/models/content.models';
+import { ResearchLine } from '../../../core/models/content.models';
 import { PublicContentService } from '../../../core/services/public-content.service';
 import { getRouteTenantSlug } from '../../../core/utils/route-tenant.util';
 
 @Component({
-  selector: 'app-researchers-page',
+  selector: 'app-research-lines-public-page',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './researchers.page.html',
-  styleUrl: './researchers.page.css'
+  templateUrl: './research-lines.page.html',
+  styleUrl: './research-lines.page.css'
 })
-export class ResearchersPage implements OnInit {
+export class ResearchLinesPublicPage implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
-  researchers: Researcher[] = [];
+  researchLines: ResearchLine[] = [];
   isLoading = true;
   hasError = false;
 
@@ -27,11 +27,11 @@ export class ResearchersPage implements OnInit {
 
   ngOnInit(): void {
     this.publicContentService
-      .getResearchers(getRouteTenantSlug(this.route))
+      .getResearchLines(getRouteTenantSlug(this.route))
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (researchers) => {
-          this.researchers = researchers;
+        next: (researchLines) => {
+          this.researchLines = researchLines;
           this.isLoading = false;
           this.changeDetectorRef.markForCheck();
         },

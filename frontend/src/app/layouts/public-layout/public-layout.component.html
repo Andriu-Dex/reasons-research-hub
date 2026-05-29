@@ -10,29 +10,28 @@
       </a>
       <div class="header-actions">
         <nav id="primary-nav" class="nav-links" [ngClass]="{ open: isMenuOpen }">
-          <a
-            [routerLink]="linkTo()"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="closeMenu()"
-          >
-            Inicio
-          </a>
-          <a [routerLink]="linkTo('nosotros')" routerLinkActive="active" (click)="closeMenu()">
-            Nosotros
-          </a>
-          <a [routerLink]="linkTo('investigacion')" routerLinkActive="active" (click)="closeMenu()">
-            Investigacion
-          </a>
-          <a [routerLink]="linkTo('investigadores')" routerLinkActive="active" (click)="closeMenu()">
-            Investigadores
-          </a>
-          <a [routerLink]="linkTo('noticias')" routerLinkActive="active" (click)="closeMenu()">
-            Noticias
-          </a>
-          <a [routerLink]="linkTo('contacto')" routerLinkActive="active" (click)="closeMenu()">
-            Contacto
-          </a>
+          @for (item of navigationItems; track item.path) {
+            <div class="nav-item" [ngClass]="{ 'has-submenu': item.children?.length }">
+              <a
+                class="nav-link"
+                [routerLink]="linkTo(item.path)"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: item.path === '' }"
+                (click)="!item.children?.length && closeMenu()"
+              >
+                {{ item.label }}
+              </a>
+              @if (item.children?.length) {
+                <div class="submenu" role="menu">
+                  @for (child of item.children; track child.path) {
+                    <a [routerLink]="linkTo(child.path)" routerLinkActive="active" role="menuitem" (click)="closeMenu()">
+                      {{ child.label }}
+                    </a>
+                  }
+                </div>
+              }
+            </div>
+          }
         </nav>
         <app-theme-toggle></app-theme-toggle>
         <button
@@ -68,7 +67,7 @@
         <span class="footer-title">Explorar</span>
         <a [routerLink]="linkTo()">Inicio</a>
         <a [routerLink]="linkTo('nosotros')">Nosotros</a>
-        <a [routerLink]="linkTo('investigacion')">Investigacion</a>
+        <a [routerLink]="linkTo('investigacion')">Investigación</a>
         <a [routerLink]="linkTo('investigadores')">Investigadores</a>
         <a [routerLink]="linkTo('noticias')">Noticias</a>
       </div>

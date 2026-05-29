@@ -299,7 +299,7 @@ textarea::placeholder {
 }
 
 .btn.ghost {
-  background: transparent;
+  background: #b6d9ff;
   border: 1.5px solid var(--color-border-strong);
   color: var(--color-primary);
 }

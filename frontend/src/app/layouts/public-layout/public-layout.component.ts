@@ -1,14 +1,19 @@
 import { NgClass } from '@angular/common';
-import { Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SiteSettings } from '../../core/models/content.models';
 import { PublicContentService } from '../../core/services/public-content.service';
-import { TenantContextService } from '../../core/services/tenant-context.service';
 import { ThemeToggleComponent } from '../../shared/theme-toggle/theme-toggle.component';
 import { environment } from '../../../environments/environment';
 
 const DEFAULT_LOGO = 'https://i.imgur.com/RARaC9j.png';
+
+interface PublicNavigationItem {
+  label: string;
+  path: string;
+  children?: PublicNavigationItem[];
+}
 
 @Component({
   selector: 'app-public-layout',
@@ -24,23 +29,58 @@ export class PublicLayoutComponent {
   siteSettings: SiteSettings | null = null;
   readonly defaultLogo = DEFAULT_LOGO;
   isMenuOpen = false;
+  readonly navigationItems: PublicNavigationItem[] = [
+    { label: 'Inicio', path: '' },
+    {
+      label: 'Nosotros',
+      path: 'nosotros',
+      children: [
+        { label: 'Quiénes somos', path: 'nosotros/quienes-somos' },
+        { label: 'Equipo de trabajo', path: 'nosotros/equipo' }
+      ]
+    },
+    {
+      label: 'Investigación',
+      path: 'investigacion',
+      children: [
+        { label: 'Líneas de investigación', path: 'investigacion/lineas' },
+        { label: 'Libros', path: 'investigacion/libros' },
+        { label: 'Artículos científicos', path: 'investigacion/articulos-cientificos' },
+        { label: 'Proyectos académicos', path: 'investigacion/proyectos-academicos' },
+        { label: 'Proyectos de investigación', path: 'investigacion/proyectos-investigacion' }
+      ]
+    },
+    { label: 'Investigadores', path: 'investigadores' },
+    {
+      label: 'Noticias',
+      path: 'noticias',
+      children: [
+        { label: 'Novedades', path: 'noticias/novedades' },
+        { label: 'Eventos', path: 'noticias/eventos' },
+        { label: 'Convenios de cooperación', path: 'noticias/convenios-cooperacion' }
+      ]
+    },
+    { label: 'Contacto', path: 'contacto' }
+  ];
 
   constructor(
     private route: ActivatedRoute,
     private publicContentService: PublicContentService,
-    private tenantContextService: TenantContextService
+    private changeDetectorRef: ChangeDetectorRef
   ) {
-    this.route.paramMap.subscribe((params) => {
-      const routeTenantSlug = params.get('tenantSlug');
-      this.usesPathTenant = Boolean(routeTenantSlug);
+    this.route.paramMap
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => {
+        const routeTenantSlug = params.get('tenantSlug');
+        this.usesPathTenant = Boolean(routeTenantSlug);
 
-      if (routeTenantSlug) {
-        this.setTenant(routeTenantSlug);
-        return;
-      }
+        if (routeTenantSlug) {
+          this.setTenant(routeTenantSlug);
+          return;
+        }
 
-      this.resolveTenantForCurrentHost();
-    });
+        this.resolveTenantForCurrentHost();
+      });
   }
 
   get logoUrl(): string {
@@ -56,11 +96,13 @@ export class PublicLayoutComponent {
   }
 
   linkTo(path = ''): unknown[] {
+    const pathSegments = path.split('/').filter(Boolean);
+
     if (!this.usesPathTenant) {
-      return path ? ['/', path] : ['/'];
+      return pathSegments.length ? ['/', ...pathSegments] : ['/'];
     }
 
-    return path ? ['/', this.tenantSlug, path] : ['/', this.tenantSlug];
+    return pathSegments.length ? ['/', this.tenantSlug, ...pathSegments] : ['/', this.tenantSlug];
   }
 
   toggleMenu(): void {
@@ -79,9 +121,11 @@ export class PublicLayoutComponent {
         next: (settings) => {
           this.siteSettings = settings;
           this.applySiteVariables(settings);
+          this.changeDetectorRef.markForCheck();
         },
         error: () => {
           this.siteSettings = null;
+          this.changeDetectorRef.markForCheck();
         }
       });
   }
@@ -109,8 +153,8 @@ export class PublicLayoutComponent {
 
   private setTenant(tenantSlug: string): void {
     this.tenantSlug = tenantSlug;
-    this.tenantContextService.setTenantSlug(tenantSlug);
     this.loadSiteSettings();
+    this.changeDetectorRef.markForCheck();
   }
 
   private applySiteVariables(settings: SiteSettings | null): void {

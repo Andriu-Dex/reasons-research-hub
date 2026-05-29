@@ -8,6 +8,12 @@
 
 <section class="news-workspace section">
   <div class="container">
+    <div class="news-categories">
+      <a [routerLink]="['/', tenantSlug, 'noticias', 'novedades']">Novedades</a>
+      <a [routerLink]="['/', tenantSlug, 'noticias', 'eventos']">Eventos</a>
+      <a [routerLink]="['/', tenantSlug, 'noticias', 'convenios-cooperacion']">Convenios de cooperación</a>
+    </div>
+
     @if (isLoading) {
       <div class="state-card">Cargando noticias...</div>
     } @else if (hasError) {

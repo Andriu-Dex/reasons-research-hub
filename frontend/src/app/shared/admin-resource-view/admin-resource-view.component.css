@@ -3,6 +3,13 @@
   gap: 24px;
 }
 
+.admin-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
 .admin-view-header h1,
 .admin-form h2,
 .admin-table-card h2 {
@@ -22,11 +29,39 @@
   padding: clamp(20px, 3vw, 30px);
 }
 
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1.5px solid var(--color-border);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.close-form-btn {
+  background: var(--color-surface-alt);
+  border: none;
+  border-radius: 50%;
+  color: var(--color-muted);
+  cursor: pointer;
+  display: grid;
+  font-size: 1.5rem;
+  font-weight: 300;
+  height: 36px;
+  place-items: center;
+  transition: background var(--transition-base), color var(--transition-base);
+  width: 36px;
+}
+
+.close-form-btn:hover {
+  background: var(--color-surface-strong);
+  color: var(--color-text);
+}
+
 .form-grid {
   display: grid;
   gap: 16px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-top: 20px;
 }
 
 label {
@@ -60,12 +95,16 @@ select[multiple] {
 }
 
 .form-actions {
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 .table-tools {
   justify-content: space-between;
   margin-bottom: 18px;
+}
+
+.table-tools input[type="search"] {
+  max-width: 320px;
 }
 
 .table-scroll {
@@ -81,33 +120,64 @@ table {
 th,
 td {
   border-bottom: 1px solid var(--color-border);
-  padding: 13px 12px;
+  padding: 16px 12px;
   text-align: left;
-  vertical-align: top;
+  vertical-align: middle;
+}
+
+tr {
+  transition: background-color var(--transition-base);
+}
+
+tr:hover {
+  background-color: var(--color-bg);
 }
 
 th {
   color: var(--color-muted);
   font-size: 0.78rem;
+  font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .actions button {
   background: var(--color-surface-alt);
-  border-radius: 999px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 8px;
   color: var(--color-primary);
   font-size: 0.82rem;
   font-weight: 900;
-  padding: 8px 12px;
+  padding: 8px 14px;
+  transition: background var(--transition-base), border-color var(--transition-base);
+}
+
+.actions button:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
 }
 
 .actions .danger {
   color: var(--color-danger);
 }
 
+.actions .danger:hover {
+  background: #fdf2f2;
+  border-color: var(--color-danger);
+}
+
 @media (max-width: 760px) {
   .form-grid {
     grid-template-columns: 1fr;
+  }
+
+  .admin-view-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .admin-view-header button {
+    width: 100%;
   }
 }

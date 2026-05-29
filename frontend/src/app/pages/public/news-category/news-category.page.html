@@ -1,0 +1,37 @@
+<header class="category-hero" [class.agreements]="category === 'agreements'" [class.events]="category === 'events'">
+  <div class="container">
+    <span class="eyebrow">{{ config.eyebrow }}</span>
+    <h1>{{ config.title }}</h1>
+    <p>{{ config.description }}</p>
+  </div>
+</header>
+
+<section class="category-section section">
+  <div class="container">
+    @if (isLoading) {
+      <div class="state-card">Cargando contenido...</div>
+    } @else if (hasError) {
+      <div class="state-card error">No se pudo cargar esta sección.</div>
+    } @else if (!news.length) {
+      <div class="state-card">{{ config.emptyMessage }}</div>
+    } @else {
+      <div class="category-grid">
+        @for (item of news; track item.id) {
+          <article class="surface-card category-card">
+            @if (item.mainImage?.url) {
+              <figure>
+                <img [src]="item.mainImage?.url" [alt]="item.title" loading="lazy" />
+              </figure>
+            }
+            <div class="category-content">
+              <time class="tag" [attr.datetime]="item.publishedAt">{{ item.publishedAt | date: 'dd MMM yyyy' }}</time>
+              <h2>{{ item.title }}</h2>
+              <p>{{ item.summary }}</p>
+              <div class="category-body" [innerHTML]="item.content"></div>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </div>
+</section>

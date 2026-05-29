@@ -1,0 +1,102 @@
+.projects-hero {
+  background:
+    radial-gradient(ellipse 70% 80% at 92% 12%, rgba(0, 184, 240, 0.18), transparent),
+    radial-gradient(ellipse 50% 60% at 8% 88%, rgba(0, 74, 153, 0.12), transparent),
+    linear-gradient(150deg, #f7fbff 0%, #edf5ff 60%, #f4f8ff 100%);
+  border-bottom: 1.5px solid var(--color-border);
+  padding: clamp(68px, 8vw, 112px) 0 clamp(52px, 7vw, 84px);
+}
+
+:host-context(html[data-theme='dark']) .projects-hero {
+  background:
+    radial-gradient(ellipse 70% 80% at 92% 12%, rgba(0, 184, 240, 0.14), transparent),
+    radial-gradient(ellipse 50% 60% at 8% 88%, rgba(0, 74, 153, 0.18), transparent),
+    linear-gradient(150deg, #06101d 0%, #071829 62%, #050b14 100%);
+}
+
+.projects-hero h1 {
+  color: var(--color-primary);
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4.4vw, 4.8rem);
+  letter-spacing: -0.09em;
+  line-height: 1.04;
+  margin: 14px 0 18px;
+  max-width: 980px;
+}
+
+.projects-hero p {
+  color: var(--color-muted);
+  font-size: clamp(1rem, 1.3vw, 1.18rem);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 780px;
+}
+
+.projects-grid {
+  display: grid;
+  gap: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.project-card {
+  display: grid;
+  overflow: hidden;
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.project-card:hover {
+  box-shadow: var(--shadow-strong);
+  transform: translateY(-4px);
+}
+
+.project-cover {
+  aspect-ratio: 16 / 9;
+  background: var(--color-surface-alt);
+  margin: 0;
+  overflow: hidden;
+}
+
+.project-cover img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.project-body {
+  display: grid;
+  gap: 14px;
+  padding: clamp(24px, 3.2vw, 36px);
+}
+
+.project-body h2 {
+  color: var(--color-primary);
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2vw, 2rem);
+  letter-spacing: -0.06em;
+  line-height: 1.14;
+  margin: 0;
+}
+
+.project-body p,
+.project-body dd {
+  color: var(--color-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.project-body dl {
+  border-top: 1.5px solid var(--color-border);
+  display: grid;
+  gap: 14px;
+  margin: 6px 0 0;
+  padding-top: 18px;
+}
+
+.project-body dt {
+  color: var(--color-primary);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}

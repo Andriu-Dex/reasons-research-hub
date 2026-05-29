@@ -1,0 +1,116 @@
+.publications-hero {
+  background:
+    radial-gradient(ellipse 60% 70% at 10% 20%, rgba(0, 184, 240, 0.18), transparent),
+    linear-gradient(145deg, #f4f8ff 0%, #eef5ff 55%, #ffffff 100%);
+  border-bottom: 1.5px solid var(--color-border);
+  padding: clamp(68px, 8vw, 112px) 0 clamp(52px, 7vw, 84px);
+}
+
+:host-context(html[data-theme='dark']) .publications-hero {
+  background:
+    radial-gradient(ellipse 60% 70% at 10% 20%, rgba(0, 184, 240, 0.14), transparent),
+    linear-gradient(145deg, #07111f 0%, #061527 55%, #050b14 100%);
+}
+
+.publications-hero h1 {
+  color: var(--color-primary);
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4.4vw, 4.8rem);
+  letter-spacing: -0.09em;
+  line-height: 1.04;
+  margin: 14px 0 18px;
+  max-width: 960px;
+}
+
+.publications-hero p {
+  color: var(--color-muted);
+  font-size: clamp(1rem, 1.3vw, 1.18rem);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 760px;
+}
+
+.publications-list {
+  display: grid;
+  gap: 24px;
+}
+
+.publication-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.32fr) minmax(0, 1fr);
+  overflow: hidden;
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.publication-card:hover {
+  box-shadow: var(--shadow-strong);
+  transform: translateY(-3px);
+}
+
+.publication-cover {
+  background: var(--color-surface-alt);
+  margin: 0;
+  min-height: 260px;
+  overflow: hidden;
+}
+
+.publication-cover img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.publication-content {
+  display: grid;
+  gap: 12px;
+  padding: clamp(24px, 3.5vw, 42px);
+}
+
+.publication-content h2 {
+  color: var(--color-primary);
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2vw, 2rem);
+  letter-spacing: -0.06em;
+  line-height: 1.14;
+  margin: 0;
+}
+
+.publication-content p,
+.publication-content blockquote {
+  color: var(--color-muted);
+  line-height: 1.68;
+  margin: 0;
+}
+
+.publication-content blockquote {
+  border-left: 4px solid var(--color-accent);
+  font-size: 0.92rem;
+  padding-left: 16px;
+}
+
+.authors {
+  color: var(--color-secondary) !important;
+  font-weight: 800;
+}
+
+.publication-actions {
+  align-items: center;
+  border-top: 1.5px solid var(--color-border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding-top: 16px;
+}
+
+.publication-actions span,
+.publication-actions a {
+  color: var(--color-secondary);
+  font-size: 0.88rem;
+  font-weight: 900;
+}
+
+@media (max-width: 760px) {
+  .publication-card {
+    grid-template-columns: 1fr;
+  }
+}
