@@ -26,8 +26,20 @@ export class MediaAdminPage implements OnInit {
     this.adminApi.getMedia().subscribe({ next: (files) => (this.mediaFiles = files) });
   }
 
-  remove(id: string): void {
-    if (!window.confirm('Deseas eliminar esta imagen?')) return;
+  confirmDeleteItem: MediaFile | null = null;
+
+  requestDelete(item: MediaFile): void {
+    this.confirmDeleteItem = item;
+  }
+
+  cancelDelete(): void {
+    this.confirmDeleteItem = null;
+  }
+
+  confirmDelete(): void {
+    if (!this.confirmDeleteItem) return;
+    const id = this.confirmDeleteItem.id;
+    this.confirmDeleteItem = null;
     this.adminApi.deleteMedia(id).subscribe({
       next: () => {
         this.toastService.success('Imagen eliminada');

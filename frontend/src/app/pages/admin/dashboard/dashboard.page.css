@@ -52,7 +52,24 @@
   border-left-color: var(--color-accent);
 }
 
-.kpi span {
+.kpi-icon {
+  align-items: center;
+  background: var(--color-primary-light);
+  border-radius: var(--radius-xs);
+  color: var(--color-primary);
+  display: inline-flex;
+  height: 42px;
+  justify-content: center;
+  width: 42px;
+  transition: background var(--transition-base);
+}
+
+.kpi:hover .kpi-icon {
+  background: var(--color-accent-light);
+  color: var(--color-secondary);
+}
+
+.kpi span:not(.kpi-icon):not(.mat-icon) {
   color: var(--color-muted);
   font-weight: 900;
 }
@@ -99,11 +116,18 @@
 
 .chart-card h2,
 .activity-card h2 {
+  align-items: center;
   color: var(--color-primary);
+  display: flex;
   font-family: var(--font-display);
-  font-size: clamp(1.35rem, 2vw, 2rem);
+  font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+  gap: 8px;
   letter-spacing: -0.055em;
   margin: 0;
+}
+
+.activity-card h2 .mat-icon {
+  color: var(--color-accent);
 }
 
 .chart-card button,
@@ -234,7 +258,10 @@
 }
 
 .quick-links strong {
+  align-items: center;
   color: var(--color-primary);
+  display: flex;
+  gap: 6px;
 }
 
 .quick-links span {
@@ -245,5 +272,30 @@
 .quick-links small {
   color: var(--color-muted);
   font-weight: 900;
+}
+
+.quick-link-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.quick-link-actions a {
+  background: var(--color-primary-light);
+  border: 1.5px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-primary);
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 7px 14px;
+  transition: background var(--transition-base), border-color var(--transition-base), transform var(--transition-base);
+}
+
+.quick-link-actions a:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 

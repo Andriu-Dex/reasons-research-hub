@@ -52,17 +52,28 @@
 
 .admin-nav {
   display: grid;
-  gap: 6px;
+  gap: 4px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
 }
 
 .admin-nav a,
 .admin-nav .nav-item {
+  align-items: center;
   color: var(--color-muted);
-  border-radius: 16px;
+  border-radius: 12px;
+  display: flex;
   font-weight: 800;
-  padding: 13px 16px;
+  gap: 10px;
+  padding: 11px 14px;
   text-align: left;
-  transition: background var(--transition-base), color var(--transition-base);
+  transition: background var(--transition-base), color var(--transition-base), transform var(--transition-base);
+}
+
+.admin-nav a .mat-icon {
+  color: var(--color-subtle);
+  transition: color var(--transition-base);
 }
 
 .admin-nav a.active,
@@ -71,26 +82,47 @@
   color: var(--color-primary);
 }
 
+.admin-nav a.active .mat-icon,
+.admin-nav a:hover .mat-icon {
+  color: var(--color-primary);
+}
+
 .research-cta {
   align-items: center;
   background: var(--color-primary-strong);
-  border-radius: 16px;
+  border-radius: 14px;
   box-shadow: var(--shadow-card);
   color: #ffffff;
   display: flex;
   font-weight: 800;
+  gap: 8px;
   justify-content: center;
   margin-top: auto;
-  min-height: 56px;
+  min-height: 52px;
   padding: 0 18px;
+  transition: background var(--transition-base), box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.research-cta:hover {
+  background: var(--color-secondary);
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-2px);
 }
 
 .admin-logout {
+  align-items: center;
   background: transparent;
   color: var(--color-muted);
+  display: flex;
   font-weight: 800;
-  padding: 0 10px;
+  gap: 8px;
+  padding: 6px 10px;
   text-align: left;
+  transition: color var(--transition-base);
+}
+
+.admin-logout:hover {
+  color: var(--color-danger);
 }
 
 .admin-content {
@@ -135,11 +167,23 @@
   text-transform: uppercase;
 }
 
+.admin-search {
+  position: relative;
+}
+
+.admin-search .search-icon {
+  color: var(--color-subtle);
+  left: 16px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .admin-search input {
   background: var(--color-surface-alt);
   border-radius: 999px;
   min-height: 54px;
-  padding-inline: 20px;
+  padding-inline: 46px 20px;
   width: 100%;
 }
 

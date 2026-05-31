@@ -15,11 +15,25 @@
     </div>
 
     @if (isLoading) {
-      <div class="state-card">Cargando noticias...</div>
+      <div class="skeleton-list">
+        <div style="display: grid; gap: 28px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+          <div class="skeleton skeleton-kpi" style="min-height: 420px;"></div>
+          <div class="skeleton skeleton-kpi" style="min-height: 420px;"></div>
+          <div class="skeleton skeleton-kpi" style="min-height: 420px;"></div>
+        </div>
+      </div>
     } @else if (hasError) {
-      <div class="state-card error">No se pudo cargar noticias.</div>
+      <div class="empty-state-card">
+        <span class="mat-icon">error_outline</span>
+        <strong>Error al cargar noticias</strong>
+        <p>No se pudieron cargar las noticias. Intenta nuevamente.</p>
+      </div>
     } @else if (!news.length) {
-      <div class="state-card">Aún no hay noticias publicadas.</div>
+      <div class="empty-state-card">
+        <span class="mat-icon">newspaper</span>
+        <strong>No hay noticias publicadas</strong>
+        <p>Las actualizaciones de la organización aparecerán aquí.</p>
+      </div>
     } @else {
       <div class="news-grid">
         @for (item of news; track item.id) {

@@ -9,11 +9,24 @@
 <section class="category-section section">
   <div class="container">
     @if (isLoading) {
-      <div class="state-card">Cargando contenido...</div>
+      <div class="skeleton-list">
+        <div style="display: grid; gap: 28px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+          <div class="skeleton skeleton-kpi" style="min-height: 240px;"></div>
+          <div class="skeleton skeleton-kpi" style="min-height: 240px;"></div>
+        </div>
+      </div>
     } @else if (hasError) {
-      <div class="state-card error">No se pudo cargar esta sección.</div>
+      <div class="empty-state-card">
+        <span class="mat-icon">error_outline</span>
+        <strong>Error de conexión</strong>
+        <p>No se pudo cargar esta sección, intenta nuevamente.</p>
+      </div>
     } @else if (!news.length) {
-      <div class="state-card">{{ config.emptyMessage }}</div>
+      <div class="empty-state-card">
+        <span class="mat-icon">newspaper</span>
+        <strong>Sin contenido</strong>
+        <p>{{ config.emptyMessage }}</p>
+      </div>
     } @else {
       <div class="category-grid">
         @for (item of news; track item.id) {

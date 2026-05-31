@@ -9,11 +9,24 @@
 <section class="lines-section section">
   <div class="container">
     @if (isLoading) {
-      <div class="state-card">Cargando líneas de investigación...</div>
+      <div class="skeleton-list">
+        <div style="display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+          <div class="skeleton skeleton-kpi" style="min-height: 180px;"></div>
+          <div class="skeleton skeleton-kpi" style="min-height: 180px;"></div>
+        </div>
+      </div>
     } @else if (hasError) {
-      <div class="state-card error">No se pudo cargar las líneas de investigación.</div>
+      <div class="empty-state-card">
+        <span class="mat-icon">error_outline</span>
+        <strong>Error al cargar líneas</strong>
+        <p>No se pudieron cargar las líneas de investigación.</p>
+      </div>
     } @else if (!researchLines.length) {
-      <div class="state-card">Aún no hay líneas de investigación publicadas.</div>
+      <div class="empty-state-card">
+        <span class="mat-icon">account_tree</span>
+        <strong>Sección vacía</strong>
+        <p>Aún no hay líneas de investigación publicadas.</p>
+      </div>
     } @else {
       <div class="lines-grid">
         @for (line of researchLines; track line.id; let i = $index) {

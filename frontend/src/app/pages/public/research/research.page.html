@@ -34,9 +34,16 @@
     <!-- Zona principal de resultados -->
     <main class="research-results">
       @if (isLoading) {
-        <div class="state-card">Cargando ecosistema de investigación...</div>
+        <div class="skeleton-list">
+          <div class="skeleton skeleton-kpi" style="min-height: 200px;"></div>
+          <div class="skeleton skeleton-kpi" style="min-height: 200px;"></div>
+        </div>
       } @else if (hasError) {
-        <div class="state-card error">No se pudo cargar la información de investigación.</div>
+        <div class="empty-state-card">
+          <span class="mat-icon">error_outline</span>
+          <strong>Error al cargar el ecosistema</strong>
+          <p>No se pudo cargar la información de investigación.</p>
+        </div>
       } @else {
 
         <!-- Bloque de Proyectos -->

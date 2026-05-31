@@ -1,22 +1,53 @@
 <section class="media-page">
   <div class="admin-view-header">
     <span class="eyebrow">Medios</span>
-    <h1>Biblioteca de imagenes</h1>
-    <p>Sube imagenes optimizadas y reutilizalas en las pantallas publicas.</p>
+    <h1>Biblioteca de imágenes</h1>
+    <p>Sube imágenes optimizadas y reutilízalas en las pantallas públicas.</p>
   </div>
   <div class="surface-card admin-form">
+    <h2 class="form-section-title"><span class="mat-icon">cloud_upload</span> Subir imagen</h2>
     <app-media-picker [(selectedId)]="selectedId"></app-media-picker>
   </div>
-  <div class="media-grid">
-    @for (media of mediaFiles; track media.id) {
-      <article class="surface-card media-card">
-        <img [src]="media.url" [alt]="media.originalFilename" />
-        <div>
-          <strong>{{ media.originalFilename }}</strong>
-          <span>{{ media.fileSizeBytes / 1024 | number: '1.0-0' }} KB</span>
-          <button type="button" (click)="remove(media.id)">Eliminar</button>
+  
+  @if (!mediaFiles.length) {
+    <div class="empty-state-card" style="margin-top: 24px;">
+      <span class="mat-icon">perm_media</span>
+      <strong>La biblioteca está vacía</strong>
+      <p>Sube imágenes para que aparezcan aquí.</p>
+    </div>
+  } @else {
+    <div class="media-grid">
+      @for (media of mediaFiles; track media.id) {
+        <article class="surface-card media-card reveal">
+          <img [src]="media.url" [alt]="media.originalFilename" />
+          <div class="media-overlay">
+            <button type="button" (click)="requestDelete(media)">
+              <span class="mat-icon sm">delete</span> Eliminar
+            </button>
+          </div>
+          <div>
+            <strong>{{ media.originalFilename }}</strong>
+            <span>{{ media.fileSizeBytes / 1024 | number: '1.0-0' }} KB</span>
+          </div>
+        </article>
+      }
+    </div>
+  }
+
+  <!-- Confirm Delete Modal -->
+  @if (confirmDeleteItem) {
+    <div class="confirm-overlay" (click)="cancelDelete()">
+      <div class="confirm-dialog" (click)="$event.stopPropagation()">
+        <span class="mat-icon">warning</span>
+        <h3>¿Eliminar esta imagen?</h3>
+        <p>Esta acción no se puede deshacer. Se eliminará permanentemente la imagen seleccionada.</p>
+        <div class="confirm-actions">
+          <button class="btn ghost" type="button" (click)="cancelDelete()">Cancelar</button>
+          <button class="btn danger" type="button" (click)="confirmDelete()">
+            <span class="icon-text"><span class="mat-icon sm">delete_forever</span> Eliminar</span>
+          </button>
         </div>
-      </article>
-    }
-  </div>
+      </div>
+    </div>
+  }
 </section>

@@ -129,14 +129,26 @@ export class AdminResourceViewComponent implements OnInit {
     });
   }
 
-  remove(item: Record<string, any>): void {
-    if (!window.confirm('Esta accion eliminara el registro. Deseas continuar?')) return;
+  confirmDeleteItem: Record<string, any> | null = null;
+
+  requestDelete(item: Record<string, any>): void {
+    this.confirmDeleteItem = item;
+  }
+
+  cancelDelete(): void {
+    this.confirmDeleteItem = null;
+  }
+
+  confirmDelete(): void {
+    if (!this.confirmDeleteItem) return;
+    const item = this.confirmDeleteItem;
+    this.confirmDeleteItem = null;
     this.adminApi.remove(this.config.resource, String(item['id'])).subscribe({
       next: () => {
         this.toastService.success('Registro eliminado');
         this.load();
       },
-      error: () => this.toastService.error('No se pudo eliminar', 'Puede existir informacion relacionada.')
+      error: () => this.toastService.error('No se pudo eliminar', 'Puede existir información relacionada.')
     });
   }
 

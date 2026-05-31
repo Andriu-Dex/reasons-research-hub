@@ -15,13 +15,13 @@
         @if (channels.length) {
           @for (channel of channels; track channel.id) {
             <article class="surface-card channel-card reveal">
-              <span class="tag">{{ channel.label || channel.type }}</span>
+              <span class="icon-text"><span class="mat-icon sm">contacts</span> <span class="tag">{{ channel.label || channel.type }}</span></span>
               <strong>{{ channel.value }}</strong>
             </article>
           }
         } @else {
           <article class="surface-card channel-card">
-            <span class="tag">Canales</span>
+            <span class="icon-text"><span class="mat-icon sm">info</span> <span class="tag">Canales</span></span>
             <strong>Los canales de contacto aún no han sido configurados.</strong>
           </article>
         }
@@ -32,28 +32,31 @@
     <main class="contact-form-wrapper">
       <form class="surface-card contact-form reveal" #contactForm="ngForm" (ngSubmit)="submit(contactForm)">
       <label>
-        Nombre completo
+        <span class="icon-text"><span class="mat-icon sm">person</span> Nombre completo</span>
         <input name="name" [(ngModel)]="contact.name" required minlength="2" />
       </label>
       <label>
-        Correo electronico
+        <span class="icon-text"><span class="mat-icon sm">email</span> Correo electrónico</span>
         <input name="email" type="email" [(ngModel)]="contact.email" required email />
       </label>
       <label>
-        Asunto
+        <span class="icon-text"><span class="mat-icon sm">subject</span> Asunto</span>
         <input name="subject" [(ngModel)]="contact.subject" required minlength="3" />
       </label>
       <label>
-        Mensaje
+        <span class="icon-text"><span class="mat-icon sm">chat</span> Mensaje</span>
         <textarea name="message" rows="6" [(ngModel)]="contact.message" required minlength="10"></textarea>
       </label>
       @if (turnstileSiteKey) {
         <div class="captcha-box" #turnstileContainer></div>
       } @else {
-          <div class="captcha-box">Verificación antispam en modo desarrollo.</div>
+        <div class="captcha-box">
+          <span class="mat-icon">shield</span>
+          <span>Validación de seguridad administrada internamente.</span>
+        </div>
       }
       <button class="btn primary" type="submit" [disabled]="isSubmitting">
-        {{ isSubmitting ? 'Enviando...' : 'Enviar mensaje' }}
+        <span class="icon-text"><span class="mat-icon sm">send</span> {{ isSubmitting ? 'Enviando...' : 'Enviar mensaje' }}</span>
       </button>
     </form>
     </main>

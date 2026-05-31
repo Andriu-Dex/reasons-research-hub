@@ -8,39 +8,76 @@
       </div>
     </div>
     <nav class="admin-nav">
-      <a routerLink="dashboard" routerLinkActive="active" (click)="closeMenu()">Dashboard</a>
-      <a routerLink="settings" routerLinkActive="active" (click)="closeMenu()">Configuracion</a>
-      <a routerLink="home" routerLinkActive="active" (click)="closeMenu()">Home</a>
-      <a routerLink="about" routerLinkActive="active" (click)="closeMenu()">Nosotros</a>
-      <a routerLink="research-lines" routerLinkActive="active" (click)="closeMenu()">Lineas</a>
-      <a routerLink="researchers" routerLinkActive="active" (click)="closeMenu()">Investigadores</a>
-      <a routerLink="projects" routerLinkActive="active" (click)="closeMenu()">Proyectos</a>
-      <a routerLink="authors" routerLinkActive="active" (click)="closeMenu()">Autores</a>
-      <a routerLink="publications" routerLinkActive="active" (click)="closeMenu()">Publicaciones</a>
-      <a routerLink="news" routerLinkActive="active" (click)="closeMenu()">Noticias</a>
-      <a routerLink="contact" routerLinkActive="active" (click)="closeMenu()">Contacto</a>
-      <a routerLink="media" routerLinkActive="active" (click)="closeMenu()">Medios</a>
-      <a routerLink="profile" routerLinkActive="active" (click)="closeMenu()">Perfil</a>
+      <span class="nav-group-label">General</span>
+      <a routerLink="dashboard" routerLinkActive="active" (click)="closeMenu()">
+        <span class="mat-icon">dashboard</span> Dashboard
+      </a>
+      <a routerLink="settings" routerLinkActive="active" (click)="closeMenu()">
+        <span class="mat-icon">tune</span> Configuración
+      </a>
+
+      <span class="nav-group-label">Contenido</span>
+      <a routerLink="home" routerLinkActive="active" (click)="closeMenu()">
+        <span class="mat-icon">home</span> Home
+      </a>
+      <a routerLink="about" routerLinkActive="active" (click)="closeMenu()">
+        <span class="mat-icon">info</span> Nosotros
+      </a>
+      <a routerLink="news" routerLinkActive="active" (click)="closeMenu()">
+        <span class="mat-icon">newspaper</span> Noticias
+      </a>
+      <a routerLink="contact" routerLinkActive="active" (click)="closeMenu()">
+        <span class="mat-icon">mail</span> Contacto
+      </a>
+      <a routerLink="media" routerLinkActive="active" (click)="closeMenu()">
+        <span class="mat-icon">perm_media</span> Medios
+      </a>
+
+      <span class="nav-group-label">Investigación</span>
+      <a routerLink="research-lines" routerLinkActive="active" (click)="closeMenu()">
+        <span class="mat-icon">account_tree</span> Líneas
+      </a>
+      <a routerLink="researchers" routerLinkActive="active" (click)="closeMenu()">
+        <span class="mat-icon">groups</span> Investigadores
+      </a>
+      <a routerLink="projects" routerLinkActive="active" (click)="closeMenu()">
+        <span class="mat-icon">science</span> Proyectos
+      </a>
+      <a routerLink="authors" routerLinkActive="active" (click)="closeMenu()">
+        <span class="mat-icon">person</span> Autores
+      </a>
+      <a routerLink="publications" routerLinkActive="active" (click)="closeMenu()">
+        <span class="mat-icon">menu_book</span> Publicaciones
+      </a>
+
+      <span class="nav-group-label">Cuenta</span>
+      <a routerLink="profile" routerLinkActive="active" (click)="closeMenu()">
+        <span class="mat-icon">badge</span> Perfil
+      </a>
     </nav>
-    <a class="research-cta" routerLink="projects">Iniciar investigacion</a>
+    <a class="research-cta" routerLink="projects">
+      <span class="mat-icon">rocket_launch</span> Iniciar investigación
+    </a>
     <button class="admin-logout" type="button" (click)="logout()">
-      {{ isLoggingOut ? 'Cerrando...' : 'Cerrar sesion' }}
+      <span class="mat-icon sm">logout</span>
+      {{ isLoggingOut ? 'Cerrando...' : 'Cerrar sesión' }}
     </button>
   </aside>
 
   <div class="admin-content">
     <header class="admin-topbar">
-      <button class="admin-menu" type="button" aria-label="Abrir menu" (click)="toggleMenu()">
+      <button class="admin-menu" type="button" aria-label="Abrir menú" (click)="toggleMenu()">
         <span></span>
         <span></span>
         <span></span>
       </button>
       <label class="admin-search">
         <span class="sr-only">Buscar</span>
+        <span class="mat-icon search-icon">search</span>
         <input type="search" placeholder="Buscar proyectos, investigadores..." />
       </label>
       <div class="admin-title">
-        <strong>Panel de administracion</strong>
+        <strong>Panel de administración</strong>
         <span>{{ organizationName }}</span>
       </div>
       <div class="topbar-actions">

@@ -9,11 +9,25 @@
 <section class="section">
   <div class="container">
     @if (isLoading) {
-      <div class="state-card">Cargando investigadores...</div>
+      <div class="skeleton-list">
+        <div style="display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+          <div class="skeleton skeleton-kpi" style="min-height: 280px;"></div>
+          <div class="skeleton skeleton-kpi" style="min-height: 280px;"></div>
+          <div class="skeleton skeleton-kpi" style="min-height: 280px;"></div>
+        </div>
+      </div>
     } @else if (hasError) {
-      <div class="state-card error">No se pudo cargar el directorio de investigadores.</div>
+      <div class="empty-state-card">
+        <span class="mat-icon">error_outline</span>
+        <strong>No se pudo cargar el directorio</strong>
+        <p>Intenta recargar la página en unos momentos.</p>
+      </div>
     } @else if (!researchers.length) {
-      <div class="state-card">Aun no hay investigadores publicados.</div>
+      <div class="empty-state-card">
+        <span class="mat-icon">groups</span>
+        <strong>Directorio vacío</strong>
+        <p>Aún no hay investigadores publicados en este momento.</p>
+      </div>
     } @else {
       <div class="researcher-directory">
         @for (researcher of researchers; track researcher.id) {

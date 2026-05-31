@@ -400,6 +400,219 @@ textarea::placeholder {
   }
 }
 
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+/* ─── Material Icons ─────────────────────────────────────── */
+.mat-icon {
+  direction: ltr;
+  display: inline-flex;
+  font-family: 'Material Icons Round';
+  font-feature-settings: 'liga';
+  font-size: 20px;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: 1;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.mat-icon.sm { font-size: 18px; }
+.mat-icon.lg { font-size: 24px; }
+.mat-icon.xl { font-size: 28px; }
+
+/* ─── Skeleton Loader ────────────────────────────────────── */
+.skeleton {
+  animation: shimmer 1.6s ease-in-out infinite;
+  background: linear-gradient(90deg,
+    var(--color-surface-alt) 0%,
+    var(--color-surface-strong) 40%,
+    var(--color-surface-alt) 80%
+  );
+  background-size: 800px 100%;
+  border-radius: var(--radius-sm);
+  min-height: 18px;
+}
+
+.skeleton-kpi {
+  border-radius: var(--radius-md);
+  min-height: 180px;
+}
+
+.skeleton-row {
+  height: 52px;
+  border-radius: var(--radius-xs);
+}
+
+.skeleton-text {
+  height: 14px;
+  width: 60%;
+  border-radius: 8px;
+}
+
+.skeleton-title {
+  height: 22px;
+  width: 45%;
+  border-radius: 8px;
+}
+
+/* ─── Empty State ────────────────────────────────────────── */
+.empty-state-card {
+  align-items: center;
+  background: var(--color-surface);
+  border: 1.5px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  color: var(--color-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: clamp(36px, 5vw, 56px);
+  text-align: center;
+}
+
+.empty-state-card .mat-icon {
+  color: var(--color-subtle);
+  font-size: 48px;
+  animation: pulse-glow 2.4s ease-in-out infinite;
+}
+
+.empty-state-card strong {
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: -0.03em;
+}
+
+.empty-state-card p {
+  color: var(--color-subtle);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 380px;
+}
+
+/* ─── Confirm Modal Overlay ──────────────────────────────── */
+.confirm-overlay {
+  align-items: center;
+  animation: fade-up 220ms ease both;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 24px;
+  position: fixed;
+  z-index: 200;
+}
+
+.confirm-dialog {
+  animation: fade-up 320ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-strong);
+  display: grid;
+  gap: 16px;
+  max-width: 440px;
+  padding: clamp(24px, 3vw, 36px);
+  text-align: center;
+  width: 100%;
+}
+
+.confirm-dialog .mat-icon {
+  color: var(--color-danger);
+  font-size: 44px;
+  justify-self: center;
+}
+
+.confirm-dialog h3 {
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+.confirm-dialog p {
+  color: var(--color-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.btn.danger {
+  background: var(--color-danger);
+  box-shadow: 0 6px 20px rgba(185, 28, 28, 0.26);
+  color: #ffffff;
+}
+
+.btn.danger:hover {
+  background: #d32f2f;
+  box-shadow: 0 10px 28px rgba(185, 28, 28, 0.36);
+  transform: translateY(-2px);
+}
+
+/* ─── Icon + Text Utility ────────────────────────────────── */
+.icon-text {
+  align-items: center;
+  display: inline-flex;
+  gap: 8px;
+}
+
+/* ─── Field Hint ─────────────────────────────────────────── */
+.field-hint {
+  color: var(--color-subtle);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+/* ─── Nav Group Label ────────────────────────────────────── */
+.nav-group-label {
+  color: var(--color-subtle);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  margin-top: 8px;
+  padding: 10px 16px 4px;
+  text-transform: uppercase;
+}
+
+/* ─── Accessibility — Focus Visible ──────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
 /* ─── Responsive ─────────────────────────────────────────── */
 @media (max-width: 720px) {
   .container {
@@ -419,3 +632,4 @@ textarea::placeholder {
     transition-duration: 0.001ms !important;
   }
 }
+

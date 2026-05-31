@@ -2,30 +2,51 @@
   <div class="admin-view-header">
     <span class="eyebrow">Perfil</span>
     <h1>Cuenta administrativa</h1>
-    <p>Actualiza tus datos de acceso y contrasena.</p>
+    <p>Actualiza tus datos de acceso y contraseña.</p>
   </div>
   @if (!profile) {
-    <div class="state-card">Cargando perfil...</div>
+    <div class="skeleton-list">
+      @for (i of [1,2,3]; track i) {
+        <div class="skeleton skeleton-kpi"></div>
+      }
+    </div>
   } @else {
     <div class="profile-grid">
       <form class="surface-card admin-form" (ngSubmit)="saveProfile()">
-        <h2>Datos personales</h2>
+        <h2 class="form-section-title"><span class="mat-icon">person</span> Datos personales</h2>
         <div class="form-grid">
-          <label>Nombre completo<input name="fullName" [(ngModel)]="profile.fullName" required /></label>
-          <label>Correo<input name="email" type="email" [(ngModel)]="profile.email" required /></label>
-          <label>Rol<input [value]="profile.role" disabled /></label>
-          <label>Organizacion<input [value]="profile.organization?.name || 'Gestion global'" disabled /></label>
+          <label>Nombre completo
+            <input name="fullName" [(ngModel)]="profile.fullName" required />
+          </label>
+          <label>Correo electrónico
+            <input name="email" type="email" [(ngModel)]="profile.email" required />
+          </label>
+          <label>Rol asignado
+            <input [value]="profile.role" disabled />
+          </label>
+          <label>Organización
+            <input [value]="profile.organization?.name || 'Gestión global'" disabled />
+          </label>
         </div>
-        <button class="btn primary" type="submit" [disabled]="isSaving">Guardar perfil</button>
+        <button class="btn primary" type="submit" [disabled]="isSaving">
+          <span class="icon-text"><span class="mat-icon sm">save</span> {{ isSaving ? 'Guardando...' : 'Guardar perfil' }}</span>
+        </button>
       </form>
 
       <form class="surface-card admin-form" (ngSubmit)="savePassword()">
-        <h2>Contrasena</h2>
+        <h2 class="form-section-title"><span class="mat-icon">lock</span> Contraseña</h2>
         <div class="form-grid single">
-          <label>Contrasena actual<input name="currentPassword" type="password" [(ngModel)]="password.currentPassword" required /></label>
-          <label>Nueva contrasena<input name="newPassword" type="password" [(ngModel)]="password.newPassword" required minlength="8" /></label>
+          <label>Contraseña actual
+            <input name="currentPassword" type="password" [(ngModel)]="password.currentPassword" required />
+          </label>
+          <label>Nueva contraseña
+            <input name="newPassword" type="password" [(ngModel)]="password.newPassword" required minlength="8" />
+            <small class="field-hint">Mínimo 8 caracteres, usa letras y números.</small>
+          </label>
         </div>
-        <button class="btn primary" type="submit">Actualizar contrasena</button>
+        <button class="btn primary" type="submit">
+          <span class="icon-text"><span class="mat-icon sm">key</span> Actualizar contraseña</span>
+        </button>
       </form>
     </div>
   }

@@ -12,11 +12,25 @@
 <section class="team-section section">
   <div class="container">
     @if (isLoading) {
-      <div class="state-card">Cargando equipo de trabajo...</div>
+      <div class="skeleton-list">
+        <div style="display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+          <div class="skeleton skeleton-kpi" style="min-height: 380px;"></div>
+          <div class="skeleton skeleton-kpi" style="min-height: 380px;"></div>
+          <div class="skeleton skeleton-kpi" style="min-height: 380px;"></div>
+        </div>
+      </div>
     } @else if (hasError) {
-      <div class="state-card error">No se pudo cargar el equipo de trabajo.</div>
+      <div class="empty-state-card">
+        <span class="mat-icon">error_outline</span>
+        <strong>Error al cargar el equipo</strong>
+        <p>No se pudo cargar la información, intenta nuevamente.</p>
+      </div>
     } @else if (!researchers.length) {
-      <div class="state-card">Aún no hay integrantes publicados.</div>
+      <div class="empty-state-card">
+        <span class="mat-icon">groups</span>
+        <strong>Directorio vacío</strong>
+        <p>Aún no hay integrantes del equipo publicados.</p>
+      </div>
     } @else {
       <div class="team-grid">
         @for (researcher of researchers; track researcher.id) {

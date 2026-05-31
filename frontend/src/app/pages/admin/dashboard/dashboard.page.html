@@ -2,49 +2,63 @@
   <header class="dashboard-header">
     <div>
       <span class="eyebrow">Dashboard</span>
-      <h1>Métricas y actividad reciente de la red académica.</h1>
+      <h1>Bienvenido, {{ adminName }}.</h1>
       <p>Resumen operativo de contenido, medios y publicaciones administrables del hub.</p>
     </div>
   </header>
 
   @if (isLoading) {
-    <div class="state-card">Cargando métricas...</div>
+    <div class="kpi-grid">
+      @for (i of [1,2,3,4,5,6]; track i) {
+        <div class="skeleton skeleton-kpi"></div>
+      }
+    </div>
   } @else if (!dashboard) {
-    <div class="state-card error">No se pudo cargar el dashboard.</div>
+    <div class="empty-state-card">
+      <span class="mat-icon">error_outline</span>
+      <strong>No se pudo cargar el dashboard</strong>
+      <p>Verifica tu conexión e intenta recargar la página.</p>
+    </div>
   } @else {
     <!-- KPI Grid -->
     <div class="kpi-grid">
-      <article class="surface-card kpi">
+      <article class="surface-card kpi reveal" style="--delay: 0ms">
+        <span class="kpi-icon"><span class="mat-icon lg">groups</span></span>
         <span>Investigadores</span>
         <strong>{{ dashboard.counts.researchers }}</strong>
         <small>Miembros registrados</small>
       </article>
 
-      <article class="surface-card kpi">
+      <article class="surface-card kpi reveal" style="--delay: 60ms">
+        <span class="kpi-icon"><span class="mat-icon lg">science</span></span>
         <span>Proyectos</span>
         <strong>{{ dashboard.counts.projects }}</strong>
         <small>Líneas activas</small>
       </article>
 
-      <article class="surface-card kpi">
+      <article class="surface-card kpi reveal" style="--delay: 120ms">
+        <span class="kpi-icon"><span class="mat-icon lg">menu_book</span></span>
         <span>Publicaciones</span>
         <strong>{{ dashboard.counts.publications }}</strong>
         <small>Artículos científicos</small>
       </article>
 
-      <article class="surface-card kpi">
+      <article class="surface-card kpi reveal" style="--delay: 180ms">
+        <span class="kpi-icon"><span class="mat-icon lg">newspaper</span></span>
         <span>Noticias</span>
         <strong>{{ dashboard.counts.news }}</strong>
         <small>Eventos y anuncios</small>
       </article>
 
-      <article class="surface-card kpi">
+      <article class="surface-card kpi reveal" style="--delay: 240ms">
+        <span class="kpi-icon"><span class="mat-icon lg">account_tree</span></span>
         <span>Líneas</span>
         <strong>{{ dashboard.counts.researchLines }}</strong>
         <small>Áreas temáticas</small>
       </article>
 
-      <article class="surface-card kpi">
+      <article class="surface-card kpi reveal" style="--delay: 300ms">
+        <span class="kpi-icon"><span class="mat-icon lg">perm_media</span></span>
         <span>Medios</span>
         <strong>{{ dashboard.counts.mediaFiles }}</strong>
         <small>Archivos subidos</small>
@@ -56,7 +70,7 @@
       <!-- Recent Activity Card -->
       <article class="surface-card activity-card">
         <header>
-          <h2>Noticias actualizadas recientemente</h2>
+          <h2><span class="mat-icon">schedule</span> Noticias recientes</h2>
         </header>
 
         @if (dashboard.recentNews.length) {
@@ -70,45 +84,46 @@
             }
           </ul>
         } @else {
-          <div style="padding: 24px 0; text-align: center; color: var(--color-muted);">
-            No hay actividad reciente de noticias.
+          <div class="empty-state-card">
+            <span class="mat-icon">inbox</span>
+            <strong>Sin actividad reciente</strong>
+            <p>Las noticias publicadas aparecerán aquí.</p>
           </div>
         }
       </article>
 
-      <!-- Quick Actions / Navigation Links Card -->
+      <!-- Quick Actions Card -->
       <article class="surface-card activity-card">
         <header>
-          <h2>Enlaces rápidos</h2>
+          <h2><span class="mat-icon">bolt</span> Accesos rápidos</h2>
         </header>
         <ul class="quick-links">
           <li>
-            <strong>Gestión del Portal</strong>
+            <strong><span class="mat-icon sm">edit_note</span> Gestión del Portal</strong>
             <span>Crea y edita los contenidos que se muestran en el sitio público.</span>
-            <small style="margin-top: 8px;">
-              <a routerLink="/admin/projects" style="color: var(--color-primary); font-weight: 800; text-decoration: underline;">Proyectos</a> · 
-              <a routerLink="/admin/publications" style="color: var(--color-primary); font-weight: 800; text-decoration: underline;">Publicaciones</a> · 
-              <a routerLink="/admin/news" style="color: var(--color-primary); font-weight: 800; text-decoration: underline;">Noticias</a>
-            </small>
+            <div class="quick-link-actions">
+              <a routerLink="/admin/projects">Proyectos</a>
+              <a routerLink="/admin/publications">Publicaciones</a>
+              <a routerLink="/admin/news">Noticias</a>
+            </div>
           </li>
           <li>
-            <strong>Organizaciones e Investigadores</strong>
+            <strong><span class="mat-icon sm">group_work</span> Organizaciones e Investigadores</strong>
             <span>Gestiona los autores, perfiles y las entidades vinculadas.</span>
-            <small style="margin-top: 8px;">
-              <a routerLink="/admin/researchers" style="color: var(--color-primary); font-weight: 800; text-decoration: underline;">Investigadores</a> · 
-              <a routerLink="/admin/authors" style="color: var(--color-primary); font-weight: 800; text-decoration: underline;">Autores</a>
-            </small>
+            <div class="quick-link-actions">
+              <a routerLink="/admin/researchers">Investigadores</a>
+              <a routerLink="/admin/authors">Autores</a>
+            </div>
           </li>
           <li>
-            <strong>Configuración y Ajustes</strong>
+            <strong><span class="mat-icon sm">settings</span> Configuración y Ajustes</strong>
             <span>Modifica la información global y el diseño de la red.</span>
-            <small style="margin-top: 8px;">
-              <a routerLink="/admin/settings" style="color: var(--color-primary); font-weight: 800; text-decoration: underline;">Ajustes del Sistema</a>
-            </small>
+            <div class="quick-link-actions">
+              <a routerLink="/admin/settings">Ajustes del Sistema</a>
+            </div>
           </li>
         </ul>
       </article>
     </div>
   }
 </div>
-

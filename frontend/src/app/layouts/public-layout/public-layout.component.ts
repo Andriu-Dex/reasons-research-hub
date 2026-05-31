@@ -29,6 +29,7 @@ export class PublicLayoutComponent {
   siteSettings: SiteSettings | null = null;
   readonly defaultLogo = DEFAULT_LOGO;
   isMenuOpen = false;
+  readonly currentYear = new Date().getFullYear();
   readonly navigationItems: PublicNavigationItem[] = [
     { label: 'Inicio', path: '' },
     {

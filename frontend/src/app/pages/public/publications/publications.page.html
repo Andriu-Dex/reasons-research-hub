@@ -9,11 +9,22 @@
 <section class="publications-section section">
   <div class="container">
     @if (isLoading) {
-      <div class="state-card">Cargando publicaciones...</div>
+      <div class="skeleton-list">
+        <div class="skeleton skeleton-kpi" style="min-height: 220px; border-radius: 12px; margin-bottom: 24px;"></div>
+        <div class="skeleton skeleton-kpi" style="min-height: 220px; border-radius: 12px;"></div>
+      </div>
     } @else if (hasError) {
-      <div class="state-card error">No se pudo cargar las publicaciones.</div>
+      <div class="empty-state-card">
+        <span class="mat-icon">error_outline</span>
+        <strong>Error al cargar publicaciones</strong>
+        <p>No se pudo cargar las publicaciones, intenta nuevamente.</p>
+      </div>
     } @else if (!publications.length) {
-      <div class="state-card">{{ config.emptyMessage }}</div>
+      <div class="empty-state-card">
+        <span class="mat-icon">menu_book</span>
+        <strong>Repositorio vacío</strong>
+        <p>{{ config.emptyMessage }}</p>
+      </div>
     } @else {
       <div class="publications-list">
         @for (publication of publications; track publication.id) {

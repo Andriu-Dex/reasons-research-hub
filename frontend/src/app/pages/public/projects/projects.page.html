@@ -9,11 +9,24 @@
 <section class="projects-section section">
   <div class="container">
     @if (isLoading) {
-      <div class="state-card">Cargando proyectos...</div>
+      <div class="skeleton-list">
+        <div style="display: grid; gap: 28px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+          <div class="skeleton skeleton-kpi" style="min-height: 380px;"></div>
+          <div class="skeleton skeleton-kpi" style="min-height: 380px;"></div>
+        </div>
+      </div>
     } @else if (hasError) {
-      <div class="state-card error">No se pudo cargar los proyectos.</div>
+      <div class="empty-state-card">
+        <span class="mat-icon">error_outline</span>
+        <strong>Error de conexión</strong>
+        <p>No se pudo cargar los proyectos, intenta nuevamente.</p>
+      </div>
     } @else if (!projects.length) {
-      <div class="state-card">{{ config.emptyMessage }}</div>
+      <div class="empty-state-card">
+        <span class="mat-icon">science</span>
+        <strong>Repositorio vacío</strong>
+        <p>{{ config.emptyMessage }}</p>
+      </div>
     } @else {
       <div class="projects-grid">
         @for (project of projects; track project.id) {

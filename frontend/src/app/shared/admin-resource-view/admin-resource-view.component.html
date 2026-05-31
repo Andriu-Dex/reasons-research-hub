@@ -7,7 +7,7 @@
     </div>
     @if (!showForm) {
       <button class="btn primary" type="button" (click)="openCreateForm()">
-        + Nuevo
+        <span class="mat-icon sm">add_circle</span> Nuevo
       </button>
     }
   </div>
@@ -58,7 +58,9 @@
         }
       </div>
       <div class="form-actions">
-        <button class="btn primary" type="submit" [disabled]="isSaving">{{ isSaving ? 'Guardando...' : 'Guardar' }}</button>
+        <button class="btn primary" type="submit" [disabled]="isSaving">
+          <span class="icon-text"><span class="mat-icon sm">save</span> {{ isSaving ? 'Guardando...' : 'Guardar' }}</span>
+        </button>
         <button class="btn ghost" type="button" (click)="cancel()">Cancelar</button>
       </div>
     </form>
@@ -67,12 +69,23 @@
   <div class="surface-card admin-table-card">
     <div class="table-tools">
       <h2>Registros</h2>
-      <input type="search" placeholder="Buscar..." [(ngModel)]="searchTerm" (ngModelChange)="applyFilter()" />
+      <div class="search-wrapper">
+        <span class="mat-icon sm search-table-icon">search</span>
+        <input type="search" placeholder="Buscar..." [(ngModel)]="searchTerm" (ngModelChange)="applyFilter()" />
+      </div>
     </div>
     @if (isLoading) {
-      <div class="state-card">Cargando registros...</div>
+      <div class="skeleton-list">
+        @for (i of [1,2,3,4]; track i) {
+          <div class="skeleton skeleton-row"></div>
+        }
+      </div>
     } @else if (!filteredItems.length) {
-      <div class="state-card">{{ config.emptyMessage }}</div>
+      <div class="empty-state-card">
+        <span class="mat-icon">inbox</span>
+        <strong>{{ config.emptyMessage }}</strong>
+        <p>Crea un nuevo registro para empezar.</p>
+      </div>
     } @else {
       <div class="table-scroll">
         <table>
@@ -92,11 +105,19 @@
                 }
                 <td class="actions">
                   @if (item['status']) {
-                    <button type="button" (click)="setStatus(item, 'PUBLISHED')">Publicar</button>
-                    <button type="button" (click)="setStatus(item, 'HIDDEN')">Ocultar</button>
+                    <button type="button" (click)="setStatus(item, 'PUBLISHED')" aria-label="Publicar">
+                      <span class="mat-icon sm">visibility</span> Publicar
+                    </button>
+                    <button type="button" (click)="setStatus(item, 'HIDDEN')" aria-label="Ocultar">
+                      <span class="mat-icon sm">visibility_off</span> Ocultar
+                    </button>
                   }
-                  <button type="button" (click)="edit(item)">Editar</button>
-                  <button class="danger" type="button" (click)="remove(item)">Eliminar</button>
+                  <button type="button" (click)="edit(item)" aria-label="Editar">
+                    <span class="mat-icon sm">edit</span> Editar
+                  </button>
+                  <button class="danger" type="button" (click)="requestDelete(item)" aria-label="Eliminar">
+                    <span class="mat-icon sm">delete</span> Eliminar
+                  </button>
                 </td>
               </tr>
             }
@@ -105,4 +126,21 @@
       </div>
     }
   </div>
+
+  <!-- Confirm Delete Modal -->
+  @if (confirmDeleteItem) {
+    <div class="confirm-overlay" (click)="cancelDelete()">
+      <div class="confirm-dialog" (click)="$event.stopPropagation()">
+        <span class="mat-icon">warning</span>
+        <h3>¿Eliminar este registro?</h3>
+        <p>Esta acción no se puede deshacer. Se eliminará permanentemente el registro seleccionado.</p>
+        <div class="confirm-actions">
+          <button class="btn ghost" type="button" (click)="cancelDelete()">Cancelar</button>
+          <button class="btn danger" type="button" (click)="confirmDelete()">
+            <span class="icon-text"><span class="mat-icon sm">delete_forever</span> Eliminar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 </section>

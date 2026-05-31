@@ -1,20 +1,35 @@
 <section>
   <div class="admin-view-header">
     <span class="eyebrow">Home</span>
-    <h1>Portada publica</h1>
-    <p>Configura el mensaje principal y la imagen de bienvenida.</p>
+    <h1>Portada pública</h1>
+    <p>Configura el mensaje principal y la imagen de bienvenida que ven los usuarios.</p>
   </div>
   @if (isLoading) {
-    <div class="state-card">Cargando Home...</div>
+    <div class="skeleton-list">
+      <div class="skeleton skeleton-kpi"></div>
+    </div>
   } @else {
-    <form class="surface-card admin-form" (ngSubmit)="save()">
+    <form class="surface-card admin-form reveal" (ngSubmit)="save()">
+      <h2 class="form-section-title"><span class="mat-icon">dashboard_customize</span> Apariencia principal</h2>
       <div class="form-grid">
-        <label class="full">Titulo principal<input name="bannerTitle" [(ngModel)]="model.bannerTitle" required /></label>
-        <label class="full">Subtitulo<textarea name="bannerSubtitle" rows="3" [(ngModel)]="model.bannerSubtitle"></textarea></label>
-        <label>Texto del boton<input name="contactButtonText" [(ngModel)]="model.contactButtonText" required /></label>
-        <label class="full">Banner<app-media-picker [(selectedId)]="model.bannerMediaId"></app-media-picker></label>
+        <label class="full">Título principal
+          <input name="bannerTitle" [(ngModel)]="model.bannerTitle" required />
+          <small class="field-hint">Aparece en letras grandes en la primera sección del home.</small>
+        </label>
+        <label class="full">Subtítulo
+          <textarea name="bannerSubtitle" rows="3" [(ngModel)]="model.bannerSubtitle"></textarea>
+          <small class="field-hint">Texto complementario bajo el título principal.</small>
+        </label>
+        <label>Texto del botón de contacto
+          <input name="contactButtonText" [(ngModel)]="model.contactButtonText" required />
+        </label>
+        <label class="full">Imagen de fondo (Banner)
+          <app-media-picker [(selectedId)]="model.bannerMediaId"></app-media-picker>
+        </label>
       </div>
-      <button class="btn primary" type="submit" [disabled]="isSaving">{{ isSaving ? 'Guardando...' : 'Guardar Home' }}</button>
+      <button class="btn primary" type="submit" [disabled]="isSaving">
+        <span class="icon-text"><span class="mat-icon sm">save</span> {{ isSaving ? 'Guardando...' : 'Guardar configuración del Home' }}</span>
+      </button>
     </form>
   }
 </section>

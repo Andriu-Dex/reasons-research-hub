@@ -1,19 +1,32 @@
 <section>
   <div class="admin-view-header">
     <span class="eyebrow">Nosotros</span>
-    <h1>Informacion institucional</h1>
-    <p>Edita la descripcion, objetivo general y objetivos especificos.</p>
+    <h1>Información institucional</h1>
+    <p>Edita la descripción detallada, objetivo general y objetivos específicos.</p>
   </div>
   @if (isLoading) {
-    <div class="state-card">Cargando informacion...</div>
+    <div class="skeleton-list">
+      <div class="skeleton skeleton-kpi"></div>
+    </div>
   } @else {
-    <form class="surface-card admin-form" (ngSubmit)="save()">
+    <form class="surface-card admin-form reveal" (ngSubmit)="save()">
+      <h2 class="form-section-title"><span class="mat-icon">info</span> Textos descriptivos</h2>
       <div class="form-grid">
-        <label class="full">Descripcion<textarea name="description" rows="5" [(ngModel)]="model.description" required></textarea></label>
-        <label class="full">Objetivo general<textarea name="generalObjective" rows="4" [(ngModel)]="model.generalObjective"></textarea></label>
-        <label class="full">Objetivos especificos, uno por linea<textarea name="objectivesText" rows="7" [(ngModel)]="objectivesText"></textarea></label>
+        <label class="full">Descripción extensa
+          <textarea name="description" rows="5" [(ngModel)]="model.description" required></textarea>
+          <small class="field-hint">Historia o perfil de la organización. Soporta múltiples párrafos.</small>
+        </label>
+        <label class="full">Objetivo general
+          <textarea name="generalObjective" rows="4" [(ngModel)]="model.generalObjective"></textarea>
+        </label>
+        <label class="full">Objetivos específicos
+          <textarea name="objectivesText" rows="7" [(ngModel)]="objectivesText"></textarea>
+          <small class="field-hint">Ingresa un objetivo específico por línea. Se mostrarán como una lista numerada.</small>
+        </label>
       </div>
-      <button class="btn primary" type="submit" [disabled]="isSaving">{{ isSaving ? 'Guardando...' : 'Guardar Nosotros' }}</button>
+      <button class="btn primary" type="submit" [disabled]="isSaving">
+        <span class="icon-text"><span class="mat-icon sm">save</span> {{ isSaving ? 'Guardando...' : 'Guardar sección Nosotros' }}</span>
+      </button>
     </form>
   }
 </section>

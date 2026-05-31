@@ -8,34 +8,37 @@
       </span>
     </a>
     <div>
-      <span class="eyebrow">Panel multi-tenant</span>
-      <h1>Administre investigacion con una lectura clara del ecosistema.</h1>
-      <p>Gestion de contenido, equipos y resultados para cada organizacion desde un entorno consistente.</p>
+      <span class="eyebrow">Panel de gestión</span>
+      <h1>Administre la investigación con una lectura clara del ecosistema.</h1>
+      <p>Gestión de contenido, equipos y resultados para cada organización desde un entorno consistente y profesional.</p>
     </div>
-    <div class="login-stat">
-      <strong>UTA</strong>
-      <span>Tenant inicial para pruebas institucionales.</span>
+    <div class="login-institution">
+      <span class="mat-icon lg">account_balance</span>
+      <div>
+        <strong>Plataforma institucional</strong>
+        <span>Acceso seguro para administradores autorizados.</span>
+      </div>
     </div>
   </section>
 
   <section class="login-access">
     <div class="access-topbar">
-      <a routerLink="/uta-reasons">Volver al sitio publico</a>
+      <a routerLink="/uta-reasons"><span class="mat-icon sm">arrow_back</span> Volver al sitio público</a>
       <app-theme-toggle></app-theme-toggle>
     </div>
     <div class="surface-card login-card reveal">
       <div class="login-header">
-        <span class="badge">Acceso administrativo</span>
-        <h2>Iniciar sesion</h2>
-        <p>Ingresa con la cuenta asignada para tu organizacion.</p>
+        <span class="badge"><span class="mat-icon sm">admin_panel_settings</span> Acceso administrativo</span>
+        <h2>Iniciar sesión</h2>
+        <p>Ingresa con la cuenta asignada para tu organización.</p>
       </div>
       <form #loginForm="ngForm" (ngSubmit)="submit(loginForm)">
         <label>
-          Correo electronico
+          <span class="icon-text"><span class="mat-icon sm">email</span> Correo electrónico</span>
           <input type="email" name="email" [(ngModel)]="credentials.email" required />
         </label>
         <label>
-          Contrasena
+          <span class="icon-text"><span class="mat-icon sm">lock</span> Contraseña</span>
           <span class="password-field">
             <input
               [type]="isPasswordVisible ? 'text' : 'password'"
@@ -46,7 +49,7 @@
             <button
               type="button"
               (click)="togglePasswordVisibility()"
-              [attr.aria-label]="isPasswordVisible ? 'Ocultar contrasena' : 'Mostrar contrasena'"
+              [attr.aria-label]="isPasswordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'"
             >
               @if (!isPasswordVisible) {
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -65,7 +68,10 @@
           </span>
         </label>
         <button class="btn primary" type="submit" [disabled]="isSubmitting">
-          {{ isSubmitting ? 'Ingresando...' : 'Ingresar' }}
+          <span class="icon-text">
+            <span class="mat-icon sm">login</span>
+            {{ isSubmitting ? 'Ingresando...' : 'Ingresar' }}
+          </span>
         </button>
       </form>
     </div>
