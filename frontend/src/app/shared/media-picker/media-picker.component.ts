@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { MediaFile } from '../../core/models/content.models';
 import { AdminApiService } from '../../core/services/admin-api.service';
 import { ToastService } from '../toast/toast.service';
+import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-media-picker',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ConfirmModalComponent],
   templateUrl: './media-picker.component.html',
   styleUrl: './media-picker.component.css'
 })
@@ -17,6 +18,7 @@ export class MediaPickerComponent implements OnInit {
   @Output() selectedIdChange = new EventEmitter<string | null>();
   mediaFiles: MediaFile[] = [];
   isUploading = false;
+  itemToDelete: string | null = null;
 
   constructor(
     private adminApi: AdminApiService,
@@ -63,6 +65,34 @@ export class MediaPickerComponent implements OnInit {
       error: () => {
         this.isUploading = false;
         this.toastService.error('No se pudo subir', 'Revisa el archivo o intenta nuevamente.');
+      }
+    });
+  }
+
+  requestDelete(id: string): void {
+    this.itemToDelete = id;
+  }
+
+  cancelDelete(): void {
+    this.itemToDelete = null;
+  }
+
+  confirmDelete(): void {
+    if (!this.itemToDelete) return;
+    const id = this.itemToDelete;
+    
+    this.adminApi.deleteMedia(id).subscribe({
+      next: () => {
+        this.mediaFiles = this.mediaFiles.filter((m) => m.id !== id);
+        if (this.selectedId === id) {
+          this.select(null);
+        }
+        this.itemToDelete = null;
+        this.toastService.success('Imagen eliminada', 'La imagen se ha borrado correctamente.');
+      },
+      error: () => {
+        this.itemToDelete = null;
+        this.toastService.error('Error al eliminar', 'No se pudo eliminar la imagen.');
       }
     });
   }

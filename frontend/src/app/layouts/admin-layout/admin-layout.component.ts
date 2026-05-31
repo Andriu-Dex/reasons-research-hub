@@ -45,7 +45,7 @@ export class AdminLayoutComponent implements OnInit {
   }
 
   get organizationName(): string {
-    return this.authService.session()?.admin.organizationName ?? 'Administracion';
+    return this.adminApi.organizationName() ?? this.authService.session()?.admin.organizationName ?? 'Administracion';
   }
 
   get roleLabel(): string {

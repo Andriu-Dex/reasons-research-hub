@@ -5,10 +5,12 @@ import { AdminApiService } from '../../../core/services/admin-api.service';
 import { MediaPickerComponent } from '../../../shared/media-picker/media-picker.component';
 import { ToastService } from '../../../shared/toast/toast.service';
 
+import { ConfirmModalComponent } from '../../../shared/confirm-modal/confirm-modal.component';
+
 @Component({
   selector: 'app-media-admin-page',
   standalone: true,
-  imports: [CommonModule, MediaPickerComponent],
+  imports: [CommonModule, MediaPickerComponent, ConfirmModalComponent],
   templateUrl: './media-admin.page.html',
   styleUrl: './media-admin.page.css'
 })

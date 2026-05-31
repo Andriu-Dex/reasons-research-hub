@@ -36,18 +36,15 @@
 
   <!-- Confirm Delete Modal -->
   @if (confirmDeleteItem) {
-    <div class="confirm-overlay" (click)="cancelDelete()">
-      <div class="confirm-dialog" (click)="$event.stopPropagation()">
-        <span class="mat-icon">warning</span>
-        <h3>¿Eliminar esta imagen?</h3>
-        <p>Esta acción no se puede deshacer. Se eliminará permanentemente la imagen seleccionada.</p>
-        <div class="confirm-actions">
-          <button class="btn ghost" type="button" (click)="cancelDelete()">Cancelar</button>
-          <button class="btn danger" type="button" (click)="confirmDelete()">
-            <span class="icon-text"><span class="mat-icon sm">delete_forever</span> Eliminar</span>
-          </button>
-        </div>
-      </div>
-    </div>
+    <app-confirm-modal
+      title="¿Eliminar esta imagen?"
+      message="Esta acción no se puede deshacer. Se eliminará permanentemente la imagen seleccionada."
+      confirmText="Eliminar"
+      icon="warning"
+      confirmIcon="delete_forever"
+      [isDanger]="true"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-confirm-modal>
   }
 </section>

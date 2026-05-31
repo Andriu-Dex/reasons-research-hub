@@ -62,6 +62,7 @@ export type ResourceMap = {
 })
 export class AdminApiService {
   readonly logoUrl = signal<string>('https://i.imgur.com/RARaC9j.png');
+  readonly organizationName = signal<string | null>(null);
 
   constructor(private api: ApiService) {}
 
@@ -77,6 +78,9 @@ export class AdminApiService {
         } else {
           this.logoUrl.set('https://i.imgur.com/RARaC9j.png');
         }
+        if (settings?.institutionName || settings?.groupName) {
+          this.organizationName.set(settings.institutionName || settings.groupName);
+        }
       })
     );
   }
@@ -88,6 +92,9 @@ export class AdminApiService {
           this.logoUrl.set(settings.logo.url);
         } else {
           this.logoUrl.set('https://i.imgur.com/RARaC9j.png');
+        }
+        if (settings?.institutionName || settings?.groupName) {
+          this.organizationName.set(settings.institutionName || settings.groupName);
         }
       })
     );

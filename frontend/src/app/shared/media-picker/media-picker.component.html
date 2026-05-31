@@ -9,8 +9,26 @@
   </button>
 
   @for (media of mediaFiles; track media.id) {
-    <button class="media-option" type="button" [class.selected]="media.id === selectedId" (click)="select(media.id)">
-      <img [src]="media.url" [alt]="media.originalFilename" />
-    </button>
+    <div class="media-wrapper">
+      <button class="media-option" type="button" [class.selected]="media.id === selectedId" (click)="select(media.id)">
+        <img [src]="media.url" [alt]="media.originalFilename" />
+      </button>
+      <button class="delete-btn" type="button" (click)="requestDelete(media.id)" title="Eliminar imagen">
+        <span class="mat-icon sm">close</span>
+      </button>
+    </div>
   }
 </div>
+
+@if (itemToDelete) {
+  <app-confirm-modal
+    title="¿Eliminar esta imagen?"
+    message="Esta acción no se puede deshacer. Se eliminará permanentemente de tu galería."
+    confirmText="Eliminar"
+    icon="warning"
+    confirmIcon="delete_forever"
+    [isDanger]="true"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()"
+  ></app-confirm-modal>
+}
