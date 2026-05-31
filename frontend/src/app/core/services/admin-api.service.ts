@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
+import { tap } from 'rxjs';
 import {
   AboutSettings,
   Author,
@@ -60,6 +61,8 @@ export type ResourceMap = {
   providedIn: 'root'
 })
 export class AdminApiService {
+  readonly logoUrl = signal<string>('https://i.imgur.com/RARaC9j.png');
+
   constructor(private api: ApiService) {}
 
   getDashboard() {
@@ -67,11 +70,27 @@ export class AdminApiService {
   }
 
   getSiteSettings() {
-    return this.api.get<SiteSettings>('/admin/site-settings');
+    return this.api.get<SiteSettings>('/admin/site-settings').pipe(
+      tap((settings) => {
+        if (settings?.logo?.url) {
+          this.logoUrl.set(settings.logo.url);
+        } else {
+          this.logoUrl.set('https://i.imgur.com/RARaC9j.png');
+        }
+      })
+    );
   }
 
   updateSiteSettings(body: Partial<SiteSettings>) {
-    return this.api.put<SiteSettings>('/admin/site-settings', body);
+    return this.api.put<SiteSettings>('/admin/site-settings', body).pipe(
+      tap((settings) => {
+        if (settings?.logo?.url) {
+          this.logoUrl.set(settings.logo.url);
+        } else {
+          this.logoUrl.set('https://i.imgur.com/RARaC9j.png');
+        }
+      })
+    );
   }
 
   getHomeSettings() {

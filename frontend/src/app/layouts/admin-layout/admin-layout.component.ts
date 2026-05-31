@@ -1,8 +1,9 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { finalize } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
+import { AdminApiService } from '../../core/services/admin-api.service';
 import { ThemeToggleComponent } from '../../shared/theme-toggle/theme-toggle.component';
 import { ToastService } from '../../shared/toast/toast.service';
 
@@ -13,15 +14,25 @@ import { ToastService } from '../../shared/toast/toast.service';
   templateUrl: './admin-layout.component.html',
   styleUrl: './admin-layout.component.css'
 })
-export class AdminLayoutComponent {
+export class AdminLayoutComponent implements OnInit {
   isMenuOpen = false;
   isLoggingOut = false;
 
   constructor(
     public authService: AuthService,
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    public adminApi: AdminApiService
   ) {}
+
+  ngOnInit(): void {
+    // Cargar la configuración inicialmente para obtener el logo dinámico
+    this.adminApi.getSiteSettings().subscribe({
+      error: () => {
+        // Fallback predeterminado ya manejado por el signal
+      }
+    });
+  }
 
   get initials(): string {
     const fullName = this.authService.session()?.admin.fullName ?? 'Admin';

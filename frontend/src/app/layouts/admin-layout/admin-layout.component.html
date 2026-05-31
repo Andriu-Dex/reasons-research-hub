@@ -1,7 +1,7 @@
 <div class="admin-shell">
   <aside class="admin-sidebar" [ngClass]="{ open: isMenuOpen }">
     <div class="admin-brand">
-      <img src="https://i.imgur.com/RARaC9j.png" alt="Logo REASONS Research Hub" />
+      <img [src]="adminApi.logoUrl()" alt="Logo REASONS Research Hub" />
       <div>
         <strong>{{ organizationName }}</strong>
         <span>{{ roleLabel }}</span>
