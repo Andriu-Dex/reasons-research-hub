@@ -49,8 +49,8 @@ export class MediaPickerComponent implements OnInit {
       this.toastService.error('Formato no permitido', 'Usa imagen JPG, PNG o WebP.');
       return;
     }
-    if (file.size > 2 * 1024 * 1024) {
-      this.toastService.error('Imagen demasiado grande', 'El tamano maximo es 2 MB.');
+    if (file.size > 5 * 1024 * 1024) {
+      this.toastService.error('Imagen demasiado grande', 'El tamano maximo es 5 MB.');
       return;
     }
 

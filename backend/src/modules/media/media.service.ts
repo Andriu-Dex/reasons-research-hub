@@ -6,7 +6,7 @@ import { prisma } from '../../lib/prisma.js';
 import { HttpError } from '../../shared/http-error.js';
 
 const allowedMimeTypes = new Set(['image/jpeg', 'image/png', 'image/webp']);
-const maxFileSizeBytes = 2 * 1024 * 1024;
+const maxFileSizeBytes = 5 * 1024 * 1024;
 
 export class MediaService {
   async upload(organizationId: string, file?: Express.Multer.File) {
@@ -23,7 +23,7 @@ export class MediaService {
       return prisma.mediaFile.create({
         data: {
           organizationId,
-          url: `mock://imgur/${crypto.randomUUID()}.webp`,
+          url: `https://placehold.co/800x600/e2e8f0/475569.png?text=Mock+Image+${crypto.randomUUID().slice(0, 4)}`,
           originalFilename: file.originalname,
           mimeType: 'image/webp',
           fileSizeBytes: webpBuffer.length
