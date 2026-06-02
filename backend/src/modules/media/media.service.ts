@@ -14,9 +14,9 @@ export class MediaService {
     if (!allowedMimeTypes.has(file.mimetype)) throw new HttpError(400, 'Formato de imagen no permitido.');
     if (file.size > maxFileSizeBytes) throw new HttpError(400, 'La imagen supera el tamano maximo permitido.');
 
-    const webpBuffer = await sharp(file.buffer)
+    const imageBuffer = await sharp(file.buffer)
       .resize({ width: 1600, withoutEnlargement: true })
-      .webp({ quality: 82 })
+      .jpeg({ quality: 85 })
       .toBuffer();
 
     if (env.IMGUR_MOCK || !env.IMGUR_CLIENT_ID) {
@@ -25,16 +25,19 @@ export class MediaService {
           organizationId,
           url: `https://placehold.co/800x600/e2e8f0/475569.png?text=Mock+Image+${crypto.randomUUID().slice(0, 4)}`,
           originalFilename: file.originalname,
-          mimeType: 'image/webp',
-          fileSizeBytes: webpBuffer.length
+          mimeType: 'image/jpeg',
+          fileSizeBytes: imageBuffer.length
         }
       });
     }
 
-    const response = await axios.post('https://api.imgur.com/3/image', webpBuffer.toString('base64'), {
+    const response = await axios.post('https://api.imgur.com/3/image', {
+      image: imageBuffer.toString('base64'),
+      type: 'base64',
+      name: file.originalname,
+    }, {
       headers: {
-        Authorization: `Client-ID ${env.IMGUR_CLIENT_ID}`,
-        'Content-Type': 'text/plain'
+        Authorization: `Client-ID ${env.IMGUR_CLIENT_ID}`
       }
     });
 
@@ -45,8 +48,8 @@ export class MediaService {
         url: response.data.data.link,
         deleteHash: response.data.data.deletehash,
         originalFilename: file.originalname,
-        mimeType: 'image/webp',
-        fileSizeBytes: webpBuffer.length
+        mimeType: 'image/jpeg',
+        fileSizeBytes: imageBuffer.length
       }
     });
   }

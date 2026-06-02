@@ -84,8 +84,8 @@ export class PublicLayoutComponent {
       });
   }
 
-  get logoUrl(): string {
-    return this.siteSettings?.logo?.url ?? this.defaultLogo;
+  get logoUrl(): string | null {
+    return this.siteSettings?.logo?.url ?? null;
   }
 
   get brandName(): string {

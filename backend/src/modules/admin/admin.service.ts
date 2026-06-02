@@ -168,7 +168,11 @@ export class AdminService {
 
   async updateSiteSettings(organizationId: string, data: Record<string, unknown>) {
     await this.ensureMediaBelongsToOrganization(organizationId, data.logoMediaId);
-    return prisma.siteSettings.update({ where: { organizationId }, data: data as any });
+    return prisma.siteSettings.update({
+      where: { organizationId },
+      data: data as any,
+      include: { socialLinks: { orderBy: { displayOrder: 'asc' as const } }, logo: true }
+    });
   }
 
   async getHomeSettings(organizationId: string) {

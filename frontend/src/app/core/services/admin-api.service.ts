@@ -61,7 +61,7 @@ export type ResourceMap = {
   providedIn: 'root'
 })
 export class AdminApiService {
-  readonly logoUrl = signal<string>('https://i.imgur.com/RARaC9j.png');
+  readonly logoUrl = signal<string | null>(null);
   readonly organizationName = signal<string | null>(null);
 
   constructor(private api: ApiService) {}
@@ -76,7 +76,7 @@ export class AdminApiService {
         if (settings?.logo?.url) {
           this.logoUrl.set(settings.logo.url);
         } else {
-          this.logoUrl.set('https://i.imgur.com/RARaC9j.png');
+          this.logoUrl.set(null);
         }
         if (settings?.institutionName || settings?.groupName) {
           this.organizationName.set(settings.institutionName || settings.groupName);
@@ -91,7 +91,7 @@ export class AdminApiService {
         if (settings?.logo?.url) {
           this.logoUrl.set(settings.logo.url);
         } else {
-          this.logoUrl.set('https://i.imgur.com/RARaC9j.png');
+          this.logoUrl.set(null);
         }
         if (settings?.institutionName || settings?.groupName) {
           this.organizationName.set(settings.institutionName || settings.groupName);

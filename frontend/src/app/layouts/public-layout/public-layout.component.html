@@ -2,7 +2,9 @@
   <header class="public-header">
     <div class="container header-inner">
       <a class="brand" [routerLink]="linkTo()">
-        <img class="brand-logo" [src]="logoUrl" [alt]="'Logo ' + brandName" />
+        @if (logoUrl) {
+          <img class="brand-logo" [src]="logoUrl" [alt]="'Logo ' + brandName" />
+        }
         <span class="brand-text">
           <span class="brand-name">{{ brandName }}</span>
           <span class="brand-sub">{{ brandSubtitle }}</span>
@@ -58,7 +60,9 @@
     <div class="container footer-grid">
       <div class="footer-brand">
         <div class="footer-identity">
-          <img [src]="logoUrl" alt="" />
+          @if (logoUrl) {
+            <img [src]="logoUrl" alt="" />
+          }
           <h3>{{ siteSettings?.groupName || 'REASONS Research Hub' }}</h3>
         </div>
         <p>{{ siteSettings?.footerText || siteSettings?.generalDescription || 'Investigacion, colaboracion y divulgacion cientifica con una identidad institucional flexible.' }}</p>
