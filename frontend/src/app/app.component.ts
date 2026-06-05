@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ThemeService } from './core/services/theme.service';
 import { ToastContainerComponent } from './shared/toast/toast-container.component';
+import { SplashScreenComponent } from './shared/splash-screen/splash-screen.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ToastContainerComponent],
+  imports: [RouterOutlet, ToastContainerComponent, SplashScreenComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

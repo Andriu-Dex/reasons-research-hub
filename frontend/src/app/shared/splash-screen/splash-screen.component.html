@@ -1,0 +1,30 @@
+<div class="splash-overlay" *ngIf="!dismissed" [@splashFade]="visible ? 'visible' : 'hidden'">
+  <div class="splash-container">
+    <div class="splash-logo" *ngIf="!loaded">
+      <svg class="logo-ring" width="140" height="140" viewBox="0 0 140 140">
+        <circle class="ring-bg" cx="70" cy="70" r="64" fill="none" stroke-width="2" stroke="rgba(255,255,255,0.25)" />
+        <circle class="ring-progress" cx="70" cy="70" r="64" fill="none" stroke-width="3"
+                stroke-dasharray="283" stroke-dashoffset="283"
+                stroke-linecap="round" [@loaderDash]="'running'" />
+      </svg>
+
+      <div class="logo-icon">
+        <img src="https://i.imgur.com/RARaC9j.png" alt="REASONS" class="logo-img" />
+      </div>
+    </div>
+
+    <div class="splash-brand" *ngIf="!loaded">
+      <h1 class="brand-name" [@letterBounce]>
+        <span class="letter" *ngFor="let l of letters; trackBy: trackByIndex">{{ l }}</span>
+      </h1>
+
+      <div class="loading-track">
+        <div class="loading-fill" [@pulseGlow]="loaded ? 'inactive' : 'active'"></div>
+      </div>
+    </div>
+
+    <div class="splash-footer" *ngIf="!loaded">
+      <span class="footer-text">Cargando experiencia</span>
+    </div>
+  </div>
+</div>
