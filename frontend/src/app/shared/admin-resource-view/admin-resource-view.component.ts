@@ -154,8 +154,15 @@ export class AdminResourceViewComponent implements OnInit {
 
   valueFor(item: Record<string, any>, key: string): string {
     const value = item[key];
+    if (key === 'status') {
+      return this.statusLabel(value);
+    }
     if (typeof value === 'boolean') return value ? 'Si' : 'No';
     if (value === null || value === undefined || value === '') return 'No configurado';
+    if (key === 'publishedAt' || key === 'updatedAt' || key === 'createdAt') {
+      return String(value).slice(0, 10);
+    }
+    return String(value);
     
     // Translation mappings
     const translations: Record<string, string> = {
@@ -174,6 +181,15 @@ export class AdminResourceViewComponent implements OnInit {
     };
 
     return translations[value] ?? String(value);
+  }
+
+  statusLabel(status: string): string {
+    const labels: Record<string, string> = {
+      DRAFT: 'Borrador',
+      PUBLISHED: 'Publicado',
+      HIDDEN: 'Oculto'
+    };
+    return labels[status] ?? status;
   }
 
   optionsFor(field: AdminField): Array<{ label: string; value: string }> {

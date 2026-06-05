@@ -65,9 +65,8 @@
       </article>
     </div>
 
-    <!-- Dashboard Grid -->
+    <!-- Recent Activity Card -->
     <div class="dashboard-grid">
-      <!-- Recent Activity Card -->
       <article class="surface-card activity-card">
         <header>
           <h2><span class="mat-icon">schedule</span> Noticias recientes</h2>
@@ -78,8 +77,8 @@
             @for (item of dashboard.recentNews; track item.id) {
               <li>
                 <strong>{{ item.title }}</strong>
-                <span>Estado: {{ item.status }}</span>
-                <small>{{ item.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</small>
+                <span>Estado: {{ statusLabel(item.status) }}</span>
+                <small>{{ item.updatedAt | date: 'yyyy-MM-dd' }}</small>
               </li>
             }
           </ul>
@@ -90,39 +89,6 @@
             <p>Las noticias publicadas aparecerán aquí.</p>
           </div>
         }
-      </article>
-
-      <!-- Quick Actions Card -->
-      <article class="surface-card activity-card">
-        <header>
-          <h2><span class="mat-icon">bolt</span> Accesos rápidos</h2>
-        </header>
-        <ul class="quick-links">
-          <li>
-            <strong><span class="mat-icon sm">edit_note</span> Gestión del Portal</strong>
-            <span>Crea y edita los contenidos que se muestran en el sitio público.</span>
-            <div class="quick-link-actions">
-              <a routerLink="/admin/projects">Proyectos</a>
-              <a routerLink="/admin/publications">Publicaciones</a>
-              <a routerLink="/admin/news">Noticias</a>
-            </div>
-          </li>
-          <li>
-            <strong><span class="mat-icon sm">group_work</span> Organizaciones e Investigadores</strong>
-            <span>Gestiona los autores, perfiles y las entidades vinculadas.</span>
-            <div class="quick-link-actions">
-              <a routerLink="/admin/researchers">Investigadores</a>
-              <a routerLink="/admin/authors">Autores</a>
-            </div>
-          </li>
-          <li>
-            <strong><span class="mat-icon sm">settings</span> Configuración y Ajustes</strong>
-            <span>Modifica la información global y el diseño de la red.</span>
-            <div class="quick-link-actions">
-              <a routerLink="/admin/settings">Ajustes del Sistema</a>
-            </div>
-          </li>
-        </ul>
       </article>
     </div>
   }
