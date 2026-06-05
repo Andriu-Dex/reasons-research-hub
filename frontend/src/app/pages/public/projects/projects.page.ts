@@ -82,6 +82,16 @@ export class ProjectsPage implements OnInit {
     return project.researchLines?.map((entry) => entry.researchLine.title).join(', ') || 'Sin líneas asociadas';
   }
 
+  projectStatusLabel(status: string): string {
+    const labels: Record<string, string> = {
+      PLANNED: 'Planificado',
+      IN_PROGRESS: 'En progreso',
+      COMPLETED: 'Completado',
+      PAUSED: 'Pausado'
+    };
+    return labels[status] ?? status;
+  }
+
   private filterProjects(projects: Project[]): Project[] {
     if (this.mode === 'research') {
       return projects.filter((project) => !this.matchesKeywords(project, ACADEMIC_KEYWORDS));

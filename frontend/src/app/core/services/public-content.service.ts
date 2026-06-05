@@ -9,7 +9,8 @@ import {
   Publication,
   ResearchLine,
   Researcher,
-  SiteSettings
+  SiteSettings,
+  SocialLink
 } from '../models/content.models';
 
 @Injectable({

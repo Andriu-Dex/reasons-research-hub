@@ -14,12 +14,12 @@ export class PublicService {
   }
 
   async getHome(organizationId: string) {
-    const [siteSettings, homeSettings, researchers, projects, publications, news] = await Promise.all([
+    const [siteSettings, homeSettings, researchers, projects, publications, news, orgSocialLinks] = await Promise.all([
       this.getSiteSettings(organizationId),
       prisma.homeSettings.findUnique({ where: { organizationId }, include: { banner: true } }),
       prisma.researcher.findMany({
         where: { organizationId, status: 'PUBLISHED', isFeatured: true },
-        include: { photo: true },
+        include: { photo: true, socialLinks: { orderBy: { displayOrder: 'asc' } } },
         orderBy: publishedOrder,
         take: 4
       }),
@@ -40,10 +40,22 @@ export class PublicService {
         include: { mainImage: true },
         orderBy: [{ publishedAt: 'desc' }, { displayOrder: 'asc' }],
         take: 3
+      }),
+      prisma.siteSocialLink.findMany({
+        where: { organizationId },
+        orderBy: { displayOrder: 'asc' }
       })
     ]);
 
-    return { siteSettings, homeSettings, researchers, projects, publications, news };
+    return {
+      siteSettings,
+      homeSettings,
+      researchers,
+      projects,
+      publications,
+      news,
+      socialLinks: orgSocialLinks
+    };
   }
 
   async getAbout(organizationId: string) {

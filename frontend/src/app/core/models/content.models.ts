@@ -180,10 +180,11 @@ export interface NewsItem {
 }
 
 export interface HomePayload {
-  siteSettings: SiteSettings | null;
-  homeSettings: HomeSettings | null;
+  siteSettings?: SiteSettings | null;
+  homeSettings?: any;
   researchers: Researcher[];
   projects: Project[];
   publications: Publication[];
   news: NewsItem[];
+  socialLinks?: SocialLink[];
 }

@@ -53,4 +53,14 @@ export class ResearchPage implements OnInit {
         }
       });
   }
+
+  projectStatusLabel(status: string): string {
+    const labels: Record<string, string> = {
+      PLANNED: 'Planificado',
+      IN_PROGRESS: 'En progreso',
+      COMPLETED: 'Completado',
+      PAUSED: 'Pausado'
+    };
+    return labels[status] ?? status;
+  }
 }
