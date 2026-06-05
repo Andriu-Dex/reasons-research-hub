@@ -1,8 +1,25 @@
 <section class="researchers-hero section">
-  <div class="container">
-    <span class="eyebrow">Investigadores</span>
-    <h1>Perfiles que conectan especialidades, proyectos y publicaciones.</h1>
-    <p>Directorio publico del equipo investigador de la organizacion.</p>
+  <div class="container hero-container">
+    <div class="hero-text">
+      <span class="eyebrow">Directorio Público</span>
+      <h1>Perfiles que conectan especialidades, proyectos y publicaciones.</h1>
+      <p>Explora el equipo de investigadores de la organización. Conoce sus perfiles, cargos, biografías académicas y redes de colaboración científica.</p>
+    </div>
+    
+    <div class="hero-stats">
+      <div class="stat-card">
+        <span class="stat-value">{{ totalCount }}</span>
+        <span class="stat-label">Investigadores</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">{{ featuredCount }}</span>
+        <span class="stat-label">Destacados</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">Activo</span>
+        <span class="stat-label">Directorio</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -30,26 +47,165 @@
       </div>
     } @else {
       <div class="researcher-directory">
-        @for (researcher of researchers; track researcher.id) {
-          <article class="surface-card researcher-profile">
-            <div class="researcher-photo" [style.background-image]="researcher.photo?.url ? 'url(' + researcher.photo?.url + ')' : null"></div>
-            <div class="researcher-body">
-              <span class="tag">{{ researcher.isFeatured ? 'Destacado' : 'Investigador' }}</span>
-              <h2>{{ researcher.fullName }}</h2>
-              <strong>{{ researcher.position }}</strong>
-              <p>{{ researcher.biography }}</p>
-              <a href="mailto:{{ researcher.institutionalEmail }}">{{ researcher.institutionalEmail }}</a>
-              @if (researcher.socialLinks?.length) {
-                <div class="social-list">
-                  @for (link of researcher.socialLinks; track link.platform) {
-                    <a [href]="link.url" target="_blank" rel="noopener">{{ link.platform }}</a>
-                  }
-                </div>
+        <!-- Toolbar (Filters & Search) -->
+        <div class="directory-toolbar">
+          <label for="search-input">
+            Buscar Investigador
+            <div style="position: relative; width: 100%;">
+              <span class="mat-icon search-icon">search</span>
+              <input 
+                id="search-input" 
+                type="text" 
+                [(ngModel)]="searchTerm" 
+                (ngModelChange)="onFilterChange()"
+                placeholder="Nombre, cargo o biografía..." 
+                style="padding-left: 44px; padding-right: 40px; width: 100%; height: 48px;"
+              />
+              @if (searchTerm) {
+                <button type="button" class="clear-search-btn" (click)="clearSearch()" aria-label="Limpiar búsqueda">
+                  <span class="mat-icon">close</span>
+                </button>
               }
             </div>
-          </article>
+          </label>
+
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <span style="color: var(--color-primary); font-size: 0.8rem; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase;">Categoría</span>
+            <div class="directory-tags">
+              <button type="button" [class.active]="activeFilter === 'ALL'" (click)="setFilter('ALL')">Todos</button>
+              <button type="button" [class.active]="activeFilter === 'FEATURED'" (click)="setFilter('FEATURED')">Destacados</button>
+            </div>
+          </div>
+        </div>
+
+        @if (getFilteredCount() === 0) {
+          <div class="empty-state-card" style="padding: 48px 24px;">
+            <span class="mat-icon" style="font-size: 48px; width: 48px; height: 48px; color: var(--color-subtle);">search_off</span>
+            <strong>No se encontraron investigadores</strong>
+            <p>Intenta ajustar los filtros o el término de búsqueda.</p>
+          </div>
+        } @else {
+          <!-- Grid -->
+          <div class="directory-grid">
+            @for (researcher of paginatedResearchers; track researcher.id) {
+              <article class="surface-card profile-card" (click)="openModal(researcher)" style="cursor: pointer;">
+                <div class="profile-photo-wrapper">
+                  <div class="profile-photo" [style.background-image]="researcher.photo?.url ? 'url(' + researcher.photo?.url + ')' : 'url(https://placehold.co/600x800/dce7f9/0d1b2e.png?text=Sin+Foto)'"></div>
+                  <div class="profile-badge-overlay">
+                    <span class="badge" [class.primary]="researcher.isFeatured">
+                      <span class="mat-icon sm">{{ researcher.isFeatured ? 'grade' : 'person' }}</span>
+                      {{ researcher.isFeatured ? 'Destacado' : 'Investigador' }}
+                    </span>
+                  </div>
+                </div>
+                <div class="profile-content">
+                  <h2>{{ researcher.fullName }}</h2>
+                  <p class="card-position">{{ researcher.position }}</p>
+                </div>
+              </article>
+            }
+          </div>
+
+          <!-- Pagination -->
+          @if (totalPages > 1) {
+            <div class="pagination-container">
+              <span class="pagination-info">
+                Mostrando {{ getStartIndex() + 1 }} - {{ getEndIndex() }} de {{ getFilteredCount() }} investigadores
+              </span>
+              <div class="pagination-controls">
+                <button 
+                  type="button"
+                  class="btn ghost" 
+                  style="padding: 0 16px; min-height: 40px; font-size: 0.9rem;" 
+                  [disabled]="currentPage === 1" 
+                  (click)="prevPage()"
+                >
+                  <span class="mat-icon" style="font-size: 18px; width: 18px; height: 18px;">chevron_left</span>
+                  Anterior
+                </button>
+                
+                @for (page of getPagesArray(); track page) {
+                  <button 
+                    type="button"
+                    class="btn" 
+                    [class.primary]="page === currentPage" 
+                    [class.ghost]="page !== currentPage"
+                    style="padding: 0; min-height: 40px; width: 40px; font-size: 0.9rem; justify-content: center;"
+                    (click)="setPage(page)"
+                  >
+                    {{ page }}
+                  </button>
+                }
+
+                <button 
+                  type="button"
+                  class="btn ghost" 
+                  style="padding: 0 16px; min-height: 40px; font-size: 0.9rem;" 
+                  [disabled]="currentPage === totalPages" 
+                  (click)="nextPage()"
+                >
+                  Siguiente
+                  <span class="mat-icon" style="font-size: 18px; width: 18px; height: 18px;">chevron_right</span>
+                </button>
+              </div>
+            </div>
+          }
         }
       </div>
     }
   </div>
 </section>
+
+<!-- Detailed Profile Modal -->
+@if (selectedResearcher) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-dialog researcher-modal" (click)="$event.stopPropagation()">
+      <button type="button" class="modal-close-btn" (click)="closeModal()" aria-label="Cerrar modal">
+        <span class="mat-icon">close</span>
+      </button>
+      
+      <div class="modal-photo" [style.background-image]="selectedResearcher.photo?.url ? 'url(' + selectedResearcher.photo?.url + ')' : 'url(https://placehold.co/600x800/dce7f9/0d1b2e.png?text=Sin+Foto)'"></div>
+      
+      <div class="modal-details">
+        <div class="profile-tags">
+          <span class="badge" [class.primary]="selectedResearcher.isFeatured">
+            <span class="mat-icon sm">{{ selectedResearcher.isFeatured ? 'grade' : 'person' }}</span>
+            {{ selectedResearcher.isFeatured ? 'Destacado' : 'Investigador' }}
+          </span>
+          @if (selectedResearcher.orcid) {
+            <a [href]="'https://orcid.org/' + selectedResearcher.orcid" target="_blank" rel="noopener" class="orcid-badge" (click)="$event.stopPropagation()">
+              <img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" alt="ORCID iD Logo" style="display:inline-block; vertical-align: middle; margin-right: 4px; width: 16px; height: 16px;">
+              ID: {{ selectedResearcher.orcid }}
+            </a>
+          }
+        </div>
+        <h2>{{ selectedResearcher.fullName }}</h2>
+        <p class="position">{{ selectedResearcher.position }}</p>
+        <p class="biography">{{ selectedResearcher.biography }}</p>
+        
+        <div class="modal-info-grid">
+          <div class="info-item">
+            <span class="info-label">Email Institucional</span>
+            <a href="mailto:{{ selectedResearcher.institutionalEmail }}" class="email-link">
+              <span class="mat-icon sm">mail</span> {{ selectedResearcher.institutionalEmail }}
+            </a>
+          </div>
+        </div>
+
+        @if (selectedResearcher.socialLinks?.length) {
+          <div class="social-links-section">
+            <span class="info-label">Perfiles Académicos & Sociales</span>
+            <div class="profile-tags" style="margin-top: 8px;">
+              @for (link of selectedResearcher.socialLinks; track link.platform) {
+                <a [href]="link.url" target="_blank" rel="noopener" class="btn ghost social-badge" (click)="$event.stopPropagation()">
+                  <span class="mat-icon sm">link</span>
+                  {{ link.platform }}
+                </a>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}
