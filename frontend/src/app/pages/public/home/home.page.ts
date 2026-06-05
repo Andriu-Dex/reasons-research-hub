@@ -4,12 +4,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HomePayload } from '../../../core/models/content.models';
 import { PublicContentService } from '../../../core/services/public-content.service';
+import { RevealDirective } from '../../../shared/directives/reveal.directive';
 import { getRouteTenantSlug } from '../../../core/utils/route-tenant.util';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, RevealDirective],
   templateUrl: './home.page.html',
   styleUrl: './home.page.css'
 })
@@ -34,6 +35,16 @@ export class HomePage implements OnInit {
   get heroImage(): string {
     return this.data?.homeSettings?.banner?.url
       ?? 'https://lh3.googleusercontent.com/aida-public/AB6AXuAkg55L2s5OxyxlodZK3QMsBrm5G1uCaUMzAHcoCjQaYvHbODLHZSTbpvf8mxjR3KIqS9UJu6L3pM3WXzxsYXGoVKce6vASZ7N_7eMJYcAf7aFzqIfms3s0fuvml0iG4AeN64T3Cr21xYvEmrY2ksFKqj_3iOsewfQzk0ZSA0OtGOoaBsIR3aI5xbfjr7Fflv6qbQhKyDmY2y66nD5LG4WPYDz-VvGBKvgfYzo7XHMQs92xqFAS7aiF8j5JJllk-rLH75AizaR-DfQ';
+  }
+
+  projectStatusLabel(status: string): string {
+    const labels: Record<string, string> = {
+      PLANNED: 'Planificado',
+      IN_PROGRESS: 'En progreso',
+      COMPLETED: 'Completado',
+      PAUSED: 'Pausado'
+    };
+    return labels[status] ?? status;
   }
 
   load(): void {

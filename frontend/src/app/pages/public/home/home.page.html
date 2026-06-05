@@ -97,7 +97,7 @@
       <header class="section-heading">
         <div>
           <span class="eyebrow">Proyectos activos</span>
-          <h2 class="section-title">Investigaciones con seguimiento y contexto.</h2>
+           <h2 class="section-title">Investigaciones en seguimiento y contexto.</h2>
         </div>
         <a class="directory-link" routerLink="investigacion">Explorar repositorio</a>
       </header>
@@ -106,7 +106,7 @@
           @for (project of data.projects; track project.id) {
             <article class="project-card surface-card reveal">
               <div class="project-meta">
-                <span class="tag">{{ project.projectStatus }}</span>
+                <span class="tag">{{ projectStatusLabel(project.projectStatus) }}</span>
                 <span>{{ project.slug }}</span>
               </div>
               <h3>{{ project.title }}</h3>
