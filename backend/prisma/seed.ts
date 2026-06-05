@@ -97,9 +97,10 @@ async function upsertResearcher(
     status: ContentStatus;
     displayOrder: number;
     isFeatured?: boolean;
+    socialLinks?: Array<{ platform: string; url: string; displayOrder: number }>;
   }
 ) {
-  return prisma.researcher.upsert({
+  const researcher = await prisma.researcher.upsert({
     where: {
       organizationId_orcid: {
         organizationId,
@@ -129,6 +130,33 @@ async function upsertResearcher(
       isFeatured: data.isFeatured ?? false
     }
   });
+
+  if (data.socialLinks && data.socialLinks.length > 0) {
+    for (let i = 0; i < data.socialLinks.length; i++) {
+      const link = data.socialLinks[i];
+      await prisma.researcherSocialLink.upsert({
+        where: {
+          researcherId_platform: {
+            researcherId: researcher.id,
+            platform: link.platform
+          }
+        },
+        update: {
+          url: link.url,
+          displayOrder: link.displayOrder
+        },
+        create: {
+          organizationId,
+          researcherId: researcher.id,
+          platform: link.platform,
+          url: link.url,
+          displayOrder: link.displayOrder
+        }
+      });
+    }
+  }
+
+  return researcher;
 }
 
 async function upsertAuthor(
@@ -383,7 +411,10 @@ const reasonsResearchers = [
     email: 'ie.naranjo@uta.edu.ec',
     orcid: '0000-0001-5774-1879',
     biography:
-      'Docente universitario en la carrera de Ingeniería Industrial en la Universidad Técnica de Ambato. Magíster en Gestión de Operaciones y estudiante doctoral en Ingeniería y Producción Industrial. Su investigación se centra en toma de decisiones sostenibles, PYMES del sector textil, cadena de suministro, análisis de datos, optimización y mejora de sistemas productivos.'
+      'Docente universitario en la carrera de Ingeniería Industrial en la Universidad Técnica de Ambato. Magíster en Gestión de Operaciones y estudiante doctoral en Ingeniería y Producción Industrial. Su investigación se centra en toma de decisiones sostenibles, PYMES del sector textil, cadena de suministro, análisis de datos, optimización y mejora de sistemas productivos.',
+    socialLinks: [
+      { platform: 'ORCID', url: 'https://orcid.org/0000-0001-5774-1879', displayOrder: 1 }
+    ]
   },
   {
     fullName: 'Franklin Tigre Ortega',
@@ -391,7 +422,10 @@ const reasonsResearchers = [
     email: 'fg.tigre@uta.edu.ec',
     orcid: '0000-0003-0254-029X',
     biography:
-      'Investigador orientado a la gestión de operaciones, mejora continua, sistemas productivos y aplicación de herramientas tecnológicas para fortalecer la eficiencia organizacional.'
+      'Investigador orientado a la gestión de operaciones, mejora continua, sistemas productivos y aplicación de herramientas tecnológicas para fortalecer la eficiencia organizacional.',
+    socialLinks: [
+      { platform: 'ORCID', url: 'https://orcid.org/0000-0003-0254-029X', displayOrder: 1 }
+    ]
   },
   {
     fullName: 'John Reyes Vásquez',
@@ -399,7 +433,11 @@ const reasonsResearchers = [
     email: 'johnpreyes@uta.edu.ec',
     orcid: '0000-0002-5446-5490',
     biography:
-      'Doctor en Ingeniería y Producción Industrial por la Universitat Politècnica de València. Profesor e investigador con experiencia en procesos logísticos, gestión operativa, análisis de riesgos, tecnologías de información, producción industrial, cadena de suministro, investigación de operaciones, manufactura ajustada, modelización y simulación en el contexto de Industria 4.0 y 5.0.'
+      'Doctor en Ingeniería y Producción Industrial por la Universitat Politècnica de València. Profesor e investigador con experiencia en procesos logísticos, gestión operativa, análisis de riesgos, tecnologías de información, producción industrial, cadena de suministro, investigación de operaciones, manufactura ajustada, modelización y simulación en el contexto de Industria 4.0 y 5.0.',
+    socialLinks: [
+      { platform: 'ORCID', url: 'http://orcid.org/0000-0002-5446-5490', displayOrder: 1 },
+      { platform: 'LinkedIn', url: 'https://www.linkedin.com/in/john-reyes-b44148150/', displayOrder: 2 }
+    ]
   },
   {
     fullName: 'Carlos Sánchez Rosero',
@@ -407,7 +445,10 @@ const reasonsResearchers = [
     email: 'carloshsanchez@uta.edu.ec',
     orcid: '0000-0002-2253-8448',
     biography:
-      'Investigador académico vinculado al desarrollo de soluciones en ingeniería, optimización de procesos, sostenibilidad productiva y transferencia tecnológica.'
+      'Investigador académico vinculado al desarrollo de soluciones en ingeniería, optimización de procesos, sostenibilidad productiva y transferencia tecnológica.',
+    socialLinks: [
+      { platform: 'ORCID', url: 'https://orcid.org/0000-0002-2253-8448', displayOrder: 1 }
+    ]
   },
   {
     fullName: 'Luis Morales Perrazo',
@@ -750,30 +791,51 @@ async function seedOrganization(seed: {
       {
         organizationId: organization.id,
         siteSettingsId: siteSettings.id,
+        platform: 'Facebook',
+        url: 'https://www.facebook.com',
+        displayOrder: 1
+      },
+      {
+        organizationId: organization.id,
+        siteSettingsId: siteSettings.id,
         platform: 'LinkedIn',
         url: 'https://www.linkedin.com',
-        displayOrder: 1
+        displayOrder: 2
       },
       {
         organizationId: organization.id,
         siteSettingsId: siteSettings.id,
         platform: 'ResearchGate',
         url: 'https://www.researchgate.net',
-        displayOrder: 2
+        displayOrder: 3
       },
       {
         organizationId: organization.id,
         siteSettingsId: siteSettings.id,
         platform: 'ORCID',
         url: 'https://orcid.org',
-        displayOrder: 3
+        displayOrder: 4
       },
       {
         organizationId: organization.id,
         siteSettingsId: siteSettings.id,
-        platform: 'Facebook',
-        url: 'https://www.facebook.com',
-        displayOrder: 4
+        platform: 'Instagram',
+        url: 'https://www.instagram.com',
+        displayOrder: 5
+      },
+      {
+        organizationId: organization.id,
+        siteSettingsId: siteSettings.id,
+        platform: 'Telegram',
+        url: 'https://t.me',
+        displayOrder: 6
+      },
+      {
+        organizationId: organization.id,
+        siteSettingsId: siteSettings.id,
+        platform: 'YouTube',
+        url: 'https://www.youtube.com',
+        displayOrder: 7
       }
     ],
     skipDuplicates: true

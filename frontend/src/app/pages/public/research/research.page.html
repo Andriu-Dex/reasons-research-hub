@@ -58,7 +58,7 @@
               @for (project of projects; track project.id) {
                 <article class="surface-card result-project reveal">
                   <div>
-                    <span class="tag">{{ project.projectStatus }}</span>
+                     <span class="tag">{{ projectStatusLabel(project.projectStatus) }}</span>
                     <h3>{{ project.title }}</h3>
                   </div>
                   <p>{{ project.description }}</p>

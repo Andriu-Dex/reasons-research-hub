@@ -17,6 +17,7 @@
       <h1 class="brand-name" [@letterBounce]>
         <span class="letter" *ngFor="let l of letters; trackBy: trackByIndex">{{ l }}</span>
       </h1>
+      <span class="brand-text">Research Hub</span>
 
       <div class="loading-track">
         <div class="loading-fill" [@pulseGlow]="loaded ? 'inactive' : 'active'"></div>

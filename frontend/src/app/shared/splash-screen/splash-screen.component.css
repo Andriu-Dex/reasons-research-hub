@@ -83,6 +83,43 @@
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
 }
 
+.splash-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand-name {
+  font-family: 'Sora', system-ui, sans-serif;
+  font-size: 3.2rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  color: #ffffff;
+  text-shadow: 0 0 24px rgba(147, 197, 253, 0.7), 0 0 48px rgba(0, 184, 240, 0.5);
+  display: flex;
+  gap: 4px;
+}
+
+.letter {
+  display: inline-block;
+  animation: letterGlow 1200ms ease-in-out infinite alternate;
+}
+
+@keyframes letterGlow {
+  from { text-shadow: 0 0 12px rgba(147, 197, 253, 0.6), 0 0 24px rgba(0, 184, 240, 0.4); }
+  to { text-shadow: 0 0 20px rgba(147, 197, 253, 0.95), 0 0 44px rgba(0, 184, 240, 0.75); }
+}
+
+.brand-text {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(180, 220, 255, 0.85);
+}
+
 .splash-footer {
   margin-top: 1.5rem;
   opacity: 0.5;
