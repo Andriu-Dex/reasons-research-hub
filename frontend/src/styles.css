@@ -65,11 +65,11 @@
 
 /* ─── Dark Mode Tokens ─────────────────────────────────── */
 html[data-theme='dark'] {
-  --color-primary: #8ca0c4;
+  --color-primary: #436096;
   --color-primary-strong: #779dda;
   --color-primary-light: #0f2040;
   --color-secondary: #70d0ff;
-  --color-accent: #00c8ff;
+  --color-accent: #7ec1d4;
   --color-accent-light: #021a28;
 
   --color-bg: #060e1a;

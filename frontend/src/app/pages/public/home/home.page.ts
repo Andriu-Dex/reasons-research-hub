@@ -5,12 +5,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HomePayload } from '../../../core/models/content.models';
 import { PublicContentService } from '../../../core/services/public-content.service';
 import { RevealDirective } from '../../../shared/directives/reveal.directive';
+import { BioFlipDirective } from '../../../shared/directives/bio-flip.directive';
 import { getRouteTenantSlug } from '../../../core/utils/route-tenant.util';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective],
+  imports: [CommonModule, RouterLink, RevealDirective, BioFlipDirective],
   templateUrl: './home.page.html',
   styleUrl: './home.page.css'
 })

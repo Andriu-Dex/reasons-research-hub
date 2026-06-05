@@ -468,6 +468,150 @@ html[data-theme='dark'] .researchers-section {
   box-shadow: 0 4px 12px rgba(0, 52, 111, 0.2);
 }
 
+/* ─── Flip Card ────────────────────────────────────────── */
+.researcher-card {
+  height: 400px;
+  cursor: pointer;
+}
+
+.researcher-card.is-flipped:hover {
+  transform: none;
+}
+
+.researcher-card.is-flipped::after {
+  display: none;
+}
+
+.card-inner {
+  display: grid;
+  grid-template-areas: "stack";
+  height: 100%;
+  position: relative;
+}
+
+.card-front,
+.card-back {
+  grid-area: stack;
+  transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1), opacity 500ms ease;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  height: 100%;
+  overflow: hidden;
+}
+
+.card-front {
+  transform: rotateY(0deg);
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-front .card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px 18px 18px;
+  position: relative;
+  z-index: 1;
+}
+
+.card-front .card-body h3 {
+  font-size: 1rem;
+  margin: 0 0 4px;
+}
+
+.card-front .card-body p {
+  font-size: 0.8rem;
+  margin: 0 0 10px;
+}
+
+.card-front .card-body span {
+  font-size: 0.68rem;
+  padding: 4px 10px;
+}
+
+.card-back {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  border-radius: var(--radius-md);
+  color: #1e293b;
+  padding: 20px 18px;
+  transform: rotateY(90deg);
+  opacity: 0;
+  position: relative;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+html[data-theme='dark'] .card-back {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  color: #f1f5f9;
+}
+
+.researcher-card.is-flipped .card-front {
+  transform: rotateY(-90deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.researcher-card.is-flipped .card-back {
+  transform: rotateY(0deg);
+  opacity: 1;
+}
+
+.bio-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.bio-content h4 {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+  text-align: center;
+  color: #334155;
+  flex-shrink: 0;
+}
+
+html[data-theme='dark'] .bio-content h4 {
+  color: #f1f5f9;
+}
+
+.bio-content p {
+  font-size: 0.78rem;
+  line-height: 1.6;
+  margin: 0;
+  text-align: justify;
+  color: #475569;
+  overflow-y: auto;
+  flex: 1;
+}
+
+html[data-theme='dark'] .bio-content p {
+  color: #cbd5e1;
+}
+
+.bio-content p::-webkit-scrollbar {
+  width: 3px;
+}
+
+.bio-content p::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+
+html[data-theme='dark'] .bio-content p::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.bio-content p::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 /* ─── Project Cards ─────────────────────────────────────── */
 .project-section {
   padding-top: clamp(64px, 9vw, 100px);
@@ -586,54 +730,113 @@ html[data-theme='dark'] .researchers-section {
 .collaboration-panel {
   align-items: center;
   background:
-    radial-gradient(ellipse 60% 80% at 90% 10%, rgba(0, 200, 255, 0.22), transparent),
-    linear-gradient(135deg, #001e45, #00346f, #004f96);
+    radial-gradient(ellipse 60% 80% at 90% 10%, rgba(0, 200, 255, 0.12), transparent),
+    linear-gradient(160deg, #0f172a 0%, #1e3a5f 50%, #0c4a6e 100%);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-strong);
   color: #ffffff;
-  display: flex;
-  gap: 40px;
-  justify-content: space-between;
+  display: grid;
+  gap: 48px;
+  grid-template-columns: 1fr auto;
   overflow: hidden;
-  padding: clamp(36px, 5.5vw, 72px);
+  padding: clamp(48px, 6vw, 80px);
   position: relative;
 }
 
 .collaboration-panel::before {
+  background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.06), transparent 50%);
   content: "";
   position: absolute;
-  bottom: -60px;
-  left: -60px;
-  width: 280px;
-  height: 280px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.05), transparent 70%);
+  bottom: -100px;
+  left: -100px;
+  width: 350px;
+  height: 350px;
   pointer-events: none;
+}
+
+.collaboration-panel::after {
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 184, 240, 0.04) 50%, transparent 100%);
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.collaboration-panel > div {
+  position: relative;
+  z-index: 1;
 }
 
 .collaboration-panel .eyebrow {
   color: rgba(160, 235, 255, 0.90);
+  display: inline-flex;
+  gap: 10px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(8px);
+  margin-bottom: 20px;
 }
 
 .collaboration-panel h2 {
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 3vw, 3.1rem);
-  letter-spacing: -0.07em;
-  line-height: 1.08;
-  margin: 12px 0 14px;
-  max-width: 740px;
+  font-size: clamp(2rem, 3.5vw, 3.4rem);
+  letter-spacing: -0.08em;
+  line-height: 1.05;
+  margin: 0 0 18px;
+  max-width: 720px;
+  text-wrap: balance;
 }
 
 .collaboration-panel p {
-  color: rgba(220, 236, 255, 0.80);
-  font-size: 1rem;
-  line-height: 1.65;
+  color: rgba(220, 236, 255, 0.78);
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  line-height: 1.75;
   margin: 0;
-  max-width: 680px;
+  max-width: 640px;
 }
 
 .collaboration-panel .btn-group {
+  align-items: center;
   display: flex;
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.collaboration-panel .btn {
+  min-height: 56px;
+  padding: 0 32px;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  position: relative;
+  overflow: hidden;
+  transition: transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 250ms ease;
+  backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+}
+
+.collaboration-panel .btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+.collaboration-panel .btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent 50%);
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+.collaboration-panel .btn:hover::after {
+  opacity: 1;
 }
 
 /* ─── Reveal on Scroll ──────────────────────────────────── */

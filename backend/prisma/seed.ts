@@ -671,6 +671,34 @@ async function seedOrganization(seed: {
     `${seed.slug}-portrait.webp`
   );
 
+  const portraitAnaPamela = await upsertMedia(
+    organization.id,
+    `seed-${seed.slug}-portrait-anapamela`,
+    'https://i.imgur.com/glmq6PC.jpeg',
+    `${seed.slug}-portrait-anapamela.webp`
+  );
+
+  const portraitIsrael = await upsertMedia(
+    organization.id,
+    `seed-${seed.slug}-portrait-israel`,
+    'https://i.imgur.com/g7WcE66.jpeg',
+    `${seed.slug}-portrait-israel.webp`
+  );
+
+  const portraitJohn = await upsertMedia(
+    organization.id,
+    `seed-${seed.slug}-portrait-john`,
+    'https://i.imgur.com/HntjkHL.jpeg',
+    `${seed.slug}-portrait-john.webp`
+  );
+
+  const portraitDaysi = await upsertMedia(
+    organization.id,
+    `seed-${seed.slug}-portrait-daysi`,
+    'https://i.imgur.com/CIzaujR',
+    `${seed.slug}-portrait-daysi.webp`
+  );
+
   const projectImage = await upsertMedia(
     organization.id,
     `seed-${seed.slug}-project`,
@@ -898,7 +926,15 @@ async function seedOrganization(seed: {
   for (let i = 0; i < reasonsResearchers.length; i++) {
     const researcher = await upsertResearcher(organization.id, {
       ...reasonsResearchers[i],
-      photoMediaId: portrait.id,
+      photoMediaId: reasonsResearchers[i].fullName.includes('Ana Pamela')
+        ? portraitAnaPamela.id
+        : reasonsResearchers[i].fullName.includes('Israel Naranjo')
+        ? portraitIsrael.id
+        : reasonsResearchers[i].fullName.includes('John Reyes')
+        ? portraitJohn.id
+        : reasonsResearchers[i].fullName.includes('Daysi Ortiz')
+        ? portraitDaysi.id
+        : portrait.id,
       status: i < 10 ? ContentStatus.PUBLISHED : ContentStatus.DRAFT,
       displayOrder: i + 1,
       isFeatured: i < 4
