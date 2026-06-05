@@ -32,71 +32,184 @@
   max-width: 780px;
 }
 
+/* ─── Projects Grid ─────────────────────────────────────── */
 .projects-grid {
   display: grid;
-  gap: 28px;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+/* ─── Project Card ──────────────────────────────────────── */
 .project-card {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
-  transition: box-shadow var(--transition-base), transform var(--transition-base);
+  position: relative;
+  transition: box-shadow var(--transition-base), transform var(--transition-base), border-color var(--transition-base);
+  height: 100%;
 }
 
 .project-card:hover {
   box-shadow: var(--shadow-strong);
-  transform: translateY(-4px);
+  transform: translateY(-6px);
+  border-color: var(--color-primary);
 }
 
-.project-cover {
-  aspect-ratio: 16 / 9;
+/* ─── Status Overlay & Badges ───────────────────────────── */
+.project-status-overlay {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+}
+
+.project-status-overlay .badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-xs);
+}
+
+.project-status-overlay .badge.planned {
+  background: rgba(224, 247, 255, 0.9);
+  border-color: rgba(0, 184, 240, 0.3);
+  color: #007ba3;
+}
+
+.project-status-overlay .badge.in_progress {
+  background: rgba(232, 240, 255, 0.9);
+  border-color: rgba(0, 74, 153, 0.3);
+  color: var(--color-primary);
+}
+
+.project-status-overlay .badge.completed {
+  background: rgba(230, 252, 245, 0.9);
+  border-color: rgba(7, 113, 79, 0.3);
+  color: var(--color-success);
+}
+
+.project-status-overlay .badge.paused {
+  background: rgba(254, 243, 199, 0.9);
+  border-color: rgba(160, 100, 0, 0.3);
+  color: var(--color-warning);
+}
+
+/* Dark mode overrides for status badges */
+:host-context(html[data-theme='dark']) .project-status-overlay .badge.planned {
+  background: rgba(0, 123, 163, 0.18);
+  border-color: rgba(0, 184, 240, 0.4);
+  color: #66d1ff;
+}
+
+:host-context(html[data-theme='dark']) .project-status-overlay .badge.in_progress {
+  background: rgba(0, 74, 153, 0.18);
+  border-color: rgba(0, 74, 153, 0.4);
+  color: #93c5fd;
+}
+
+:host-context(html[data-theme='dark']) .project-status-overlay .badge.completed {
+  background: rgba(7, 113, 79, 0.18);
+  border-color: rgba(7, 113, 79, 0.4);
+  color: #6ee7b7;
+}
+
+:host-context(html[data-theme='dark']) .project-status-overlay .badge.paused {
+  background: rgba(160, 100, 0, 0.18);
+  border-color: rgba(160, 100, 0, 0.4);
+  color: #fcd34d;
+}
+
+/* ─── Cover Image ───────────────────────────────────────── */
+.project-cover-wrapper {
+  aspect-ratio: 16 / 10;
   background: var(--color-surface-alt);
-  margin: 0;
   overflow: hidden;
-}
-
-.project-cover img {
-  height: 100%;
-  object-fit: cover;
   width: 100%;
 }
 
+.project-cover-img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 550ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-card:hover .project-cover-img {
+  transform: scale(1.04);
+}
+
+/* ─── Card Body ─────────────────────────────────────────── */
 .project-body {
-  display: grid;
-  gap: 14px;
-  padding: clamp(24px, 3.2vw, 36px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px;
+  flex-grow: 1;
 }
 
 .project-body h2 {
   color: var(--color-primary);
   font-family: var(--font-display);
-  font-size: clamp(1.3rem, 2vw, 2rem);
-  letter-spacing: -0.06em;
-  line-height: 1.14;
+  font-size: 1.45rem;
+  letter-spacing: -0.045em;
+  line-height: 1.2;
   margin: 0;
 }
 
-.project-body p,
-.project-body dd {
+.project-desc {
   color: var(--color-muted);
-  line-height: 1.65;
+  font-size: 0.95rem;
+  line-height: 1.6;
   margin: 0;
 }
 
-.project-body dl {
+/* ─── Meta Info Layout ──────────────────────────────────── */
+.project-meta-info {
   border-top: 1.5px solid var(--color-border);
-  display: grid;
-  gap: 14px;
-  margin: 6px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
   padding-top: 18px;
 }
 
-.project-body dt {
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-label {
   color: var(--color-primary);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.08em;
-  margin-bottom: 4px;
   text-transform: uppercase;
+}
+
+.meta-value {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+/* ─── Responsive & Media Queries ───────────────────────── */
+@media (max-width: 980px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .project-body {
+    padding: 24px;
+  }
 }

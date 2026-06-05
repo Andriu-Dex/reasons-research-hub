@@ -486,10 +486,11 @@ const researchLines = [
 ];
 
 const projectTitles = [
+  'Plataforma de analítica de datos para productividad académica',
+  'Dashboard académico para seguimiento de investigación',
   'Modelo PROS50 para MIPYMES textiles sostenibles',
   'Sistema IoT para monitoreo energético industrial',
   'Gemelo digital para procesos de manufactura flexible',
-  'Plataforma de analítica de datos para productividad académica',
   'Optimización de cadenas de suministro sostenibles',
   'Sistema de visión artificial para control de calidad',
   'Modelo predictivo para mantenimiento de maquinaria',
@@ -504,8 +505,7 @@ const projectTitles = [
   'Sistema de apoyo a decisiones para operaciones sostenibles',
   'Automatización de indicadores de eficiencia operativa',
   'Aplicación de Industria 5.0 en empresas manufactureras',
-  'Modelo de innovación social para comunidades productivas',
-  'Dashboard académico para seguimiento de investigación'
+  'Modelo de innovación social para comunidades productivas'
 ];
 
 const publicationTitles = [
