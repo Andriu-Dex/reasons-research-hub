@@ -156,7 +156,21 @@ export class AdminResourceViewComponent implements OnInit {
     const value = item[key];
     if (typeof value === 'boolean') return value ? 'Si' : 'No';
     if (value === null || value === undefined || value === '') return 'No configurado';
-    return String(value);
+    
+    // Translation mappings
+    const translations: Record<string, string> = {
+      ACADEMIC: 'Académico',
+      RESEARCH: 'Investigación',
+      PLANNED: 'Planificado',
+      IN_PROGRESS: 'En progreso',
+      COMPLETED: 'Completado',
+      PAUSED: 'Pausado',
+      DRAFT: 'Borrador',
+      PUBLISHED: 'Publicado',
+      HIDDEN: 'Oculto'
+    };
+
+    return translations[value] ?? String(value);
   }
 
   optionsFor(field: AdminField): Array<{ label: string; value: string }> {

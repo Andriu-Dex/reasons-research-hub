@@ -30,6 +30,11 @@ enum ProjectLifecycleStatus {
   PAUSED
 }
 
+enum ProjectType {
+  ACADEMIC
+  RESEARCH
+}
+
 model Organization {
   id            String             @id @default(uuid()) @db.Uuid
   name          String
@@ -287,6 +292,7 @@ model Project {
   results        String?                @db.Text
   mainMediaId    String?                @map("main_media_id") @db.Uuid
   projectStatus  ProjectLifecycleStatus @default(IN_PROGRESS) @map("project_status")
+  projectType    ProjectType            @default(RESEARCH) @map("project_type")
   isFeatured     Boolean                @default(false) @map("is_featured")
   status         ContentStatus          @default(DRAFT)
   displayOrder   Int                    @default(0) @map("display_order")

@@ -89,6 +89,7 @@ export const projectSchema = z.object({
   results: optionalString,
   mainMediaId: optionalString,
   projectStatus: z.enum(['PLANNED', 'IN_PROGRESS', 'COMPLETED', 'PAUSED']).default('IN_PROGRESS'),
+  projectType: z.enum(['ACADEMIC', 'RESEARCH']).default('RESEARCH'),
   isFeatured: optionalBoolean.default(false),
   status: z.enum(['DRAFT', 'PUBLISHED', 'HIDDEN']).default('DRAFT'),
   displayOrder: optionalNumber.default(0),

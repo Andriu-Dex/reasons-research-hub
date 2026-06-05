@@ -1,7 +1,8 @@
 import {
   PrismaClient,
   ContentStatus,
-  ProjectLifecycleStatus
+  ProjectLifecycleStatus,
+  ProjectType
 } from '@prisma/client';
 import argon2 from 'argon2';
 
@@ -197,6 +198,7 @@ async function upsertProject(
     mainMediaId: string;
     status: ContentStatus;
     projectStatus: ProjectLifecycleStatus;
+    projectType: ProjectType;
     displayOrder: number;
     isFeatured?: boolean;
   }
@@ -216,6 +218,7 @@ async function upsertProject(
       mainMediaId: data.mainMediaId,
       status: data.status,
       projectStatus: data.projectStatus,
+      projectType: data.projectType,
       displayOrder: data.displayOrder,
       isFeatured: data.isFeatured ?? false
     },
@@ -229,6 +232,7 @@ async function upsertProject(
       mainMediaId: data.mainMediaId,
       status: data.status,
       projectStatus: data.projectStatus,
+      projectType: data.projectType,
       displayOrder: data.displayOrder,
       isFeatured: data.isFeatured ?? false
     }
@@ -1023,6 +1027,16 @@ async function seedOrganization(seed: {
   for (let i = 0; i < projectTitles.length; i++) {
     const status = statusCycle[i % statusCycle.length];
     const projectStatus = projectStatusCycle[i % projectStatusCycle.length];
+    const titleLower = projectTitles[i].toLowerCase();
+    const isAcademic =
+      titleLower.includes('academic') ||
+      titleLower.includes('académic') ||
+      titleLower.includes('docencia') ||
+      titleLower.includes('formacion') ||
+      titleLower.includes('formación') ||
+      titleLower.includes('vinculacion') ||
+      titleLower.includes('vinculación');
+    const projectType = isAcademic ? ProjectType.ACADEMIC : ProjectType.RESEARCH;
 
     const project = await upsertProject(organization.id, {
       title: projectTitles[i],
@@ -1038,6 +1052,7 @@ async function seedOrganization(seed: {
       mainMediaId: projectImage.id,
       status,
       projectStatus,
+      projectType,
       displayOrder: i + 1,
       isFeatured: i < 6 && status === ContentStatus.PUBLISHED
     });

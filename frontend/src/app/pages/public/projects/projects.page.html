@@ -1,8 +1,25 @@
 <header class="projects-hero">
-  <div class="container">
-    <span class="eyebrow">{{ config.eyebrow }}</span>
-    <h1>{{ config.title }}</h1>
-    <p>{{ config.description }}</p>
+  <div class="container hero-container">
+    <div class="hero-text">
+      <span class="eyebrow">{{ config.eyebrow }}</span>
+      <h1>{{ config.title }}</h1>
+      <p>{{ config.description }}</p>
+    </div>
+    
+    <div class="hero-stats">
+      <div class="stat-card">
+        <span class="stat-value">{{ totalCount }}</span>
+        <span class="stat-label">Proyectos</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">{{ completedCount }}</span>
+        <span class="stat-label">Completados</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">{{ inProgressCount }}</span>
+        <span class="stat-label">En Progreso</span>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -28,56 +45,212 @@
         <p>{{ config.emptyMessage }}</p>
       </div>
     } @else {
-      <div class="projects-grid">
-        @for (project of projects; track project.id) {
-          <article class="surface-card project-card">
-            <div class="project-status-overlay">
-              <span class="badge" [class]="project.projectStatus.toLowerCase()">
-                <span class="mat-icon sm">
-                  @switch (project.projectStatus) {
-                    @case ('PLANNED') { event }
-                    @case ('IN_PROGRESS') { running_with_errors }
-                    @case ('COMPLETED') { check_circle }
-                    @case ('PAUSED') { pause_circle }
-                  }
-                </span>
-                @switch (project.projectStatus) {
-                  @case ('PLANNED') { Planificado }
-                  @case ('IN_PROGRESS') { En progreso }
-                  @case ('COMPLETED') { Completado }
-                  @case ('PAUSED') { En pausa }
-                  @default { {{ project.projectStatus }} }
-                }
-              </span>
+      <div class="projects-directory">
+        <!-- Toolbar (Filters & Search) -->
+        <div class="directory-toolbar">
+          <label for="search-input">
+            Buscar Proyecto
+            <div style="position: relative; width: 100%;">
+              <span class="mat-icon search-icon">search</span>
+              <input 
+                id="search-input" 
+                type="text" 
+                [(ngModel)]="searchTerm" 
+                (ngModelChange)="onFilterChange()"
+                placeholder="Título, descripción, investigador, líneas..." 
+                style="padding-left: 44px; padding-right: 40px; width: 100%; height: 48px;"
+              />
+              @if (searchTerm) {
+                <button type="button" class="clear-search-btn" (click)="clearSearch()" aria-label="Limpiar búsqueda">
+                  <span class="mat-icon">close</span>
+                </button>
+              }
             </div>
+          </label>
 
-            @if (project.mainImage?.url) {
-              <div class="project-cover-wrapper">
-                <img [src]="project.mainImage?.url" [alt]="project.title" class="project-cover-img" loading="lazy" />
-              </div>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <span style="color: var(--color-primary); font-size: 0.8rem; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase;">Estado del Proyecto</span>
+            <div class="directory-tags">
+              <button type="button" [class.active]="activeStatusFilter === 'ALL'" (click)="setFilter('ALL')">Todos</button>
+              <button type="button" [class.active]="activeStatusFilter === 'PLANNED'" (click)="setFilter('PLANNED')">Planificados</button>
+              <button type="button" [class.active]="activeStatusFilter === 'IN_PROGRESS'" (click)="setFilter('IN_PROGRESS')">En progreso</button>
+              <button type="button" [class.active]="activeStatusFilter === 'COMPLETED'" (click)="setFilter('COMPLETED')">Completados</button>
+              <button type="button" [class.active]="activeStatusFilter === 'PAUSED'" (click)="setFilter('PAUSED')">En pausa</button>
+            </div>
+          </div>
+        </div>
+
+        @if (getFilteredCount() === 0) {
+          <div class="empty-state-card" style="padding: 48px 24px;">
+            <span class="mat-icon" style="font-size: 48px; width: 48px; height: 48px; color: var(--color-subtle);">search_off</span>
+            <strong>No se encontraron proyectos</strong>
+            <p>Intenta ajustar los filtros o el término de búsqueda.</p>
+          </div>
+        } @else {
+          <!-- Grid -->
+          <div class="projects-grid">
+            @for (project of paginatedProjects; track project.id) {
+              <article class="surface-card project-card" (click)="openModal(project)" style="cursor: pointer;">
+                <div class="project-cover-wrapper">
+                  <div class="project-photo" [style.background-image]="project.mainImage?.url ? 'url(' + project.mainImage?.url + ')' : 'url(https://placehold.co/600x400/dce7f9/0d1b2e.png?text=Proyectos)'"></div>
+                  
+                  <div class="project-status-overlay">
+                    <span class="badge" [class]="project.projectStatus.toLowerCase()">
+                      <span class="mat-icon sm">
+                        @switch (project.projectStatus) {
+                          @case ('PLANNED') { event }
+                          @case ('IN_PROGRESS') { running_with_errors }
+                          @case ('COMPLETED') { check_circle }
+                          @case ('PAUSED') { pause_circle }
+                        }
+                      </span>
+                      @switch (project.projectStatus) {
+                        @case ('PLANNED') { Planificado }
+                        @case ('IN_PROGRESS') { En progreso }
+                        @case ('COMPLETED') { Completado }
+                        @case ('PAUSED') { En pausa }
+                        @default { {{ project.projectStatus }} }
+                      }
+                    </span>
+                  </div>
+                </div>
+
+                <div class="project-body">
+                  <h2>{{ project.title }}</h2>
+                  <p class="project-desc">{{ project.description }}</p>
+                </div>
+              </article>
             }
-            <div class="project-body">
-              <h2>{{ project.title }}</h2>
-              <p class="project-desc">{{ project.description }}</p>
-              
-              <div class="project-meta-info">
-                <div class="meta-item">
-                  <span class="meta-label">Objetivos</span>
-                  <span class="meta-value">{{ project.objectives }}</span>
-                </div>
-                <div class="meta-item">
-                  <span class="meta-label">Equipo Investigador</span>
-                  <span class="meta-value">{{ researchersOf(project) }}</span>
-                </div>
-                <div class="meta-item">
-                  <span class="meta-label">Líneas Asociadas</span>
-                  <span class="meta-value">{{ linesOf(project) }}</span>
-                </div>
+          </div>
+
+          <!-- Pagination -->
+          @if (totalPages > 1) {
+            <div class="pagination-container">
+              <span class="pagination-info">
+                Mostrando {{ getStartIndex() + 1 }} - {{ getEndIndex() }} de {{ getFilteredCount() }} proyectos
+              </span>
+              <div class="pagination-controls">
+                <button 
+                  type="button"
+                  class="btn ghost" 
+                  style="padding: 0 16px; min-height: 40px; font-size: 0.9rem;" 
+                  [disabled]="currentPage === 1" 
+                  (click)="prevPage()"
+                >
+                  <span class="mat-icon" style="font-size: 18px; width: 18px; height: 18px;">chevron_left</span>
+                  Anterior
+                </button>
+                
+                @for (page of getPagesArray(); track page) {
+                  <button 
+                    type="button"
+                    class="btn" 
+                    [class.primary]="page === currentPage" 
+                    [class.ghost]="page !== currentPage"
+                    style="padding: 0; min-height: 40px; width: 40px; font-size: 0.9rem; justify-content: center;"
+                    (click)="setPage(page)"
+                  >
+                    {{ page }}
+                  </button>
+                }
+
+                <button 
+                  type="button"
+                  class="btn ghost" 
+                  style="padding: 0 16px; min-height: 40px; font-size: 0.9rem;" 
+                  [disabled]="currentPage === totalPages" 
+                  (click)="nextPage()"
+                >
+                  Siguiente
+                  <span class="mat-icon" style="font-size: 18px; width: 18px; height: 18px;">chevron_right</span>
+                </button>
               </div>
             </div>
-          </article>
+          }
         }
       </div>
     }
   </div>
 </section>
+
+<!-- Detailed Project Modal -->
+@if (selectedProject) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-dialog researcher-modal" (click)="$event.stopPropagation()">
+      <button type="button" class="modal-close-btn" (click)="closeModal()" aria-label="Cerrar modal">
+        <span class="mat-icon">close</span>
+      </button>
+      
+      <div class="modal-photo" [style.background-image]="selectedProject.mainImage?.url ? 'url(' + selectedProject.mainImage?.url + ')' : 'url(https://placehold.co/600x800/dce7f9/0d1b2e.png?text=Sin+Imagen)'"></div>
+      
+      <div class="modal-details">
+        <div class="profile-tags">
+          <span class="badge" [class]="selectedProject.projectStatus.toLowerCase()">
+            <span class="mat-icon sm">
+              @switch (selectedProject.projectStatus) {
+                @case ('PLANNED') { event }
+                @case ('IN_PROGRESS') { running_with_errors }
+                @case ('COMPLETED') { check_circle }
+                @case ('PAUSED') { pause_circle }
+              }
+            </span>
+            @switch (selectedProject.projectStatus) {
+              @case ('PLANNED') { Planificado }
+              @case ('IN_PROGRESS') { En progreso }
+              @case ('COMPLETED') { Completado }
+              @case ('PAUSED') { En pausa }
+              @default { {{ selectedProject.projectStatus }} }
+            }
+          </span>
+        </div>
+        <h2>{{ selectedProject.title }}</h2>
+        
+        <p class="biography">{{ selectedProject.description }}</p>
+        
+        <div class="modal-info-grid">
+          <div class="info-item">
+            <span class="info-label">Objetivos del Proyecto</span>
+            <div class="meta-value" style="font-size: 0.95rem; line-height: 1.6; color: var(--color-muted);">{{ selectedProject.objectives }}</div>
+          </div>
+
+          @if (selectedProject.results) {
+            <div class="info-item" style="border-top: 1.5px solid var(--color-border); padding-top: 16px;">
+              <span class="info-label">Resultados</span>
+              <div class="meta-value" style="font-size: 0.95rem; line-height: 1.6; color: var(--color-muted);">{{ selectedProject.results }}</div>
+            </div>
+          }
+
+          <div class="info-item" style="border-top: 1.5px solid var(--color-border); padding-top: 16px;">
+            <span class="info-label">Líneas de Investigación Asociadas</span>
+            <div class="profile-tags" style="margin-top: 8px;">
+              @for (line of selectedProject.researchLines; track line.researchLine.id) {
+                <span class="badge ghost-badge">
+                  <span class="mat-icon sm">science</span>
+                  {{ line.researchLine.title }}
+                </span>
+              } @empty {
+                <span class="meta-value" style="font-size: 0.9rem; color: var(--color-muted);">Sin líneas asociadas</span>
+              }
+            </div>
+          </div>
+
+          <div class="info-item" style="border-top: 1.5px solid var(--color-border); padding-top: 16px;">
+            <span class="info-label">Equipo Investigador</span>
+            <div class="profile-tags" style="margin-top: 8px;">
+              @for (entry of selectedProject.researchers; track entry.researcher.id) {
+                <span class="badge ghost-badge">
+                  <span class="mat-icon sm">person</span>
+                  {{ entry.researcher.fullName }}
+                  @if (entry.role) { <small style="opacity: 0.8; font-weight: 500; margin-left: 4px;">({{ entry.role }})</small> }
+                </span>
+              } @empty {
+                <span class="meta-value" style="font-size: 0.9rem; color: var(--color-muted);">Participantes por configurar</span>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
