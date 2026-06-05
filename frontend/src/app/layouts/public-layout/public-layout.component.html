@@ -12,8 +12,8 @@
       </a>
       <div class="header-actions">
         <nav id="primary-nav" class="nav-links" [ngClass]="{ open: isMenuOpen }">
-          @for (item of navigationItems; track item.path) {
-            <div class="nav-item" [ngClass]="{ 'has-submenu': item.children?.length }">
+          @for (item of navigationItems; track item.path; let i = $index) {
+            <div class="nav-item" [ngClass]="{ 'has-submenu': item.children?.length }" [style.--nav-delay.ms]="i * 60 + 200">
               <a
                 class="nav-link"
                 [routerLink]="linkTo(item.path)"
