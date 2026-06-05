@@ -19,6 +19,7 @@ export class ProjectsAdminPage implements OnInit {
     emptyMessage: 'Aun no hay proyectos registrados.',
     columns: [
       { key: 'title', label: 'Titulo' },
+      { key: 'projectType', label: 'Tipo' },
       { key: 'projectStatus', label: 'Avance' },
       { key: 'status', label: 'Estado' }
     ],
@@ -29,6 +30,10 @@ export class ProjectsAdminPage implements OnInit {
       { key: 'objectives', label: 'Objetivos', type: 'textarea', required: true },
       { key: 'results', label: 'Resultados', type: 'textarea' },
       { key: 'mainMediaId', label: 'Imagen principal', type: 'media' },
+      { key: 'projectType', label: 'Tipo de proyecto', type: 'select', options: [
+        { label: 'Investigación', value: 'RESEARCH' },
+        { label: 'Académico', value: 'ACADEMIC' }
+      ] },
       { key: 'projectStatus', label: 'Estado del proyecto', type: 'select', options: [
         { label: 'Planificado', value: 'PLANNED' },
         { label: 'En progreso', value: 'IN_PROGRESS' },

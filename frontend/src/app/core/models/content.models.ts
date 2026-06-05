@@ -114,6 +114,8 @@ export interface ProjectResearchLine {
   researchLine: ResearchLine;
 }
 
+export type ProjectType = 'ACADEMIC' | 'RESEARCH';
+
 export interface Project {
   id: string;
   title: string;
@@ -124,6 +126,7 @@ export interface Project {
   mainMediaId?: string | null;
   mainImage?: MediaFile | null;
   projectStatus: ProjectLifecycleStatus;
+  projectType: ProjectType;
   isFeatured: boolean;
   status: ContentStatus;
   displayOrder: number;

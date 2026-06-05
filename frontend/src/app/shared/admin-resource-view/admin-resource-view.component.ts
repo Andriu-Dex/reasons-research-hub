@@ -163,6 +163,21 @@ export class AdminResourceViewComponent implements OnInit {
       return String(value).slice(0, 10);
     }
     return String(value);
+    
+    // Translation mappings
+    const translations: Record<string, string> = {
+      ACADEMIC: 'Académico',
+      RESEARCH: 'Investigación',
+      PLANNED: 'Planificado',
+      IN_PROGRESS: 'En progreso',
+      COMPLETED: 'Completado',
+      PAUSED: 'Pausado',
+      DRAFT: 'Borrador',
+      PUBLISHED: 'Publicado',
+      HIDDEN: 'Oculto'
+    };
+
+    return translations[value] ?? String(value);
   }
 
   statusLabel(status: string): string {

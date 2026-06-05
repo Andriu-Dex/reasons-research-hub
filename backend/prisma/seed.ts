@@ -1,7 +1,8 @@
 import {
   PrismaClient,
   ContentStatus,
-  ProjectLifecycleStatus
+  ProjectLifecycleStatus,
+  ProjectType
 } from '@prisma/client';
 import argon2 from 'argon2';
 
@@ -197,6 +198,7 @@ async function upsertProject(
     mainMediaId: string;
     status: ContentStatus;
     projectStatus: ProjectLifecycleStatus;
+    projectType: ProjectType;
     displayOrder: number;
     isFeatured?: boolean;
   }
@@ -216,6 +218,7 @@ async function upsertProject(
       mainMediaId: data.mainMediaId,
       status: data.status,
       projectStatus: data.projectStatus,
+      projectType: data.projectType,
       displayOrder: data.displayOrder,
       isFeatured: data.isFeatured ?? false
     },
@@ -229,6 +232,7 @@ async function upsertProject(
       mainMediaId: data.mainMediaId,
       status: data.status,
       projectStatus: data.projectStatus,
+      projectType: data.projectType,
       displayOrder: data.displayOrder,
       isFeatured: data.isFeatured ?? false
     }
@@ -527,10 +531,11 @@ const researchLines = [
 ];
 
 const projectTitles = [
+  'Plataforma de analítica de datos para productividad académica',
+  'Dashboard académico para seguimiento de investigación',
   'Modelo PROS50 para MIPYMES textiles sostenibles',
   'Sistema IoT para monitoreo energético industrial',
   'Gemelo digital para procesos de manufactura flexible',
-  'Plataforma de analítica de datos para productividad académica',
   'Optimización de cadenas de suministro sostenibles',
   'Sistema de visión artificial para control de calidad',
   'Modelo predictivo para mantenimiento de maquinaria',
@@ -545,8 +550,7 @@ const projectTitles = [
   'Sistema de apoyo a decisiones para operaciones sostenibles',
   'Automatización de indicadores de eficiencia operativa',
   'Aplicación de Industria 5.0 en empresas manufactureras',
-  'Modelo de innovación social para comunidades productivas',
-  'Dashboard académico para seguimiento de investigación'
+  'Modelo de innovación social para comunidades productivas'
 ];
 
 const publicationTitles = [
@@ -1023,6 +1027,16 @@ async function seedOrganization(seed: {
   for (let i = 0; i < projectTitles.length; i++) {
     const status = statusCycle[i % statusCycle.length];
     const projectStatus = projectStatusCycle[i % projectStatusCycle.length];
+    const titleLower = projectTitles[i].toLowerCase();
+    const isAcademic =
+      titleLower.includes('academic') ||
+      titleLower.includes('académic') ||
+      titleLower.includes('docencia') ||
+      titleLower.includes('formacion') ||
+      titleLower.includes('formación') ||
+      titleLower.includes('vinculacion') ||
+      titleLower.includes('vinculación');
+    const projectType = isAcademic ? ProjectType.ACADEMIC : ProjectType.RESEARCH;
 
     const project = await upsertProject(organization.id, {
       title: projectTitles[i],
@@ -1038,6 +1052,7 @@ async function seedOrganization(seed: {
       mainMediaId: projectImage.id,
       status,
       projectStatus,
+      projectType,
       displayOrder: i + 1,
       isFeatured: i < 6 && status === ContentStatus.PUBLISHED
     });
