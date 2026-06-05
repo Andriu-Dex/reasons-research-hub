@@ -2,7 +2,8 @@ import {
   PrismaClient,
   ContentStatus,
   ProjectLifecycleStatus,
-  ProjectType
+  ProjectType,
+  NewsCategory
 } from '@prisma/client';
 import argon2 from 'argon2';
 
@@ -370,6 +371,7 @@ async function upsertNews(
     summary: string;
     content: string;
     status: ContentStatus;
+    newsCategory: NewsCategory;
     displayOrder: number;
     publishedAt: Date;
   }
@@ -388,6 +390,7 @@ async function upsertNews(
       projectId: data.projectId,
       mainMediaId: data.mainMediaId,
       status: data.status,
+      newsCategory: data.newsCategory,
       displayOrder: data.displayOrder,
       publishedAt: data.publishedAt,
       isFeatured: data.status === ContentStatus.PUBLISHED && data.displayOrder <= 5
@@ -401,6 +404,7 @@ async function upsertNews(
       mainMediaId: data.mainMediaId,
       projectId: data.projectId,
       status: data.status,
+      newsCategory: data.newsCategory,
       displayOrder: data.displayOrder,
       publishedAt: data.publishedAt,
       isFeatured: data.status === ContentStatus.PUBLISHED && data.displayOrder <= 5
@@ -596,27 +600,33 @@ const publicationTitles = [
   'Technology adoption in academic research ecosystems'
 ];
 
-const newsTitles = [
-  'REASONS presenta nuevos proyectos de investigación aplicada',
-  'Investigadores participan en congreso internacional de industria sostenible',
-  'Nuevo artículo científico publicado en revista indexada',
-  'Convenio académico fortalece la vinculación con el sector productivo',
-  'Workshop sobre Industria 4.0 e inteligencia artificial aplicada',
-  'REASONS impulsa investigación sobre sostenibilidad en MIPYMES',
-  'Seminario sobre ciencia de datos para sistemas productivos',
-  'Proyecto de eficiencia energética inicia fase de validación',
+const updateTitles = [
+  'REASONS presenta resultados de investigación aplicada en industria sostenible',
+  'Nuevo artículo científico publicado en revista indexada Scopus',
+  'REASONS impulsa investigación sobre sostenibilidad en MIPYMES del sector textil',
   'Docentes investigadores desarrollan modelo de trazabilidad industrial',
-  'Grupo REASONS participa en jornada de innovación universitaria',
-  'Nueva línea de trabajo integra IoT y manufactura inteligente',
-  'Resultados preliminares de proyecto textil son presentados',
-  'Capacitación sobre dashboards de investigación académica',
-  'Investigación sobre huella de carbono avanza a etapa piloto',
-  'REASONS fortalece cooperación entre academia, industria y comunidad',
-  'Sistema de monitoreo productivo es probado en ambiente controlado',
-  'Publicación sobre Industria 5.0 recibe reconocimiento académico',
-  'Equipo investigador socializa avances de proyectos sostenibles',
-  'Nueva propuesta de innovación social se integra al portafolio',
-  'Plataforma web institucional mejora la divulgación científica'
+  'Publicación sobre Industria 5.0 recibe reconocimiento académico internacional',
+  'Equipo investigador socializa avances de proyectos sostenibles con la comunidad',
+  'Sistema de monitoreo productivo es probado en ambiente controlado con éxito',
+  'Nueva propuesta de innovación social se integra al portafolio de REASONS',
+  'Plataforma web institucional mejora la divulgación científica del grupo'
+];
+
+const eventTitles = [
+  'Workshop sobre Industria 4.0 e inteligencia artificial aplicada a la manufactura',
+  'Investigadores participan en congreso internacional de industria sostenible',
+  'Seminario sobre ciencia de datos para sistemas productivos industriales',
+  'Grupo REASONS participa en jornada de innovación universitaria UTA 2026',
+  'Capacitación sobre dashboards de investigación y analítica académica',
+  'Simposio internacional de ingeniería sostenible y gestión de operaciones'
+];
+
+const agreementTitles = [
+  'Convenio marco de cooperación académica con la Cámara de Industrias de Tungurahua',
+  'Alianza estratégica con empresas del sector textil para investigación aplicada',
+  'Acuerdo de colaboración con universidad internacional para proyectos conjuntos',
+  'Convenio de vinculación con el MIPRO para transferencia tecnológica en MIPYMES',
+  'Nuevo convenio con empresa tecnológica impulsa investigación en Industria 4.0'
 ];
 
 async function seedOrganization(seed: {
@@ -1124,27 +1134,57 @@ async function seedOrganization(seed: {
     });
   }
 
-  for (let i = 0; i < newsTitles.length; i++) {
-    const status = statusCycle[i % statusCycle.length];
-    const project = projectRecords[i % projectRecords.length];
-
-    await upsertNews(organization.id, {
-      projectId: project.id,
-      mainMediaId: projectImage.id,
-      title: newsTitles[i],
-      slug: slugify(newsTitles[i]),
+  const newsGroups: Array<{ titles: string[]; category: NewsCategory; summary: string; content: string }> = [
+    {
+      titles: updateTitles,
+      category: NewsCategory.UPDATE,
       summary:
-        'Actividad académica vinculada con investigación aplicada, innovación, sostenibilidad y fortalecimiento institucional.',
+        'Actividad académica del grupo REASONS vinculada con investigación aplicada, innovación y fortalecimiento institucional.',
       content:
-        'El grupo de investigación desarrolla actividades orientadas a la generación de conocimiento aplicado, la vinculación con el sector productivo y la divulgación de resultados científicos. Esta noticia permite probar listados, estados, destacados, relaciones con proyectos, fechas de publicación y visualización pública.',
-      status,
-      displayOrder: i + 1,
-      publishedAt: new Date(
-        `2026-${String((i % 12) + 1).padStart(2, '0')}-${String(
-          (i % 25) + 1
-        ).padStart(2, '0')}`
-      )
-    });
+        'El grupo de investigación REASONS desarrolla actividades orientadas a la generación de conocimiento aplicado, la vinculación con el sector productivo y la divulgación de resultados científicos. Esta novedad refleja el compromiso institucional con la sostenibilidad, la innovación tecnológica y el bienestar social. La investigación propone metodologías replicables y de alto impacto para MIPYMES y organizaciones productivas.'
+    },
+    {
+      titles: eventTitles,
+      category: NewsCategory.EVENT,
+      summary:
+        'Evento académico organizado o respaldado por REASONS para la comunidad investigadora y el sector productivo.',
+      content:
+        'REASONS organiza y participa activamente en eventos de divulgación científica, talleres, seminarios y congresos nacionales e internacionales. Estas actividades permiten socializar avances de investigación, generar redes de colaboración y fortalecer la formación de investigadores jóvenes en áreas estratégicas como Industria 4.0, sostenibilidad y ciencia de datos.'
+    },
+    {
+      titles: agreementTitles,
+      category: NewsCategory.AGREEMENT,
+      summary:
+        'Convenio de cooperación institucional que amplía la red de alianzas estratégicas de REASONS con el sector académico y productivo.',
+      content:
+        'El grupo REASONS formaliza acuerdos de cooperación con instituciones académicas, organismos gubernamentales y empresas del sector productivo. Estos convenios permiten desarrollar proyectos conjuntos, intercambiar conocimiento, acceder a recursos y fortalecer la transferencia tecnológica hacia la comunidad. Cada alianza refleja el compromiso del grupo con la vinculación universidad-industria-sociedad.'
+    }
+  ];
+
+  let globalDisplayOrder = 1;
+  for (const group of newsGroups) {
+    for (let i = 0; i < group.titles.length; i++) {
+      const status = statusCycle[globalDisplayOrder % statusCycle.length];
+      const project = projectRecords[globalDisplayOrder % projectRecords.length];
+
+      await upsertNews(organization.id, {
+        projectId: project.id,
+        mainMediaId: projectImage.id,
+        title: group.titles[i],
+        slug: slugify(group.titles[i]),
+        summary: group.summary,
+        content: group.content,
+        newsCategory: group.category,
+        status,
+        displayOrder: globalDisplayOrder,
+        publishedAt: new Date(
+          `2026-${String((globalDisplayOrder % 12) + 1).padStart(2, '0')}-${String(
+            (globalDisplayOrder % 25) + 1
+          ).padStart(2, '0')}`
+        )
+      });
+      globalDisplayOrder++;
+    }
   }
 
   return organization;

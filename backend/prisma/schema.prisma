@@ -35,6 +35,12 @@ enum ProjectType {
   RESEARCH
 }
 
+enum NewsCategory {
+  UPDATE
+  EVENT
+  AGREEMENT
+}
+
 model Organization {
   id            String             @id @default(uuid()) @db.Uuid
   name          String
@@ -411,6 +417,7 @@ model News {
   mainMediaId    String?       @map("main_media_id") @db.Uuid
   publishedAt    DateTime      @map("published_at") @db.Date
   projectId      String?       @map("project_id") @db.Uuid
+  newsCategory   NewsCategory  @default(UPDATE) @map("news_category")
   isFeatured     Boolean       @default(false) @map("is_featured")
   status         ContentStatus @default(DRAFT)
   displayOrder   Int           @default(0) @map("display_order")
@@ -422,6 +429,6 @@ model News {
   project      Project?     @relation(fields: [projectId], references: [id], onDelete: SetNull)
 
   @@unique([organizationId, slug])
-  @@index([organizationId, status, displayOrder, publishedAt])
+  @@index([organizationId, status, newsCategory, displayOrder, publishedAt])
   @@map("news")
 }

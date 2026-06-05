@@ -2,6 +2,7 @@ export type AdminRole = 'SUPER_ADMIN' | 'ORG_ADMIN';
 export type ContentStatus = 'DRAFT' | 'PUBLISHED' | 'HIDDEN';
 export type OrganizationStatus = 'ACTIVE' | 'INACTIVE';
 export type ProjectLifecycleStatus = 'PLANNED' | 'IN_PROGRESS' | 'COMPLETED' | 'PAUSED';
+export type NewsCategory = 'UPDATE' | 'EVENT' | 'AGREEMENT';
 
 export interface MediaFile {
   id: string;
@@ -177,6 +178,7 @@ export interface NewsItem {
   publishedAt: string;
   projectId?: string | null;
   project?: Project | null;
+  newsCategory: NewsCategory;
   isFeatured: boolean;
   status: ContentStatus;
   displayOrder: number;

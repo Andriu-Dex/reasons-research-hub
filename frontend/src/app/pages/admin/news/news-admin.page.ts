@@ -18,6 +18,7 @@ export class NewsAdminPage implements OnInit {
     emptyMessage: 'Aun no hay noticias registradas.',
     columns: [
       { key: 'title', label: 'Titulo' },
+      { key: 'newsCategory', label: 'Categoría' },
       { key: 'publishedAt', label: 'Fecha' },
       { key: 'status', label: 'Estado' }
     ],
@@ -28,6 +29,11 @@ export class NewsAdminPage implements OnInit {
       { key: 'content', label: 'Contenido', type: 'textarea', required: true },
       { key: 'mainMediaId', label: 'Imagen principal', type: 'media' },
       { key: 'publishedAt', label: 'Fecha de publicacion', type: 'date', required: true },
+      { key: 'newsCategory', label: 'Categoría', type: 'select', options: [
+        { label: 'Novedad', value: 'UPDATE' },
+        { label: 'Evento', value: 'EVENT' },
+        { label: 'Convenio de cooperación', value: 'AGREEMENT' }
+      ] },
       { key: 'projectId', label: 'Proyecto asociado', type: 'select' },
       { key: 'isFeatured', label: 'Destacada', type: 'checkbox' },
       { key: 'status', label: 'Estado', type: 'select', options: [

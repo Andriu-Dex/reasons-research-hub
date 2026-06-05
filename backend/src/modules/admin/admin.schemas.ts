@@ -128,6 +128,7 @@ export const newsSchema = z.object({
   mainMediaId: optionalString,
   publishedAt: z.string(),
   projectId: optionalString,
+  newsCategory: z.enum(['UPDATE', 'EVENT', 'AGREEMENT']).default('UPDATE'),
   isFeatured: optionalBoolean.default(false),
   status: z.enum(['DRAFT', 'PUBLISHED', 'HIDDEN']).default('DRAFT'),
   displayOrder: optionalNumber.default(0)

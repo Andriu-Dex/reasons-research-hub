@@ -167,7 +167,10 @@ export class AdminResourceViewComponent implements OnInit {
       PAUSED: 'Pausado',
       DRAFT: 'Borrador',
       PUBLISHED: 'Publicado',
-      HIDDEN: 'Oculto'
+      HIDDEN: 'Oculto',
+      UPDATE: 'Novedad',
+      EVENT: 'Evento',
+      AGREEMENT: 'Convenio'
     };
 
     return translations[value] ?? String(value);

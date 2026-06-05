@@ -1,50 +1,227 @@
-<header class="category-hero" [class.agreements]="category === 'agreements'" [class.events]="category === 'events'">
-  <div class="container">
-    <span class="eyebrow">{{ config.eyebrow }}</span>
-    <h1>{{ config.title }}</h1>
-    <p>{{ config.description }}</p>
+<!-- ══ HERO ══════════════════════════════════════════════════════════ -->
+<header class="nc-hero" [class]="config.accentClass">
+  <div class="nc-hero-bg-grid"></div>
+  <div class="container nc-hero-inner">
+    <div class="nc-hero-copy">
+      <span class="nc-eyebrow">
+        <span class="mat-icon nc-eyebrow-icon">{{ config.icon }}</span>
+        {{ config.eyebrow }}
+      </span>
+      <h1>{{ config.title }}</h1>
+      <p>{{ config.description }}</p>
+    </div>
+
+    @if (!isLoading && !hasError && allNews.length) {
+      <div class="nc-hero-stats">
+        <div class="nc-stat-card">
+          <span class="nc-stat-value">{{ totalCount }}</span>
+          <span class="nc-stat-label">Publicados</span>
+        </div>
+        <div class="nc-stat-card">
+          <span class="nc-stat-value">{{ featuredCount }}</span>
+          <span class="nc-stat-label">Destacados</span>
+        </div>
+        <div class="nc-stat-card">
+          <span class="nc-stat-value">{{ latestDate | date: 'MMM yyyy' }}</span>
+          <span class="nc-stat-label">Último registro</span>
+        </div>
+      </div>
+    }
   </div>
 </header>
 
-<section class="category-section section">
+<!-- ══ TOOLBAR ══════════════════════════════════════════════════════ -->
+@if (!isLoading && !hasError && allNews.length) {
+  <div class="nc-toolbar-wrap">
+    <div class="container nc-toolbar">
+      <div class="nc-search-box">
+        <span class="mat-icon nc-search-icon">search</span>
+        <input
+          id="nc-search-input"
+          type="text"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearch()"
+          placeholder="Buscar por título o resumen…"
+          class="nc-search-input"
+          autocomplete="off"
+        />
+        @if (searchTerm) {
+          <button class="nc-clear-btn" (click)="searchTerm = ''; onSearch()" aria-label="Limpiar búsqueda">
+            <span class="mat-icon">close</span>
+          </button>
+        }
+      </div>
+      <p class="nc-results-count">
+        {{ filteredNews.length }} resultado{{ filteredNews.length !== 1 ? 's' : '' }}
+      </p>
+    </div>
+  </div>
+}
+
+<!-- ══ CONTENT SECTION ══════════════════════════════════════════════ -->
+<section class="nc-section section">
   <div class="container">
+
+    <!-- Loading skeletons -->
     @if (isLoading) {
-      <div class="skeleton-list">
-        <div style="display: grid; gap: 28px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
-          <div class="skeleton skeleton-kpi" style="min-height: 240px;"></div>
-          <div class="skeleton skeleton-kpi" style="min-height: 240px;"></div>
+      <div class="nc-grid">
+        @for (s of [1,2,3,4,5,6]; track s) {
+          <div class="skeleton-card">
+            <div class="skeleton skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton skeleton-tag"></div>
+              <div class="skeleton skeleton-title"></div>
+              <div class="skeleton skeleton-text"></div>
+              <div class="skeleton skeleton-text short"></div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Error -->
+    @else if (hasError) {
+      <div class="nc-empty-state">
+        <div class="nc-empty-icon">
+          <span class="mat-icon">error_outline</span>
         </div>
+        <h2>Error de conexión</h2>
+        <p>No se pudo cargar esta sección. Intenta nuevamente más tarde.</p>
       </div>
-    } @else if (hasError) {
-      <div class="empty-state-card">
-        <span class="mat-icon">error_outline</span>
-        <strong>Error de conexión</strong>
-        <p>No se pudo cargar esta sección, intenta nuevamente.</p>
-      </div>
-    } @else if (!news.length) {
-      <div class="empty-state-card">
-        <span class="mat-icon">newspaper</span>
-        <strong>Sin contenido</strong>
+    }
+
+    <!-- Empty state -->
+    @else if (!allNews.length) {
+      <div class="nc-empty-state">
+        <div class="nc-empty-icon">
+          <span class="mat-icon">{{ config.icon }}</span>
+        </div>
+        <h2>Sin contenido aún</h2>
         <p>{{ config.emptyMessage }}</p>
       </div>
-    } @else {
-      <div class="category-grid">
-        @for (item of news; track item.id) {
-          <article class="surface-card category-card">
+    }
+
+    <!-- No search results -->
+    @else if (!filteredNews.length) {
+      <div class="nc-empty-state">
+        <div class="nc-empty-icon">
+          <span class="mat-icon">search_off</span>
+        </div>
+        <h2>Sin resultados</h2>
+        <p>No se encontraron elementos para "<strong>{{ searchTerm }}</strong>".</p>
+      </div>
+    }
+
+    <!-- Cards grid -->
+    @else {
+      <div class="nc-grid">
+        @for (item of paginatedNews; track item.id) {
+          <article class="nc-card" (click)="openModal(item)" tabindex="0"
+                   (keydown.enter)="openModal(item)" role="button" aria-label="Ver {{ item.title }}">
             @if (item.mainImage?.url) {
-              <figure>
-                <img [src]="item.mainImage?.url" [alt]="item.title" loading="lazy" />
+              <figure class="nc-card-figure">
+                <img [src]="item.mainImage!.url" [alt]="item.title" loading="lazy" />
+                @if (item.isFeatured) {
+                  <span class="nc-card-featured-badge">
+                    <span class="mat-icon">star</span> Destacado
+                  </span>
+                }
               </figure>
+            } @else {
+              <div class="nc-card-no-img">
+                <span class="mat-icon">{{ config.icon }}</span>
+                @if (item.isFeatured) {
+                  <span class="nc-card-featured-badge">
+                    <span class="mat-icon">star</span> Destacado
+                  </span>
+                }
+              </div>
             }
-            <div class="category-content">
-              <time class="tag" [attr.datetime]="item.publishedAt">{{ item.publishedAt | date: 'dd MMM yyyy' }}</time>
-              <h2>{{ item.title }}</h2>
-              <p>{{ item.summary }}</p>
-              <div class="category-body" [innerHTML]="item.content"></div>
+            <div class="nc-card-body">
+              <time class="nc-card-date" [attr.datetime]="item.publishedAt">
+                <span class="mat-icon" style="font-size:0.9rem;vertical-align:middle;">calendar_today</span>
+                {{ item.publishedAt | date: 'dd MMM yyyy' }}
+              </time>
+              <h2 class="nc-card-title">{{ item.title }}</h2>
+              <p class="nc-card-summary">{{ item.summary }}</p>
+              <span class="nc-card-cta">
+                Leer más <span class="mat-icon" style="font-size:0.95rem;vertical-align:middle;">arrow_forward</span>
+              </span>
             </div>
           </article>
         }
       </div>
+
+      <!-- Pagination -->
+      @if (totalPages > 1) {
+        <nav class="nc-pagination" aria-label="Paginación">
+          <button class="nc-page-btn nc-page-arrow" (click)="goToPage(currentPage - 1)"
+                  [disabled]="currentPage === 1" aria-label="Página anterior">
+            <span class="mat-icon">chevron_left</span>
+          </button>
+          @for (page of pageNumbers; track page) {
+            <button class="nc-page-btn" [class.active]="page === currentPage"
+                    (click)="goToPage(page)" [attr.aria-label]="'Página ' + page"
+                    [attr.aria-current]="page === currentPage ? 'page' : null">
+              {{ page }}
+            </button>
+          }
+          <button class="nc-page-btn nc-page-arrow" (click)="goToPage(currentPage + 1)"
+                  [disabled]="currentPage === totalPages" aria-label="Página siguiente">
+            <span class="mat-icon">chevron_right</span>
+          </button>
+        </nav>
+      }
     }
+
   </div>
 </section>
+
+<!-- ══ MODAL ════════════════════════════════════════════════════════ -->
+@if (selectedItem) {
+  <div class="nc-modal-backdrop" (click)="onModalBackdropClick($event)" role="dialog"
+       aria-modal="true" [attr.aria-label]="selectedItem.title">
+    <div class="nc-modal">
+      <button class="nc-modal-close" (click)="closeModal()" aria-label="Cerrar">
+        <span class="mat-icon">close</span>
+      </button>
+
+      @if (selectedItem.mainImage?.url) {
+        <figure class="nc-modal-hero">
+          <img [src]="selectedItem.mainImage!.url" [alt]="selectedItem.title" />
+        </figure>
+      }
+
+      <div class="nc-modal-content">
+        <div class="nc-modal-meta">
+          <span class="nc-modal-category-badge" [class]="config.accentClass">
+            <span class="mat-icon">{{ config.icon }}</span>
+            {{ config.eyebrow }}
+          </span>
+          <time [attr.datetime]="selectedItem.publishedAt">
+            {{ selectedItem.publishedAt | date: 'dd MMMM yyyy' }}
+          </time>
+          @if (selectedItem.isFeatured) {
+            <span class="nc-modal-featured">
+              <span class="mat-icon">star</span> Destacado
+            </span>
+          }
+        </div>
+
+        <h2 class="nc-modal-title">{{ selectedItem.title }}</h2>
+        <p class="nc-modal-summary">{{ selectedItem.summary }}</p>
+
+        <div class="nc-modal-divider"></div>
+
+        <div class="nc-modal-body" [innerHTML]="selectedItem.content"></div>
+
+        @if (selectedItem.project) {
+          <div class="nc-modal-project-tag">
+            <span class="mat-icon">folder_open</span>
+            Proyecto relacionado: <strong>{{ selectedItem.project.title }}</strong>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}
